@@ -9,12 +9,18 @@ namespace dominio
     public class Paciente
     {
         public int IdPaciente { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Dni { get; set; }
+        public int DniPaciente { get; set; }
+        public string Nombres { get; set; }
+        public string Apellidos { get; set; }
         public DateTime FechaNacimiento { get; set; }
-        public string Telefono { get; set; }
+        public char Sexo { get; set; }
+        public string GrupoSanguineo { get; set; }
         public string Email { get; set; }
-        public string Domicilio { get; set; }
+        public string Telefono { get; set; }
+        public string Celular { get; set; }
+        public string Direccion { get; set; }
+        public string Ciudad { get; set; }
+        public string Provincia { get; set; }
+        public string CodigoPostal { get; set; }
     }
 }
