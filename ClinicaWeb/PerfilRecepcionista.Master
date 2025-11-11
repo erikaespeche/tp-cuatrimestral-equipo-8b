@@ -1,0 +1,96 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PerfilRecepcionista.Master.cs" Inherits="Clinic.PerfilRecepcionistaMaster" %>
+
+<!DOCTYPE html>
+<html lang="es">
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hospital Clinic - Sistema de Turnos</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- Estilo CSS Personalizado -->
+    <link href="~/Content/PerfilRecepcionistaCSS.css" rel="stylesheet" />
+</head>
+
+
+    <body>
+    <form id="form1" runat="server">
+
+        <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+
+                <!-- Logo -->
+                <div class="d-flex align-items-center logo-section">
+                    <i class="bi bi-hospital-fill fs-3 text-primary me-2"></i>
+                    <span class="logo-text fs-4 fw-bold">Clínica</span>
+                </div>
+
+                <!-- Menú principal con dropdowns -->
+                <div class="collapse navbar-collapse justify-content-center">
+                    <ul class="navbar-nav gap-4">
+
+                        <!-- Pacientes -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Pacientes</a>
+                            <ul class="dropdown-menu dropdown-dark">
+                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/ListarPaciente.aspx" class="dropdown-item">Listar Paciente</a></li>
+                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/AgregarNuevoPaciente.aspx" class="dropdown-item">Nuevo Paciente</a></li>
+                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/CitasDiarias.aspx" class="dropdown-item">Citas Diarias</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Agendas -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Agendas</a>
+                            <ul class="dropdown-menu dropdown-dark">
+                                <li><a class="dropdown-item" href="#">Configurar Agenda Profesional</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Especialidades -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Especialidades</a>
+                            <ul class="dropdown-menu dropdown-dark">
+                                <li><a class="dropdown-item" href="#">Gestionar Especialidades</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Profesionales -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Profesionales</a>
+                            <ul class="dropdown-menu dropdown-dark">
+                                <li><a class="dropdown-item" href="#">Gestionar Profesionales</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!-- Usuario -->
+                <div class="user-actions d-flex align-items-center gap-3">
+                    <i class="bi bi-person-circle fs-4"></i>
+                    <button class="btn btn-logout">Salir</button>
+                </div>
+
+            </div>
+        </nav>
+
+
+        <main class="main-container">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </main>
+
+        <footer class="footer">
+            <small>&copy; 2025 Hospital Clinic - Sistema de Gestión de Turnos</small>
+        </footer>
+    </form>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+
+
+</html>

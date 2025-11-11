@@ -122,7 +122,12 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="Pantallas-Perfil_Recepcionista\AgregarNuevoPaciente.aspx" />
+    <Content Include="Pantallas-Perfil_Recepcionista\CitasDiarias.aspx" />
+    <Content Include="Pantallas-Perfil_Recepcionista\DetallePaciente.aspx" />
+    <Content Include="Pantallas-Perfil_Recepcionista\ListarPaciente.aspx" />
     <Content Include="PerfilAdmin.aspx" />
+    <Content Include="Content\PerfilRecepcionistaCSS.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -151,6 +156,7 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="PerfilRecepcionista.Master" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -218,12 +224,47 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\AgregarNuevoPaciente.aspx.cs">
+      <DependentUpon>AgregarNuevoPaciente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\AgregarNuevoPaciente.aspx.designer.cs">
+      <DependentUpon>AgregarNuevoPaciente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\CitasDiarias.aspx.cs">
+      <DependentUpon>CitasDiarias.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\CitasDiarias.aspx.designer.cs">
+      <DependentUpon>CitasDiarias.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\DetallePaciente.aspx.cs">
+      <DependentUpon>DetallePaciente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\DetallePaciente.aspx.designer.cs">
+      <DependentUpon>DetallePaciente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\ListarPaciente.aspx.cs">
+      <DependentUpon>ListarPaciente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\ListarPaciente.aspx.designer.cs">
+      <DependentUpon>ListarPaciente.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PerfilAdmin.aspx.cs">
       <DependentUpon>PerfilAdmin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="PerfilAdmin.aspx.designer.cs">
       <DependentUpon>PerfilAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PerfilRecepcionista.Master.cs">
+      <DependentUpon>PerfilRecepcionista.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PerfilRecepcionista.Master.designer.cs">
+      <DependentUpon>PerfilRecepcionista.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
