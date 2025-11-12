@@ -45,7 +45,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Agendas</a>
                             <ul class="dropdown-menu dropdown-dark">
-                                <li><a class="dropdown-item" href="#">Configurar Agenda Profesional</a></li>
+                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/ConfigurarAgendaProfesional.aspx" class="dropdown-item">Configurar Agenda Profesional</a></li>
                             </ul>
                         </li>
 
@@ -82,9 +82,9 @@
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
         </main>
 
-        <footer class="footer">
-            <small>&copy; 2025 Hospital Clinic - Sistema de Gestión de Turnos</small>
-        </footer>
+        <%--<footer class="footer">
+            <small>&copy; 2025 Hospital Clinic - Sistema de Gestión de Turnos - Equipo 8B</small>
+        </footer>--%>
     </form>
 
     <!-- JS -->

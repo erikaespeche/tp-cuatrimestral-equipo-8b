@@ -5,18 +5,28 @@
 
 body {
     font-family: "Segoe UI", sans-serif;
-    background-color: #121A25; /* Fondo oscuro institucional */
-    color: #fff; /* Texto blanco para contraste */
+    background-color: #121A25; /* Fondo oscuro institucional #0f172a */
+    color: #e2e8f0; /* Texto blanco para contraste */
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
 
 
+/*footer {*/ /*FOOTER Perfil Recepcionista*/
+/*position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #1B2636;
+    color: #b0b8c1;
+    text-align: center !important;
+    padding: 12px 0;
+    font-size: 0.9rem;
+    border-top: 1px solid #2c3e50;
+    z-index: 100;
+}*/
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: DETALLE PACIENTE)------------------------------------ */
-
-
-
 /* ============================
    MENU SUPERIOR
 ============================= */
@@ -283,6 +293,9 @@ body {
 
 
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: AGREGAR NUEVO PACIENTE)---------------------------- */
+
+
+
 .form-control,
 .form-select {
     background-color: #1B2636;
@@ -361,15 +374,17 @@ body {
     border-radius: 6px;
 }
 
-
-
+.listarPaciente-resultado{
+    text-align: center;
+}
 
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: CITAS DIARIAS)---------------------------- */
+
 .contenedor-padre {
     width: max-content;
 }
+
 /* Botones de acción */
-/* Botones de acción en línea */
 .btn-sm {
     font-size: 0.85rem;
     padding: 6px 12px;
@@ -388,14 +403,9 @@ td .d-flex.gap-2 > .btn {
     margin-top: 30px;
 }
 
-.mb-4 {
-    padding-top: 9px;
-}
-
-
 .no-wrap {
     white-space: nowrap;
-    font-size:13px;
+    font-size: 13px;
 }
 
 /* ============================
@@ -404,75 +414,116 @@ td .d-flex.gap-2 > .btn {
 .calendar-card {
     background-color: #1B2636; /* Fondo oscuro institucional */
     border-radius: 12px;
-    padding: 1.5rem;
     color: #fff;
     font-family: 'Segoe UI', sans-serif;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-    /* Título del calendario */
     .calendar-card h5 {
         font-size: 1.4rem;
         font-weight: 600;
-        margin-bottom: 1rem;
+        margin: 1rem 0;
     }
 
 /* ============================
-   TABLA DEL CALENDARIO
+   CALENDARIO FLATPICKR INTEGRADO
 ============================= */
-.calendar-table {
+.calendario-inline {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border: none !important;
+    background: transparent !important;
+    color: transparent !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-    .calendar-table th {
-        color: #b0b8c1;
-        font-weight: 500;
-        padding: 10px;
-        text-align: center;
-        font-size: 0.9rem;
+/* Contenedor principal del calendario */
+.flatpickr-calendar.inline {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 12px !important;
+    /* ✅ Ajustes personalizados y válidos */
+    background: content-box !important;
+    background-clip: content-box !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-self: center !important;
+    border-color: transparent !important;
+    padding: 0.5rem 0 !important;
+}
+
+/* Contenedor del calendario */
+.flatpickr-calendar {
+    background-color: #1B2636 !important;
+    color: #fff !important;
+    border: 1px solid #2c3e50;
+    border-radius: 12px;
+}
+
+/* Encabezado del calendario */
+.flatpickr-months {
+    background-color: #1B2636 !important;
+    color: #fff !important;
+    text-align: center;
+}
+
+.flatpickr-current-month {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+/* Días del calendario */
+.flatpickr-day {
+    color: #fff !important;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+    .flatpickr-day:hover {
+        background-color: #2a3b4f !important;
     }
 
-    .calendar-table td {
-        color: #fff;
-        padding: 12px;
-        text-align: center;
-        border: 1px solid #2c3e50;
-        font-size: 0.95rem;
-        transition: background-color 0.3s ease;
-        cursor: pointer;
+    .flatpickr-day.selected {
+        background-color: #0d6efd !important;
+        color: #fff !important;
+        font-weight: bold;
     }
 
-/* Día seleccionado */
-.tabla-calendario .selected-day {
-    background-color: #0d6efd;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 50%;
-}
-
-/* Hover sobre días */
-.tabla-calendario td:hover {
-    background-color: #2a3b4f;
-    border-radius: 50%;
-}
-
-/* ============================
-   BOTONES DE NAVEGACIÓN
-============================= */
-.calendar-nav-btn {
-    background-color: transparent;
-    border: none;
-    color: #b0b8c1;
-    font-size: 1.2rem;
-    padding: 0.3rem 0.6rem;
+/* Navegación del calendario */
+.flatpickr-prev-month,
+.flatpickr-next-month {
+    color: #b0b8c1 !important;
     transition: color 0.3s ease;
 }
 
-    .calendar-nav-btn:hover {
-        color: #fff;
+    .flatpickr-prev-month:hover,
+    .flatpickr-next-month:hover {
+        color: #fff !important;
     }
+
+/* Bordes y alineación interna */
+.flatpickr-months,
+.flatpickr-innerContainer,
+.flatpickr-days {
+    width: 95% !important;
+    margin: 0 auto !important;
+}
+
+.citas-del-dia {
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
 
 /* ============================
    CONTENEDOR DE LA TABLA DE CITAS
@@ -481,12 +532,14 @@ td .d-flex.gap-2 > .btn {
     font-size: 12px;
     min-width: 57px;
 }
+
 td .d-flex.gap-2 > .btn {
     min-width: 57px;
     text-align: center;
 }
+
 .tabla-card {
-    background-color: #1B2636; /* Fondo oscuro institucional */
+    background-color: #1B2636;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0,0,0,0.3);
     padding: 1.5rem;
@@ -508,9 +561,8 @@ td .d-flex.gap-2 > .btn {
         font-weight: 600;
         padding: 3px;
         border-bottom: 1px solid #2c3e50;
-        text-align: left;
-        font-size: 13px;
         text-align: center;
+        font-size: 13px;
     }
 
     .custom-table td {
@@ -529,3 +581,128 @@ td .d-flex.gap-2 > .btn {
     border-radius: 3px;
 }
 
+/* Espaciado inferior de secciones */
+.mb-4 {
+    padding-top: 9px;
+}
+
+
+
+
+/*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: CONFIGURAR AGENDA PROFESIONALES)---------------------------- */
+
+
+/*-------------------- CONFIGURAR AGENDA PROFESIONALES --------------------*/
+
+/* Contenedor principal centrado */
+/*.agp-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 160px auto 60px auto;
+    padding: 10px 20px;
+}*/
+
+/* Título principal */
+/*.agp-titulo {
+    color: #f8fafc;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+}*/
+
+/* Tarjetas (contenedores) */
+/*.agp-card {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 1rem;
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+    margin-bottom: 40px;
+    padding: 25px;
+}
+
+.agp-card-body {
+    padding: 10px 15px;
+}*/
+
+/* Encabezados de secciones */
+/*.agp-card h5 {
+    color: #f8fafc;
+    font-weight: 700;
+}*/
+
+/* Inputs y selects */
+/*.form-control, .form-select {
+    background-color: #0f172a;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+}
+
+    .form-control:focus, .form-select:focus {
+        background-color: #1e293b;
+        border-color: #3b82f6;
+        color: #fff;
+        box-shadow: none;
+    }*/
+
+/* Tabla de disponibilidad */
+/*.agp-disponibilidad {
+    color: #f8fafc;
+    text-align: center;
+}
+
+    .agp-disponibilidad th {
+        background-color: #1e293b;
+        border-color: #334155;
+    }
+
+    .agp-disponibilidad td {
+        height: 35px;
+        cursor: pointer;
+        background-color: #1e293b;
+        border-color: #334155;
+        transition: background-color 0.2s ease;
+    }
+
+        .agp-disponibilidad td.active {
+            background-color: #3b82f6;
+        }
+
+        .agp-disponibilidad td:hover {
+            background-color: #334155;
+        }*/
+
+/* Botones */
+/*.btn-warning {
+    background-color: #f97316 !important;
+    border: none;
+}
+
+.btn-danger {
+    background-color: #dc2626 !important;
+    border: none;
+}
+
+.btn-success {
+    background-color: #16a34a !important;
+    border: none;
+}
+
+.d-flex.gap-3 {
+    margin-top: 20px;
+}*/
+
+/* Responsividad */
+/*@media (max-width: 992px) {
+    .agp-wrapper {
+        width: 95%;
+        margin-top: 140px;
+    }
+}
+
+@media (max-width: 576px) {
+    .agp-wrapper {
+        width: 98%;
+        padding: 10px;
+        margin-top: 130px;
+    }
+}*/

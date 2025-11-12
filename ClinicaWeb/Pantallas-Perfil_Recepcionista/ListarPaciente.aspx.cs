@@ -13,5 +13,14 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         {
 
         }
+
+
+        //Este metodo soluciona el error
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            // Por ahora mostramos un mensaje de prueba
+            // (más adelante acá irá la lógica de búsqueda)
+            Response.Write("<script>alert('Búsqueda ejecutada correctamente');</script>");
+        }
     }
 }

@@ -13,5 +13,13 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         {
 
         }
+
+        //Este es el método que soluciona tu error
+        protected void btnRegistrarPaciente_Click(object sender, EventArgs e)
+        {
+            // Por ahora solo mostramos un mensaje.
+            // Más adelante podés conectar esto con la base de datos.
+            Response.Write("<script>alert('Paciente registrado correctamente');</script>");
+        }
     }
 }
