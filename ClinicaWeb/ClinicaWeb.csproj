@@ -117,6 +117,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\MenuEstilos.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
@@ -126,6 +127,8 @@
     <Content Include="Pantallas-Perfil_Recepcionista\CitasDiarias.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\ConfigurarAgendaProfesional.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\DetallePaciente.aspx" />
+    <Content Include="Pantallas-Perfil_Recepcionista\GestionarEspecialidades.aspx" />
+    <Content Include="Pantallas-Perfil_Recepcionista\GestionarProfesionales.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\ListarPaciente.aspx" />
     <Content Include="PerfilAdmin.aspx" />
     <Content Include="Content\PerfilRecepcionistaCSS.css" />
@@ -252,6 +255,20 @@
     </Compile>
     <Compile Include="Pantallas-Perfil_Recepcionista\DetallePaciente.aspx.designer.cs">
       <DependentUpon>DetallePaciente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\GestionarEspecialidades.aspx.cs">
+      <DependentUpon>GestionarEspecialidades.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\GestionarEspecialidades.aspx.designer.cs">
+      <DependentUpon>GestionarEspecialidades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\GestionarProfesionales.aspx.cs">
+      <DependentUpon>GestionarProfesionales.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\GestionarProfesionales.aspx.designer.cs">
+      <DependentUpon>GestionarProfesionales.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pantallas-Perfil_Recepcionista\ListarPaciente.aspx.cs">
       <DependentUpon>ListarPaciente.aspx</DependentUpon>

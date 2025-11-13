@@ -4,7 +4,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="agp-wrapper text-light">
+    <div id="pantalla-agenda" class="agp-wrapper text-light">
 
         <h2 class="agp-titulo">Configurar Agenda</h2>
 
@@ -95,7 +95,7 @@
 
         <!-- Botones -->
         <div class="d-flex justify-content-end gap-3 mb-5">
-            <asp:Button ID="btnModificar" runat="server" Text="Modificar Agenda" CssClass="btn btn-warning text-dark fw-bold px-4" />
+            <%--<asp:Button ID="btnModificar" runat="server" Text="Modificar Agenda" CssClass="btn btn-warning text-dark fw-bold px-4" />--%>
             <asp:Button ID="btnEliminar" runat="server" Text="Eliminar Agenda" CssClass="btn btn-danger fw-bold px-4" />
             <asp:Button ID="btnGuardar" runat="server" Text="Guardar Cambios" CssClass="btn btn-success fw-bold px-4" />
         </div>
@@ -104,7 +104,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.agp-celda').forEach(cell => {
+            document.querySelectorAll('#pantalla-agenda .agp-celda').forEach(cell => {
                 cell.addEventListener('click', () => {
                     cell.classList.toggle('active');
                 });

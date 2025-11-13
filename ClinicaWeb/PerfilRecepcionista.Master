@@ -9,9 +9,11 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Estilo CSS Personalizado -->
     <link href="~/Content/PerfilRecepcionistaCSS.css" rel="stylesheet" />
+    <link href="~/content/menuestilos.css" rel="stylesheet" />
 </head>
 
 
@@ -53,7 +55,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Especialidades</a>
                             <ul class="dropdown-menu dropdown-dark">
-                                <li><a class="dropdown-item" href="#">Gestionar Especialidades</a></li>
+                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/GestionarEspecialidades.aspx" class="dropdown-item">Gestionar Especialidades</a></li>
                             </ul>
                         </li>
 
@@ -61,7 +63,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Profesionales</a>
                             <ul class="dropdown-menu dropdown-dark">
-                                <li><a class="dropdown-item" href="#">Gestionar Profesionales</a></li>
+                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/GestionarProfesionales.aspx" class="dropdown-item">Gestionar Profesionales</a></li>
                             </ul>
                         </li>
 

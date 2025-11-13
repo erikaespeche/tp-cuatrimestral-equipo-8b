@@ -10,6 +10,7 @@ body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    font-variant-caps: petite-caps;
 }
 
 
@@ -30,44 +31,44 @@ body {
 /* ============================
    MENU SUPERIOR
 ============================= */
-.custom-navbar {
-    background-color: #121A25; /* Fondo igual al body */
-    padding: 1rem 2rem;
+/*.custom-navbar {
+    background-color: #121A25;*/ /* Fondo igual al body */
+    /*padding: 1rem 2rem;
     color: #fff;
     font-family: 'Segoe UI', sans-serif;
-    border-bottom: 1px solid #1B2636; /* Línea divisoria sutil */
-    position: fixed; /* Menú fijo */
-    top: 0;
+    border-bottom: 1px solid #1B2636;*/ /* Línea divisoria sutil */
+    /*position: fixed;*/ /* Menú fijo */
+    /*top: 0;
     left: 0;
     right: 0;
     z-index: 1050;
-}
+}*/
 
 /* Logo de la clínica */
-.logo-text {
+/*.logo-text {
     color: #fff;
-}
+}*/
 
 /* Menú centrado con enlaces */
-.navbar-nav .nav-link {
-    color: #b0b8c1; /* Gris claro para enlaces inactivos */
-    font-weight: 500;
+/*.navbar-nav .nav-link {
+    color: #b0b8c1;*/ /* Gris claro para enlaces inactivos */
+    /*font-weight: 500;
     transition: color 0.3s ease;
 }
 
     .navbar-nav .nav-link:hover,
     .navbar-nav .nav-link:focus {
-        color: #fff; /* Blanco al pasar el mouse */
-    }
+        color: #fff;*/ /* Blanco al pasar el mouse */
+    /*}
 
     .navbar-nav .nav-link.active {
-        color: #0d6efd; /* Azul institucional para activo */
-        border-bottom: 2px solid #0d6efd;
+        color: #0d6efd;*/ /* Azul institucional para activo */
+        /*border-bottom: 2px solid #0d6efd;
         font-weight: 600;
-    }
+    }*/
 
 /* Dropdown oscuro */
-.dropdown-menu.dropdown-dark {
+/*.dropdown-menu.dropdown-dark {
     background-color: #1B2636;
     border: none;
     border-radius: 8px;
@@ -83,14 +84,14 @@ body {
         .dropdown-menu.dropdown-dark .dropdown-item:hover {
             background-color: #0d6efd;
             color: #fff;
-        }
+        }*/
 
 /* ============================
    BOTÓN SALIR (Usuario)
 ============================= */
-.user-actions .btn-logout {
-    background-color: #BB2D3B; /* Rojo institucional */
-    color: #fff;
+/*.user-actions .btn-logout {
+    background-color: #BB2D3B;*/ /* Rojo institucional */
+    /*color: #fff;
     border: none;
     padding: 6px 14px;
     font-weight: 600;
@@ -99,8 +100,8 @@ body {
 }
 
     .user-actions .btn-logout:hover {
-        background-color: #a52834; /* Rojo más oscuro al hover */
-    }
+        background-color: #a52834;*/ /* Rojo más oscuro al hover */
+    /*}*/
 
 
 /* ============================
@@ -592,117 +593,329 @@ td .d-flex.gap-2 > .btn {
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: CONFIGURAR AGENDA PROFESIONALES)---------------------------- */
 
 
-/*-------------------- CONFIGURAR AGENDA PROFESIONALES --------------------*/
-
-/* Contenedor principal centrado */
-/*.agp-wrapper {
-    width: 90%;
-    max-width: 1200px;
-    margin: 160px auto 60px auto;
-    padding: 10px 20px;
-}*/
-
-/* Título principal */
-/*.agp-titulo {
-    color: #f8fafc;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 40px;
-}*/
-
-/* Tarjetas (contenedores) */
-/*.agp-card {
-    background-color: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 1rem;
-    box-shadow: 0 0 12px rgba(0,0,0,0.3);
-    margin-bottom: 40px;
-    padding: 25px;
-}
-
-.agp-card-body {
-    padding: 10px 15px;
-}*/
-
-/* Encabezados de secciones */
-/*.agp-card h5 {
-    color: #f8fafc;
-    font-weight: 700;
-}*/
-
-/* Inputs y selects */
-/*.form-control, .form-select {
-    background-color: #0f172a;
+#pantalla-agenda {
     color: #e2e8f0;
-    border: 1px solid #334155;
+    font-family: 'Segoe UI', sans-serif;
+    font-variant-caps: petite-caps;
+    justify-self: center;
 }
 
-    .form-control:focus, .form-select:focus {
-        background-color: #1e293b;
-        border-color: #3b82f6;
-        color: #fff;
-        box-shadow: none;
-    }*/
-
-/* Tabla de disponibilidad */
-/*.agp-disponibilidad {
-    color: #f8fafc;
-    text-align: center;
-}
-
-    .agp-disponibilidad th {
-        background-color: #1e293b;
-        border-color: #334155;
+    /* Contenedor principal */
+    #pantalla-agenda .agp-wrapper {
+        width: 80% !important;
+        margin: 160px auto 60px auto;
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    .agp-disponibilidad td {
-        height: 35px;
-        cursor: pointer;
-        background-color: #1e293b;
-        border-color: #334155;
-        transition: background-color 0.2s ease;
+    /* Título */
+    #pantalla-agenda .agp-titulo {
+        color: #f8fafc;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 40px;
+        margin-top: 94px;
+        margin-right: 90px;
     }
 
-        .agp-disponibilidad td.active {
-            background-color: #3b82f6;
+    /* Tarjetas */
+    #pantalla-agenda .agp-card {
+        background-color: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 1rem;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+        margin-bottom: 40px;
+        width: 90%;
+    }
+
+    #pantalla-agenda .agp-card-body {
+        padding: 25px;
+    }
+
+    /* Subtítulos */
+    #pantalla-agenda .agp-card h5 {
+        color: #f8fafc;
+        font-weight: 700;
+    }
+
+    /* Inputs y selects */
+    #pantalla-agenda .form-control,
+    #pantalla-agenda .form-select {
+        background-color: #0f172a;
+        color: #e2e8f0;
+        border: 1px solid #334155;
+    }
+
+        #pantalla-agenda .form-control:focus,
+        #pantalla-agenda .form-select:focus {
+            background-color: #1e293b;
+            border-color: #3b82f6;
+            color: #fff;
+            box-shadow: none;
         }
 
-        .agp-disponibilidad td:hover {
-            background-color: #334155;
-        }*/
+    /* Tabla */
+    #pantalla-agenda .agp-disponibilidad {
+        color: #f8fafc;
+        text-align: center;
+    }
 
-/* Botones */
-/*.btn-warning {
-    background-color: #f97316 !important;
-    border: none;
-}
+        #pantalla-agenda .agp-disponibilidad th {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
 
-.btn-danger {
-    background-color: #dc2626 !important;
-    border: none;
-}
+        #pantalla-agenda .agp-disponibilidad td {
+            height: 35px;
+            cursor: pointer;
+            background-color: #1e293b;
+            border-color: #334155;
+            transition: background-color 0.2s ease;
+        }
 
-.btn-success {
-    background-color: #16a34a !important;
-    border: none;
-}
+            #pantalla-agenda .agp-disponibilidad td.active {
+                background-color: #3b82f6;
+            }
 
-.d-flex.gap-3 {
-    margin-top: 20px;
-}*/
+            #pantalla-agenda .agp-disponibilidad td:hover {
+                background-color: #334155;
+            }
+
+    /* Botones */
+    /*#pantalla-agenda .btn-warning {
+        background-color: #f97316 !important;
+        border: none;
+    }*/
+
+    #pantalla-agenda .btn-danger {
+        background-color: #dc2626 !important;
+        border: none;
+        font-size: 16px;
+    }
+
+    #pantalla-agenda .btn-success {
+        background-color: #16a34a !important;
+        border: none;
+        font-size: 16px;
+    }
+
+    #pantalla-agenda .d-flex.gap-3 {
+        margin-top: 20px;
+        margin-left: 241px;
+        justify-self: center;
+    }
 
 /* Responsividad */
-/*@media (max-width: 992px) {
-    .agp-wrapper {
+@media (max-width: 992px) {
+    #pantalla-agenda .agp-wrapper {
         width: 95%;
         margin-top: 140px;
     }
 }
 
 @media (max-width: 576px) {
-    .agp-wrapper {
+    #pantalla-agenda .agp-wrapper {
         width: 98%;
         padding: 10px;
         margin-top: 130px;
     }
-}*/
+}
+
+
+
+
+
+/*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: GESTIONAR ESPECIALIDADES)---------------------------- */
+
+
+#pantalla-especialidades {
+    width: 80%;
+    margin: 140px auto 60px auto;
+    font-family: "Inter", sans-serif;
+}
+
+    /* Encabezado */
+    #pantalla-especialidades .esp-titulo {
+        color: #f8fafc;
+        font-weight: 700;
+    }
+
+    #pantalla-especialidades .esp-subtitulo {
+        font-size: 1rem;
+        color: #94a3b8;
+    }
+
+    /* Card general */
+    #pantalla-especialidades .esp-card {
+        background-color: #1e293b !important;
+        border-radius: 1rem;
+        border: 1px solid #334155 !important;
+    }
+
+    /* Buscador */
+    #pantalla-especialidades .boton-buscador{
+        margin-top: 50px;
+    }
+
+    /* Botón "Limpiar Filtros" */
+    #pantalla-especialidades .btn-limpiar {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+        border: none !important;
+        font-size: 15px;
+        padding-left: 7px;
+        padding-top: 8px;
+    }
+
+        #pantalla-especialidades .btn-limpiar:hover {
+            background-color: #475569 !important;
+        }
+
+
+    /* Tabla */
+    #pantalla-especialidades .esp-tabla-header th {
+        background-color: #1e293b;
+        color: #cbd5e1;
+        border-bottom: 1px solid #334155;
+    }
+
+    #pantalla-especialidades .esp-tabla-body td {
+        background-color: #1e293b;
+        color: #e2e8f0;
+        border-top: 1px solid #334155;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Íconos */
+    #pantalla-especialidades .esp-icono-editar:hover {
+        color: #3b82f6 !important;
+    }
+
+    #pantalla-especialidades .esp-icono-eliminar:hover {
+        color: #ef4444 !important;
+    }
+
+    /* Botones */
+    #pantalla-especialidades .btn-primary {
+        background-color: #2563eb !important;
+        border: none !important;
+    }
+
+    #pantalla-especialidades .btn-secondary {
+        background-color: #334155 !important;
+        color: #e2e8f0 !important;
+        border: none !important;
+    }
+
+        #pantalla-especialidades .btn-secondary:hover {
+            background-color: #475569 !important;
+        }
+
+/* Responsividad */
+@media (max-width: 992px) {
+    #pantalla-especialidades {
+        width: 95%;
+        margin-top: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    #pantalla-especialidades {
+        width: 98%;
+        margin-top: 100px;
+    }
+}
+
+
+
+
+/*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: GESTIONAR PROFESIONALES)---------------------------- */
+
+#pantalla-profesionales {
+    color: #f1f5f9;
+    min-height: 100vh;
+}
+
+    /* Título */
+    #pantalla-profesionales h2 {
+        margin-top: 60px;
+    }
+
+    /* Tarjetas */
+    #pantalla-profesionales .card {
+        background-color: #1e293b !important;
+        border-radius: 12px;
+    }
+
+    /* Labels */
+    #pantalla-profesionales .form-label {
+        color: #ffffff !important;
+    }
+
+    /* Inputs y selects */
+    #pantalla-profesionales .form-control,
+    #pantalla-profesionales .form-select {
+        background-color: #0f172a !important;
+        color: #f1f5f9 !important;
+        border: 1px solid #334155 !important;
+    }
+
+        #pantalla-profesionales .form-control:focus,
+        #pantalla-profesionales .form-select:focus {
+            box-shadow: 0 0 0 2px #3b82f6 !important;
+            border-color: #3b82f6 !important;
+        }
+
+    /* Tabla */
+    #pantalla-profesionales table {
+        background-color: #1e293b !important;
+        border-radius: 10px !important;
+        overflow: hidden;
+    }
+
+    #pantalla-profesionales thead th {
+        color: #94a3b8 !important;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    #pantalla-profesionales tbody td {
+        color: #f8fafc !important;
+        font-size: 0.95rem;
+    }
+
+    /* Botones */
+    #pantalla-profesionales .btn {
+        border-radius: 8px;
+    }
+
+    #pantalla-profesionales .boton-agregar {
+        margin-top: 60px;
+    }
+
+    #pantalla-profesionales .btn-outline-info {
+        border: none !important;
+        color: #38bdf8 !important;
+    }
+
+    #pantalla-profesionales .btn-outline-warning {
+        border: none !important;
+        color: #facc15 !important;
+    }
+
+    #pantalla-profesionales .btn-outline-danger {
+        border: none !important;
+        color: #ef4444 !important;
+    }
+
+    #pantalla-profesionales .btn-primary {
+        background-color: #2563eb !important;
+        border: none !important;
+    }
+
+        #pantalla-profesionales .btn-primary:hover {
+            background-color: #1d4ed8 !important;
+        }
+
