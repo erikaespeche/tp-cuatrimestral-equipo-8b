@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dominio
 {
-    internal class TurnoTrabajo
+    public class TurnoTrabajo
     {
         public int IdTurnoTrabajo { get; set; }
         public string Nombre { get; set; } // por ejemplo Mañana, Tarde, Noche  
