@@ -297,77 +297,104 @@ body {
 
 
 
-.form-control,
-.form-select {
+/*#pantalla-agregarPaciente .card {
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    background-color: transparent;
+}*/
+
+#pantalla-agregarPaciente .titulo {
+    color: #ffffff;
+}
+
+#pantalla-agregarPaciente .label-text {
+    color: #d1d5db;
+    font-weight: 500;
+}
+
+/* Inputs y selects */
+#pantalla-agregarPaciente .form-control,
+#pantalla-agregarPaciente .form-select {
     background-color: #1B2636;
     color: #fff;
     border: 1px solid #2c3e50;
     border-radius: 6px;
 }
 
-    .form-control::placeholder {
+    #pantalla-agregarPaciente .form-control::placeholder {
         color: #b0b8c1;
     }
 
-    .form-select option {
+    #pantalla-agregarPaciente .form-select option {
         background-color: #1B2636;
         color: #fff;
     }
 
-.titulo{
+/* Botón Registrar Paciente */
+#pantalla-agregarPaciente .btn-add {
+    background-color: #2563eb;
     color: #fff;
+    font-weight: 600;
 }
 
-.mb-4 {
-    padding-top: 50px;
-}
+    #pantalla-agregarPaciente .btn-add:hover {
+        background-color: #1e40af;
+    }
 
 
 
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: LISTAR PACIENTE)---------------------------- */
-.citas-del-dia{
-    margin-top:50px;
+
+#pantalla-listarPaciente .citas-del-dia {
+    margin-top: 50px;
 }
+
+/*Color de los titulos*/
+#pantalla-listarPaciente .titulo{
+    color: #fff;
+}
+
+
 /* Estilo de inputs y formulario */
-.form-control {
+#pantalla-listarPaciente .form-control {
     background-color: #1B2636;
     color: #fff;
     border: 1px solid #2c3e50;
     border-radius: 6px;
 }
 
-    .form-control::placeholder {
+    #pantalla-listarPaciente .form-control::placeholder {
         color: #b0b8c1;
     }
 
 /* Tabla personalizada */
-.tabla-citas {
+#pantalla-listarPaciente .tabla-citas {
     margin-top: 54px;
     font-size: 20px;
 }
-.custom-table {
+
+#pantalla-listarPaciente .custom-table {
     background-color: #1B2636;
     color: #fff;
     border-radius: 12px;
     overflow: hidden;
 }
 
-    .custom-table th {
+    #pantalla-listarPaciente .custom-table th {
         color: #b0b8c1;
         font-weight: 600;
         padding: 12px;
         border-bottom: 1px solid #2c3e50;
     }
 
-    .custom-table td {
+    #pantalla-listarPaciente .custom-table td {
         padding: 12px;
         border-bottom: 1px solid #2c3e50;
         vertical-align: middle;
     }
 
-
 /* Badge de estado */
-.badge-estado {
+#pantalla-listarPaciente .badge-estado {
     background-color: #28a74552;
     color: #fff;
     font-weight: 600;
@@ -375,9 +402,12 @@ body {
     border-radius: 6px;
 }
 
-.listarPaciente-resultado{
+#pantalla-listarPaciente .listarPaciente-resultado {
     text-align: center;
 }
+
+
+
 
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: CITAS DIARIAS)---------------------------- */
 

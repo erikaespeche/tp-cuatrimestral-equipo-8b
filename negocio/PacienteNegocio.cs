@@ -18,21 +18,21 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta (@"SELECT IdPaciente, DniPaciente, Nombres, Apellidos, 
-                                                FechaNacimiento, Sexo, GrupoSanguineo, Email, Telefono, Celular, Direccion, 
-                                                Ciudad, Provincia, CodigoPostal FROM PACIENTES");
+                datos.setearConsulta (@"SELECT IdPaciente, TipoDocumento, DniPaciente, Nombres, Apellidos, 
+                                                FechaNacimiento, Sexo, Email, Telefono, Celular, Direccion, 
+                                                Ciudad, Provincia, CodigoPostal, ObraSocial, NumeroObraSocial  FROM PACIENTES");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Paciente aux = new Paciente();
                     aux.IdPaciente = (int)datos.Lector["IdPaciente"];
+                    aux.TipoDocumento = datos.Lector["TipoDocumento"].ToString();
                     aux.DniPaciente = (int)datos.Lector["DniPaciente"];
                     aux.Nombres = datos.Lector["Nombres"].ToString();
                     aux.Apellidos = datos.Lector["Apellidos"].ToString();
                     aux.FechaNacimiento = (DateTime)datos.Lector["FechaNacimiento"];
                     aux.Sexo = char.Parse(datos.Lector["Sexo"].ToString());
-                    aux.GrupoSanguineo = datos.Lector["GrupoSanguineo"].ToString();
                     aux.Email = datos.Lector["Email"].ToString();
                     aux.Telefono = datos.Lector["Telefono"].ToString();
                     aux.Celular = datos.Lector["Celular"].ToString();
@@ -40,6 +40,8 @@ namespace negocio
                     aux.Ciudad = datos.Lector["Ciudad"].ToString();
                     aux.Provincia = datos.Lector["Provincia"].ToString();
                     aux.CodigoPostal = datos.Lector["CodigoPostal"].ToString();
+                    aux.ObraSocial = datos.Lector["ObraSocial"].ToString();
+                    aux.NumeroObraSocial = datos.Lector["NumeroObraSocial"].ToString();
 
                     listaPacientes.Add(aux);
                 }
@@ -57,18 +59,20 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta(@"INSERT INTO PACIENTES 
-                    (DniPaciente, Nombres, Apellidos, FechaNacimiento, Sexo, GrupoSanguineo,
-                     Email, Telefono, Celular, Direccion, Ciudad, Provincia, CodigoPostal)
-                    VALUES (@dni, @nombres, @apellidos, @fecha, @sexo, @grupo,
-                            @mail, @tel, @cel, @dir, @ciudad, @prov, @cp)");
+                datos.setearConsulta(@"
+                   INSERT INTO PACIENTES 
+                          (TipoDocumento, DniPaciente, Nombres, Apellidos, FechaNacimiento, Sexo,
+                          Email, Telefono, Celular, Direccion, Ciudad, Provincia, CodigoPostal, ObraSocial, NumeroObraSocial)
+                    VALUES 
+                          (@tipoDoc, @dni, @nombres, @apellidos, @fecha, @sexo,
+                           @mail, @tel, @cel, @dir, @ciudad, @prov, @cp, @obraSocial, @numObraSocial)");
 
+                datos.setearParametro("@tipoDoc", nuevo.TipoDocumento);
                 datos.setearParametro("@dni", nuevo.DniPaciente);
                 datos.setearParametro("@nombres", nuevo.Nombres);
                 datos.setearParametro("@apellidos", nuevo.Apellidos);
                 datos.setearParametro("@fecha", nuevo.FechaNacimiento);
                 datos.setearParametro("@sexo", nuevo.Sexo);
-                datos.setearParametro("@grupo", nuevo.GrupoSanguineo);
                 datos.setearParametro("@mail", nuevo.Email);
                 datos.setearParametro("@tel", nuevo.Telefono);
                 datos.setearParametro("@cel", nuevo.Celular);
@@ -76,6 +80,8 @@ namespace negocio
                 datos.setearParametro("@ciudad", nuevo.Ciudad);
                 datos.setearParametro("@prov", nuevo.Provincia);
                 datos.setearParametro("@cp", nuevo.CodigoPostal);
+                datos.setearParametro("@obraSocial", nuevo.ObraSocial);
+                datos.setearParametro("@numObraSocial", nuevo.NumeroObraSocial);
 
                 return datos.obtenerId();
             }
@@ -94,20 +100,34 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta(@"UPDATE PACIENTES SET 
-                        DniPaciente=@dni, Nombres=@nombres, Apellidos=@apellidos, 
-                        FechaNacimiento=@fecha, Sexo=@sexo, GrupoSanguineo=@grupo,
-                        Email=@mail, Telefono=@tel, Celular=@cel, Direccion=@dir,
-                        Ciudad=@ciudad, Provincia=@prov, CodigoPostal=@cp
-                    WHERE IdPaciente=@id");
+
+                datos.setearConsulta(@"
+                        UPDATE PACIENTES SET 
+                            TipoDocumento=@tipoDoc,
+                            DniPaciente=@dni,
+                            Nombres=@nombres,
+                            Apellidos=@apellidos,
+                            FechaNacimiento=@fecha,
+                            Sexo=@sexo,
+                            Email=@mail,
+                            Telefono=@tel,
+                            Celular=@cel,
+                            Direccion=@dir,
+                            Ciudad=@ciudad,
+                            Provincia=@prov,
+                            CodigoPostal=@cp,
+                            ObraSocial=@obraSocial,
+                            NumeroObraSocial=@numObraSocial
+                        WHERE IdPaciente=@id");
+
 
                 datos.setearParametro("@id", paciente.IdPaciente);
+                datos.setearParametro("@tipoDoc", paciente.TipoDocumento);
                 datos.setearParametro("@dni", paciente.DniPaciente);
                 datos.setearParametro("@nombres", paciente.Nombres);
                 datos.setearParametro("@apellidos", paciente.Apellidos);
                 datos.setearParametro("@fecha", paciente.FechaNacimiento);
                 datos.setearParametro("@sexo", paciente.Sexo);
-                datos.setearParametro("@grupo", paciente.GrupoSanguineo);
                 datos.setearParametro("@mail", paciente.Email);
                 datos.setearParametro("@tel", paciente.Telefono);
                 datos.setearParametro("@cel", paciente.Celular);
@@ -115,6 +135,8 @@ namespace negocio
                 datos.setearParametro("@ciudad", paciente.Ciudad);
                 datos.setearParametro("@prov", paciente.Provincia);
                 datos.setearParametro("@cp", paciente.CodigoPostal);
+                datos.setearParametro("@obraSocial", paciente.ObraSocial);
+                datos.setearParametro("@numObraSocial", paciente.NumeroObraSocial);
 
                 datos.ejecutarAccion();
             }

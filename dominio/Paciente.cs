@@ -9,6 +9,7 @@ namespace dominio
     public class Paciente
     {
         public int IdPaciente { get; set; }
+        public string TipoDocumento { get; set; }
         public int DniPaciente { get; set; }
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
@@ -22,5 +23,8 @@ namespace dominio
         public string Ciudad { get; set; }
         public string Provincia { get; set; }
         public string CodigoPostal { get; set; }
+        public string ObraSocial { get; set; }
+        public string NumeroObraSocial { get; set; }
+
     }
 }

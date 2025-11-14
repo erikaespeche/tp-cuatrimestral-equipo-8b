@@ -2,14 +2,15 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <!-- Agrego margen superior para evitar que lo tape el menú fijo -->
-    <div class="container py-5" style="margin-top:30px;">
+    <!-- Agrego margen superior para evitar que lo tape el menu fijo -->
+    <div id="pantalla-listarPaciente" class="container py-5" style="margin-top:30px;">
+
         <!-- Buscador -->
         <div class="buscarPaciente card p-4 mb-4">
             <h2 class="titulo mb-3">Búsqueda de Pacientes</h2>
             <p class="label-text mb-4">Ingrese los datos del paciente para realizar una búsqueda.</p>
 
-            <!-- ✅ Eliminado el <form> interno -->
+            <!-- Ingresar datos del paciente -->
             <div class="row mb-3">
                 <div class="col-md-3">
                     <input type="text" class="form-control" placeholder="Ingrese número de documento" />
@@ -40,7 +41,7 @@
                         <th class="listarPaciente-resultado">Acciones</th>
                     </tr>
                 </thead>
-                <tbody style="text-align:center";>
+                <tbody style="text-align:center;">
                     <tr>
                         <td>María García</td>
                         <td>11 9876-5432</td>
@@ -54,6 +55,8 @@
                 </tbody>
             </table>
         </div>
+
     </div>
 
 </asp:Content>
+

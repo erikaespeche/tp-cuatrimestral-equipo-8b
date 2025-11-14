@@ -316,6 +316,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Pantallas-Perfil_Medico\" />
+    <Folder Include="Pantasllas-Perfil_Administrador\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

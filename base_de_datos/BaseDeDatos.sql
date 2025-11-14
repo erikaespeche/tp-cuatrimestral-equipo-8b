@@ -1,29 +1,38 @@
-USE master;
-GO
-
 CREATE DATABASE CLINICA_DB;
 GO
 
 USE CLINICA_DB;
 GO
 
-CREATE TABLE [dbo].[PACIENTES](
+DROP DATABASE CLINICA_DB;
+
+
+CREATE TABLE [dbo].[PACIENTES] (
     [IdPaciente] INT IDENTITY(1,1) NOT NULL,
+    [TipoDocumento] VARCHAR(20) NOT NULL,   -- DNI / PASAPORTE / OTRO
     [DniPaciente] INT NOT NULL,
     [Nombres] VARCHAR(50) NOT NULL,
     [Apellidos] VARCHAR(50) NOT NULL,
     [FechaNacimiento] DATE NOT NULL,
-    [Sexo] CHAR(1) NOT NULL,
-    [GrupoSanguineo] VARCHAR(8) NOT NULL,
-    [Email] VARCHAR(1000) NOT NULL,
-    [Telefono] VARCHAR(20) NOT NULL,
-    [Celular] VARCHAR(20) NOT NULL,
+    [Sexo] CHAR(1) NOT NULL,                -- F / M / O
+    --[GrupoSanguineo] VARCHAR(8) NOT NULL,
+    [Email] VARCHAR(100) NOT NULL,
+    [Telefono] VARCHAR(20) NULL,
+    [Celular] VARCHAR(20) NULL,
     [Direccion] VARCHAR(100) NOT NULL,
     [Ciudad] VARCHAR(100) NOT NULL,
     [Provincia] VARCHAR(100) NOT NULL,
     [CodigoPostal] VARCHAR(10) NOT NULL,
-    
-	CONSTRAINT PK_PACIENTES PRIMARY KEY (IdPaciente));
+    [ObraSocial] VARCHAR(40) NULL,
+    [NumeroObraSocial] VARCHAR(40) NULL,
+
+    CONSTRAINT PK_PACIENTES PRIMARY KEY (IdPaciente),
+    CONSTRAINT UQ_PACIENTES_DNI UNIQUE (DniPaciente),
+    CONSTRAINT CK_PACIENTES_SEXO CHECK (Sexo IN ('F', 'M', 'O')),
+    CONSTRAINT CK_PACIENTES_TIPODOC CHECK (TipoDocumento IN ('DNI', 'PASAPORTE', 'OTRO'))
+);
+
+
 GO
 
 
