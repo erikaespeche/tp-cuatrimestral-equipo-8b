@@ -118,11 +118,16 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\MenuEstilos.css" />
+    <Content Include="Content\PerfilMedicosCSS.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="Pantallas-Perfil_Medico\Calendario.aspx" />
+    <Content Include="Pantallas-Perfil_Medico\DiagnosticoPaciente.aspx" />
+    <Content Include="Pantallas-Perfil_Medico\ListadoCitas.aspx" />
+    <Content Include="Pantallas-Perfil_Medico\PacienteEnSala.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\AgregarNuevoPaciente.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\CitasDiarias.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\ConfigurarAgendaProfesional.aspx" />
@@ -161,6 +166,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="PerfilRecepcionista.Master" />
+    <Content Include="PerfilMedico.Master" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -228,6 +234,34 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pantallas-Perfil_Medico\Calendario.aspx.cs">
+      <DependentUpon>Calendario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Medico\Calendario.aspx.designer.cs">
+      <DependentUpon>Calendario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Medico\DiagnosticoPaciente.aspx.cs">
+      <DependentUpon>DiagnosticoPaciente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Medico\DiagnosticoPaciente.aspx.designer.cs">
+      <DependentUpon>DiagnosticoPaciente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Medico\ListadoCitas.aspx.cs">
+      <DependentUpon>ListadoCitas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Medico\ListadoCitas.aspx.designer.cs">
+      <DependentUpon>ListadoCitas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Medico\PacienteEnSala.aspx.cs">
+      <DependentUpon>PacienteEnSala.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Medico\PacienteEnSala.aspx.designer.cs">
+      <DependentUpon>PacienteEnSala.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pantallas-Perfil_Recepcionista\AgregarNuevoPaciente.aspx.cs">
       <DependentUpon>AgregarNuevoPaciente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -284,6 +318,13 @@
     <Compile Include="PerfilAdmin.aspx.designer.cs">
       <DependentUpon>PerfilAdmin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PerfilMedico.Master.cs">
+      <DependentUpon>PerfilMedico.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PerfilMedico.Master.designer.cs">
+      <DependentUpon>PerfilMedico.Master</DependentUpon>
+    </Compile>
     <Compile Include="PerfilRecepcionista.Master.cs">
       <DependentUpon>PerfilRecepcionista.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -316,7 +357,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Pantallas-Perfil_Medico\" />
     <Folder Include="Pantasllas-Perfil_Administrador\" />
   </ItemGroup>
   <ItemGroup>
