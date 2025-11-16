@@ -17,9 +17,8 @@
         </div>
 
         <!-- Filtros -->
-        <div class="card border-0 mb-4" style="border-radius: 10px;">
+        <div class="card contenedor-filtro border-0 mb-4" style="border-radius: 10px;">
             <div class="card-body">
-                <h5 class="fw-bold mb-3 text-white">Filtros</h5>
                 <div class="row g-3 align-items-end">
                     <div class="col-md-4">
                         <label class="form-label text-white">Nombre</label>

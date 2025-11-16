@@ -13,15 +13,18 @@
             <!-- Ingresar datos del paciente -->
             <div class="row mb-3">
                 <div class="col-md-3">
+                     <asp:Label ID="lblDocumento" runat="server" Text="Documento" CssClass="form-label"></asp:Label>
                     <input type="text" class="form-control" placeholder="Ingrese número de documento" />
                 </div>
                 <div class="col-md-3">
+                        <asp:Label ID="lblNombre" runat="server" Text="Nombre" CssClass="form-label"></asp:Label>
                     <input type="text" class="form-control" placeholder="Ingrese nombre" />
                 </div>
                 <div class="col-md-3">
+                    <asp:Label ID="lblApellido" runat="server" Text="Apellido" CssClass="form-label"></asp:Label>
                     <input type="text" class="form-control" placeholder="Ingrese apellido" />
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 contenedor-botonBuscar">
                     <asp:Button ID="btnBuscar" runat="server" CssClass="btn btn-add w-100" Text="Buscar" OnClick="btnBuscar_Click" />
                 </div>
             </div>
@@ -29,7 +32,7 @@
 
         <!-- Resultados -->
         <div class="card p-4">
-            <h4 class="titulo mb-3">Resultados de la Búsqueda</h4>
+            <h4 class="titulo titulo-resultado mb-3">Resultados de la Búsqueda</h4>
 
             <table class="custom-table align-middle w-100">
                 <thead>

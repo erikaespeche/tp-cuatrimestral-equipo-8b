@@ -96,7 +96,7 @@
                     </div>
 
                     <!-- FILA 4 -->
-                    <div class="row mb-4">
+                    <div class="fila-4 row mb-4">
                         <div class="col-md-3">
                             <label class="label-text">Mail</label>
                             <input id="txtMail" runat="server" type="email" class="form-control" placeholder="Ingrese el mail" />

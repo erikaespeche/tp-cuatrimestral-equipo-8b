@@ -13,7 +13,7 @@
             <div class="agp-card-body">
 
                 <!-- Fila de selección de profesional y especialidad -->
-                <div class="row mb-4">
+                <div class="row seleccion-especialidad mb-4">
                     <div class="col-md-6">
                         <label class="form-label">Profesional</label>
                         <asp:DropDownList ID="ddlProfesional" runat="server" CssClass="form-select">

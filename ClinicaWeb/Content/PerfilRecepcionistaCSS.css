@@ -33,12 +33,12 @@ body {
 ============================= */
 /*.custom-navbar {
     background-color: #121A25;*/ /* Fondo igual al body */
-    /*padding: 1rem 2rem;
+/*padding: 1rem 2rem;
     color: #fff;
     font-family: 'Segoe UI', sans-serif;
     border-bottom: 1px solid #1B2636;*/ /* Línea divisoria sutil */
-    /*position: fixed;*/ /* Menú fijo */
-    /*top: 0;
+/*position: fixed;*/ /* Menú fijo */
+/*top: 0;
     left: 0;
     right: 0;
     z-index: 1050;
@@ -52,18 +52,18 @@ body {
 /* Menú centrado con enlaces */
 /*.navbar-nav .nav-link {
     color: #b0b8c1;*/ /* Gris claro para enlaces inactivos */
-    /*font-weight: 500;
+/*font-weight: 500;
     transition: color 0.3s ease;
 }
 
     .navbar-nav .nav-link:hover,
     .navbar-nav .nav-link:focus {
         color: #fff;*/ /* Blanco al pasar el mouse */
-    /*}
+/*}
 
     .navbar-nav .nav-link.active {
         color: #0d6efd;*/ /* Azul institucional para activo */
-        /*border-bottom: 2px solid #0d6efd;
+/*border-bottom: 2px solid #0d6efd;
         font-weight: 600;
     }*/
 
@@ -91,7 +91,7 @@ body {
 ============================= */
 /*.user-actions .btn-logout {
     background-color: #BB2D3B;*/ /* Rojo institucional */
-    /*color: #fff;
+/*color: #fff;
     border: none;
     padding: 6px 14px;
     font-weight: 600;
@@ -101,7 +101,7 @@ body {
 
     .user-actions .btn-logout:hover {
         background-color: #a52834;*/ /* Rojo más oscuro al hover */
-    /*}*/
+/*}*/
 
 
 /* ============================
@@ -113,7 +113,7 @@ body {
     border-radius: 12px;
 }
 
-.mb-4{
+.mb-4 {
     padding-top: 53px;
 }
 
@@ -305,6 +305,7 @@ body {
 
 #pantalla-agregarPaciente .titulo {
     color: #ffffff;
+    padding-top: 10px;
 }
 
 #pantalla-agregarPaciente .label-text {
@@ -343,16 +344,30 @@ body {
 
 
 
-/*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: LISTAR PACIENTE)---------------------------- */
+#pantalla-agregarPaciente .fila-4{
+    padding-top: 3px !important;
+}
 
+
+
+/*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: LISTAR PACIENTE)---------------------------- */
 #pantalla-listarPaciente .citas-del-dia {
     margin-top: 50px;
 }
 
 /*Color de los titulos*/
-#pantalla-listarPaciente .titulo{
+#pantalla-listarPaciente .titulo {
     color: #fff;
 }
+
+#pantalla-listarPaciente .label-text{
+    padding-top: 0px !important;
+}
+
+#pantalla-listarPaciente .titulo-resultado{
+    font-size: 25px;
+}
+
 
 
 /* Estilo de inputs y formulario */
@@ -363,9 +378,16 @@ body {
     border-radius: 6px;
 }
 
-    #pantalla-listarPaciente .form-control::placeholder {
-        color: #b0b8c1;
-    }
+#pantalla-listarPaciente .form-label {
+    color: #b0b8c1;
+}
+
+
+
+#pantalla-listarPaciente .form-control::placeholder {
+    color: #b0b8c1;
+    font-size: 13.5px;
+}
 
 /* Tabla personalizada */
 #pantalla-listarPaciente .tabla-citas {
@@ -406,216 +428,252 @@ body {
     text-align: center;
 }
 
-
+#pantalla-listarPaciente .contenedor-botonBuscar{
+    margin-top: 22px !important;
+}
 
 
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: CITAS DIARIAS)---------------------------- */
-
-.contenedor-padre {
-    width: max-content;
-}
-
-/* Botones de acción */
-.btn-sm {
-    font-size: 0.85rem;
-    padding: 6px 12px;
-    font-weight: 500;
-    border-radius: 6px;
-    white-space: nowrap;
-}
-
-/* Espaciado horizontal entre botones */
-td .d-flex.gap-2 > .btn {
-    min-width: 80px;
-    text-align: center;
-}
-
-.buscarPaciente {
-    margin-top: 30px;
-}
-
-.no-wrap {
-    white-space: nowrap;
-    font-size: 13px;
-}
-
-/* ============================
-   CONTENEDOR DEL CALENDARIO
-============================= */
-.calendar-card {
-    background-color: #1B2636; /* Fondo oscuro institucional */
-    border-radius: 12px;
+/* ===========================
+   ESTILOS PRINCIPALES
+=========================== */
+#pantalla-citasDiarias .pantalla-citas {
+    background: #0F1826;
     color: #fff;
-    font-family: 'Segoe UI', sans-serif;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    padding: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    min-height: 100vh;
 }
 
-    .calendar-card h5 {
-        font-size: 1.4rem;
-        font-weight: 600;
-        margin: 1rem 0;
-    }
+/* TITULO Y FECHA */
+#pantalla-citasDiarias .titulo-citas-dia {
+    font-weight: 700;
+    color: #fff;
+    font-size: 36px;
+    margin-top: 52px;
+    display: inline-block;
+}
 
-/* ============================
-   CALENDARIO FLATPICKR INTEGRADO
-============================= */
-.calendario-inline {
-    width: 100%;
-    border: none !important;
-    background: transparent !important;
-    color: transparent !important;
+#pantalla-citasDiarias .descripcion-title{
+    font-size: 13px;
+    padding-top: 11px;
+}
+
+#pantalla-citasDiarias .subfecha {
+    font-size: 20px;
+    color: #B8C3CE;
+    margin-bottom: 15px;
+    padding-left: 14px;
+}
+
+/* ===========================
+   CALENDARIO A LA IZQUIERDA
+=========================== */
+#pantalla-citasDiarias .calendario-container {
+    background: #1B2636;
+    border-radius: 12px;
+    box-shadow: 0 0 7px rgba(0,0,0,0.3);
+    overflow: hidden !important; /* evita que nada se salga */
+    padding: 0 !important; /* elimina bordes extra */
+    margin-top: 2px;
+    border-color: #e6e6e626 !important;
+    border-style: outset !important;
+    border-width: 1px;
+}
+
+#pantalla-citasDiarias .calendario-inline {
     height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    opacity: 0 !important;
 }
 
-/* Contenedor principal del calendario */
-.flatpickr-calendar.inline {
-    position: relative !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    margin: 0 auto !important;
+/* Calendario Flatpickr */
+#pantalla-citasDiarias .flatpickr-calendar.inline {
+    background: #1B2636 !important;
     box-shadow: none !important;
     border: none !important;
-    border-radius: 12px !important;
-    /* ✅ Ajustes personalizados y válidos */
-    background: content-box !important;
-    background-clip: content-box !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-self: center !important;
-    border-color: transparent !important;
-    padding: 0.5rem 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: scale(0.95); /* evita desborde dentro del card */
+    transform-origin: top center;
 }
 
-/* Contenedor del calendario */
-.flatpickr-calendar {
-    background-color: #1B2636 !important;
+#pantalla-citasDiarias .flatpickr-months,
+#pantalla-citasDiarias .flatpickr-innerContainer,
+#pantalla-citasDiarias .flatpickr-days {
+    width: 100% !important;
+}
+
+#pantalla-citasDiarias .flatpickr-day {
     color: #fff !important;
-    border: 1px solid #2c3e50;
-    border-radius: 12px;
+    border-radius: 6px !important;
 }
 
-/* Encabezado del calendario */
-.flatpickr-months {
-    background-color: #1B2636 !important;
-    color: #fff !important;
-    text-align: center;
-}
-
-.flatpickr-current-month {
-    color: #fff !important;
-    font-weight: 600;
-}
-
-/* Días del calendario */
-.flatpickr-day {
-    color: #fff !important;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
-}
-
-    .flatpickr-day:hover {
-        background-color: #2a3b4f !important;
+    /* HOVER gris clarito sobre los días del calendario */
+    #pantalla-citasDiarias .flatpickr-day:hover {
+        background: #d3d3d3 !important;
+        color: #000 !important;
     }
 
-    .flatpickr-day.selected {
-        background-color: #0d6efd !important;
+
+    /*#pantalla-citasDiarias .flatpickr-current-month {
+    color: red;
+}*/
+
+    #pantalla-citasDiarias .flatpickr-day.selected {
+        background: #0d6efd !important;
         color: #fff !important;
         font-weight: bold;
     }
 
-/* Navegación del calendario */
-.flatpickr-prev-month,
-.flatpickr-next-month {
-    color: #b0b8c1 !important;
-    transition: color 0.3s ease;
-}
-
-    .flatpickr-prev-month:hover,
-    .flatpickr-next-month:hover {
-        color: #fff !important;
-    }
-
-/* Bordes y alineación interna */
-.flatpickr-months,
-.flatpickr-innerContainer,
-.flatpickr-days {
-    width: 95% !important;
-    margin: 0 auto !important;
-}
-
-.citas-del-dia {
-    margin-bottom: 0.5rem;
-    text-align: center;
-}
-
-/* ============================
-   CONTENEDOR DE LA TABLA DE CITAS
-============================= */
-.boton-citasdiarias {
-    font-size: 12px;
-    min-width: 57px;
-}
-
-td .d-flex.gap-2 > .btn {
-    min-width: 57px;
-    text-align: center;
-}
-
-.tabla-card {
-    background-color: #1B2636;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    padding: 1.5rem;
-    overflow-x: auto;
-}
-
-/* ============================
-   TABLA DE CITAS
-============================= */
-.custom-table {
-    width: 100%;
-    border-collapse: collapse;
+/* ===========================
+   TABLA Y FILTROS
+=========================== */
+#pantalla-citasDiarias .tabla-citas-card {
     background-color: transparent;
+   
+}
+
+#pantalla-citasDiarias .filtros-busqueda{
+    padding-top: 2px !important;
+}
+
+#pantalla-citasDiarias .descripcion-title {
+    color: #d0d7e1;
+}
+
+/* Filtros */
+#pantalla-citasDiarias .input-search,
+#pantalla-citasDiarias .select-filter {
+    background: #122032;
+    border: 1px solid #223349;
     color: #fff;
 }
 
-    .custom-table th {
-        color: #b0b8c1;
-        font-weight: 600;
-        padding: 3px;
-        border-bottom: 1px solid #2c3e50;
+    #pantalla-citasDiarias .input-search::placeholder {
+        color: #6f7e8c;
+    }
+
+#pantalla-citasDiarias .select-filter {
+    cursor: pointer;
+}
+
+/* ===========================
+   TABLA
+=========================== */
+#pantalla-citasDiarias .custom-table thead th {
+    color: #AEB7C2;
+    font-size: 13px;
+    border-bottom: 1px solid #2e3d51 !important;
+    text-align: center;
+}
+
+#pantalla-citasDiarias .custom-table tbody td {
+    border-bottom: 1px solid #2e3d51 !important;
+    font-size: 14px;
+}
+
+#pantalla-citasDiarias .custom-table td,
+#pantalla-citasDiarias .custom-table th {
+    white-space: nowrap;
+}
+
+/* ===========================
+   ESTADOS
+=========================== */
+#pantalla-citasDiarias .estado {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+#pantalla-citasDiarias .confirmado {
+    background: #1c7c456b;
+    color: #fff;
+}
+
+#pantalla-citasDiarias .pendiente {
+    background: #b3830b;
+    color: #000;
+}
+
+#pantalla-citasDiarias .cancelado {
+    background: #8f2b2b;
+    color: #fff;
+}
+
+/* ===========================
+   ACCIONES
+=========================== */
+#pantalla-citasDiarias .acciones {
+    display: flex;
+    gap: 6px;
+}
+
+#pantalla-citasDiarias .btn-accion {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#pantalla-citasDiarias .cobrar {
+    background: #1c7c45;
+    color: #fff;
+}
+
+    #pantalla-citasDiarias .cobrar:hover {
+        background: #1c7c45ab;
+    }
+
+#pantalla-citasDiarias .ausente {
+    background: #d1a21c;
+    color: #000;
+}
+    #pantalla-citasDiarias .ausente:hover {
+        background: #d1a21cbf;
+    }
+
+#pantalla-citasDiarias .cancelar {
+    background: #b43131;
+    color: #fff;
+}
+    #pantalla-citasDiarias .cancelar:hover {
+        background: #b43131cf;
+    }
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 992px) {
+    #pantalla-citasDiarias .acciones {
+        flex-direction: column;
+    }
+
+    #pantalla-citasDiarias .btn-accion {
+        width: 100%;
+    }
+
+    #pantalla-citasDiarias .flatpickr-calendar.inline {
+        transform: scale(1); /* full size en mobile */
+    }
+}
+
+@media (max-width: 768px) {
+    #pantalla-citasDiarias .titulo-citas-dia {
         text-align: center;
-        font-size: 13px;
     }
 
-    .custom-table td {
-        padding: 12px;
-        border-bottom: 1px solid #2c3e50;
-        vertical-align: middle;
+    #pantalla-citasDiarias .descripcion-title {
+        text-align: center;
     }
-
-/* Scroll horizontal en pantallas pequeñas */
-.tabla-card::-webkit-scrollbar {
-    height: 6px;
 }
 
-.tabla-card::-webkit-scrollbar-thumb {
-    background-color: #0d6efd;
-    border-radius: 3px;
-}
 
-/* Espaciado inferior de secciones */
-.mb-4 {
-    padding-top: 9px;
-}
+
 
 
 
@@ -650,6 +708,11 @@ td .d-flex.gap-2 > .btn {
         margin-right: 90px;
     }
 
+    #pantalla-agenda .seleccion-especialidad {
+        padding-top: 0px !important;
+    }
+
+
     /* Tarjetas */
     #pantalla-agenda .agp-card {
         background-color: #1e293b;
@@ -658,6 +721,7 @@ td .d-flex.gap-2 > .btn {
         box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
         margin-bottom: 40px;
         width: 90%;
+        padding-top: 0px !important;
     }
 
     #pantalla-agenda .agp-card-body {
@@ -765,11 +829,17 @@ td .d-flex.gap-2 > .btn {
     margin: 140px auto 60px auto;
     font-family: "Inter", sans-serif;
 }
+ 
 
     /* Encabezado */
     #pantalla-especialidades .esp-titulo {
         color: #f8fafc;
         font-weight: 700;
+        padding-top: 0px !important;
+    }
+
+    #pantalla-especialidades .esp-header{
+        padding-top: 0px !important;
     }
 
     #pantalla-especialidades .esp-subtitulo {
@@ -785,7 +855,7 @@ td .d-flex.gap-2 > .btn {
     }
 
     /* Buscador */
-    #pantalla-especialidades .boton-buscador{
+    #pantalla-especialidades .boton-buscador {
         margin-top: 50px;
     }
 
@@ -843,9 +913,19 @@ td .d-flex.gap-2 > .btn {
             background-color: #475569 !important;
         }
 
-/* Responsividad */
-@media (max-width: 992px) {
-    #pantalla-especialidades {
+    #pantalla-especialidades .form-control::placeholder {
+        color: #646B6B !important;
+    }
+
+    #pantalla-especialidades .form-control {
+        background-color: #0F172A !important;
+    }
+
+
+
+    /* Responsividad */
+    @media (max-width: 992px) {
+        #pantalla-especialidades {
         width: 95%;
         margin-top: 120px;
     }
@@ -873,10 +953,17 @@ td .d-flex.gap-2 > .btn {
         margin-top: 60px;
     }
 
+    #pantalla-profesionales .contenedor-filtro {
+        padding-top: 0px !important;
+    }
+
+
+
     /* Tarjetas */
     #pantalla-profesionales .card {
         background-color: #1e293b !important;
         border-radius: 12px;
+        padding-top: 0px !important;
     }
 
     /* Labels */
@@ -949,3 +1036,6 @@ td .d-flex.gap-2 > .btn {
             background-color: #1d4ed8 !important;
         }
 
+    #pantalla-profesionales .form-control::placeholder {
+        color: #646B6B !important;
+    }
