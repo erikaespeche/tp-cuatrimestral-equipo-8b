@@ -49,6 +49,7 @@
     <Compile Include="Turno.cs" />
     <Compile Include="TurnoTrabajo.cs" />
     <Compile Include="Usuario.cs" />
+    <Compile Include="Validador.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
