@@ -65,7 +65,8 @@ namespace negocio
                           Email, Telefono, Celular, Direccion, Ciudad, Provincia, CodigoPostal, ObraSocial, NumeroObraSocial)
                     VALUES 
                           (@tipoDoc, @dni, @nombres, @apellidos, @fecha, @sexo,
-                           @mail, @tel, @cel, @dir, @ciudad, @prov, @cp, @obraSocial, @numObraSocial)");
+                           @mail, @tel, @cel, @dir, @ciudad, @prov, @cp, @obraSocial, @numObraSocial);
+                    SELECT CAST(SCOPE_IDENTITY() AS INT); ");
 
                 datos.setearParametro("@tipoDoc", nuevo.TipoDocumento);
                 datos.setearParametro("@dni", nuevo.DniPaciente);

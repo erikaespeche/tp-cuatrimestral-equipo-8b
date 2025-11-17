@@ -2,9 +2,12 @@
 using negocio;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace Clinic.Pantallas_Perfil_Recepcionista
@@ -21,6 +24,173 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         //BOTON "REGISTRAR PACIENTE"
         protected void btnRegistrarPaciente_Click(object sender, EventArgs e)
         {
+            bool valido = true;
+            string mensajeError = "";
+
+            // DNI
+            if (!int.TryParse(txtNumeroDocumento.Value, out int dni))
+            {
+                MarcarError(txtNumeroDocumento);
+                mensajeError += "DNI inválido<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtNumeroDocumento);
+
+            // Nombre
+            var resNombre = Validador.ValidarNombre(txtNombre.Value);
+            if (!resNombre.esValido)
+            {
+                MarcarError(txtNombre);
+                mensajeError += resNombre.mensaje + "<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtNombre);
+
+            // Apellido
+            var resApellido = Validador.ValidarApellido(txtApellido.Value);
+            if (!resApellido.esValido)
+            {
+                MarcarError(txtApellido);
+                mensajeError += resApellido.mensaje + "<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtApellido);
+
+            // Sexo
+            string sexoSeleccionado = ddlSexo.Value.Trim().ToUpper(); // toma "F", "M" o "O"
+            char sexoChar = ' ';
+            if (sexoSeleccionado == "F" || sexoSeleccionado == "M" || sexoSeleccionado == "O")
+            {
+                sexoChar = sexoSeleccionado[0]; // 'F', 'M' o 'O'
+                MarcarOk(ddlSexo);
+            }
+            else
+            {
+                MarcarError(ddlSexo);
+                mensajeError += "Sexo inválido<br>";
+                valido = false;
+            }
+
+            // Email
+            var resEmail = Validador.ValidarEmail(txtMail.Value);
+            if (!resEmail.esValido)
+            {
+                MarcarError(txtMail);
+                mensajeError += resEmail.mensaje + "<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtMail);
+
+            // Celular
+            var resCelular = Validador.ValidarTelefono(txtCelular.Value);
+            if (!resCelular.esValido)
+            {
+                MarcarError(txtCelular);
+                mensajeError += resCelular.mensaje + "<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtCelular);
+
+            // Teléfono
+            var resTelefono = Validador.ValidarTelefono(txtTelefono.Value);
+            if (!resTelefono.esValido)
+            {
+                MarcarError(txtTelefono);
+                mensajeError += resTelefono.mensaje + "<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtTelefono);
+
+            // Fecha de nacimiento
+            if (!DateTime.TryParse(txtFechaNacimiento.Value, out DateTime fechaNac))
+            {
+                MarcarError(txtFechaNacimiento);
+                mensajeError += "Fecha de nacimiento inválida<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtFechaNacimiento);
+
+            // Dirección
+            if (string.IsNullOrWhiteSpace(txtDireccion.Value))
+            {
+                MarcarError(txtDireccion);
+                mensajeError += "Dirección no puede estar vacía<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtDireccion);
+
+            // Ciudad
+            if (string.IsNullOrWhiteSpace(txtCiudad.Value))
+            {
+                MarcarError(txtCiudad);
+                mensajeError += "Ciudad no puede estar vacía<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtCiudad);
+
+            // Provincia
+            if (string.IsNullOrWhiteSpace(txtProvincia.Value))
+            {
+                MarcarError(txtProvincia);
+                mensajeError += "Provincia no puede estar vacía<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtProvincia);
+
+            // Código Postal
+            if (!Regex.IsMatch(txtCodigoPostal.Value.Trim(), @"^\d{4,10}$"))
+            {
+                MarcarError(txtCodigoPostal);
+                mensajeError += "Código Postal inválido<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtCodigoPostal);
+
+            // Obra Social
+            if (string.IsNullOrWhiteSpace(txtObraSocial.Value))
+            {
+                MarcarError(txtObraSocial);
+                mensajeError += "Obra Social no puede estar vacía<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtObraSocial);
+
+            // Número de Afiliado
+            if (string.IsNullOrWhiteSpace(txtNumeroAfiliado.Value))
+            {
+                MarcarError(txtNumeroAfiliado);
+                mensajeError += "Número de Afiliado no puede estar vacío<br>";
+                valido = false;
+            }
+            else
+                MarcarOk(txtNumeroAfiliado);
+
+            // Si hay errores de validación, mostrar modal y salir
+            if (!valido)
+            {
+                mensajeError = mensajeError.Replace("'", "\\'").Replace("\r", "").Replace("\n", "<br>");
+                ScriptManager.RegisterStartupScript(
+                    this,
+                    GetType(),
+                    "modalError",
+                    $"var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = '{mensajeError}';",
+                    true
+                );
+                return;
+            }
+
             try
             {
                 Paciente nuevo = new Paciente();
@@ -29,7 +199,12 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 nuevo.Nombres = txtNombre.Value;
                 nuevo.Apellidos = txtApellido.Value;
                 nuevo.FechaNacimiento = DateTime.Parse(txtFechaNacimiento.Value);
+<<<<<<< HEAD
                 nuevo.Sexo = ddlSexo.Value[0];
+=======
+                nuevo.Sexo = sexoChar; 
+                nuevo.GrupoSanguineo = "";
+>>>>>>> ce4e4d8cc2aecf6266cadd14869ba8ebf22da6ff
                 nuevo.Email = txtMail.Value;
                 nuevo.Telefono = txtTelefono.Value;
                 nuevo.Celular = txtCelular.Value;
@@ -53,17 +228,29 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 );
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // Mostrar modal de error
+                string errorMsg = "Error al guardar el paciente: " + ex.Message;
+                errorMsg = errorMsg.Replace("'", "\\'").Replace("\r", "").Replace("\n", "<br>");
                 ScriptManager.RegisterStartupScript(
                  this,
                  GetType(),
                  "modalError",
-                 "var m = new bootstrap.Modal(document.getElementById('modalError')); m.show();",
+                 $"var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = '{errorMsg}';",
                  true
                 );
             }
+        }
+
+        private void MarcarError(HtmlControl input)
+        {
+            input.Attributes["class"] = "form-control is-invalid";
+        }
+
+        private void MarcarOk(HtmlControl input)
+        {
+            input.Attributes["class"] = "form-control is-valid";
         }
 
         protected void btnAceptarExito_Click(object sender, EventArgs e)
