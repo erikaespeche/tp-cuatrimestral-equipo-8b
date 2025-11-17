@@ -199,12 +199,8 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 nuevo.Nombres = txtNombre.Value;
                 nuevo.Apellidos = txtApellido.Value;
                 nuevo.FechaNacimiento = DateTime.Parse(txtFechaNacimiento.Value);
-<<<<<<< HEAD
                 nuevo.Sexo = ddlSexo.Value[0];
-=======
                 nuevo.Sexo = sexoChar; 
-                nuevo.GrupoSanguineo = "";
->>>>>>> ce4e4d8cc2aecf6266cadd14869ba8ebf22da6ff
                 nuevo.Email = txtMail.Value;
                 nuevo.Telefono = txtTelefono.Value;
                 nuevo.Celular = txtCelular.Value;
