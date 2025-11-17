@@ -168,6 +168,129 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Paciente> Buscar(string documento, string nombre, string apellido)
+        {
+            List<Paciente> lista = new List<Paciente>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                string consulta = @"SELECT IdPaciente, TipoDocumento, DniPaciente, Nombres, Apellidos,
+                                   FechaNacimiento, Sexo, Email, Telefono, Celular, Direccion,
+                                   Ciudad, Provincia, CodigoPostal, ObraSocial, NumeroObraSocial
+                            FROM PACIENTES
+                            WHERE 1=1";
+
+                if (!string.IsNullOrEmpty(documento))
+                    consulta += " AND DniPaciente LIKE @doc";
+
+                if (!string.IsNullOrEmpty(nombre))
+                    consulta += " AND Nombres LIKE @nom";
+
+                if (!string.IsNullOrEmpty(apellido))
+                    consulta += " AND Apellidos LIKE @ape";
+
+                datos.setearConsulta(consulta);
+
+                if (!string.IsNullOrEmpty(documento))
+                    datos.setearParametro("@doc", "%" + documento + "%");
+
+                if (!string.IsNullOrEmpty(nombre))
+                    datos.setearParametro("@nom", "%" + nombre + "%");
+
+                if (!string.IsNullOrEmpty(apellido))
+                    datos.setearParametro("@ape", "%" + apellido + "%");
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Paciente aux = new Paciente();
+                    aux.IdPaciente = (int)datos.Lector["IdPaciente"];
+                    aux.TipoDocumento = datos.Lector["TipoDocumento"].ToString();
+                    aux.DniPaciente = (int)datos.Lector["DniPaciente"];
+                    aux.Nombres = datos.Lector["Nombres"].ToString();
+                    aux.Apellidos = datos.Lector["Apellidos"].ToString();
+                    aux.ObraSocial = datos.Lector["ObraSocial"].ToString();
+                    aux.NumeroObraSocial = datos.Lector["NumeroObraSocial"].ToString();
+
+                    lista.Add(aux);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar pacientes: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return lista;
+        }
+
+
+        //BUSCAR PACIENTE POR DNI
+        public Paciente BuscarPorDni(string dni)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"SELECT IdPaciente, TipoDocumento, DniPaciente, Nombres, Apellidos,
+                           FechaNacimiento, Sexo, Email, Telefono, Celular, Direccion,
+                           Ciudad, Provincia, CodigoPostal, ObraSocial, NumeroObraSocial
+                        FROM PACIENTES
+                        WHERE DniPaciente = @dni");
+
+                datos.setearParametro("@dni", dni);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    Paciente aux = new Paciente();
+
+                    aux.IdPaciente = (int)datos.Lector["IdPaciente"];
+                    aux.TipoDocumento = datos.Lector["TipoDocumento"].ToString();
+                    aux.DniPaciente = (int)datos.Lector["DniPaciente"];
+                    aux.Nombres = datos.Lector["Nombres"].ToString();
+                    aux.Apellidos = datos.Lector["Apellidos"].ToString();
+                    aux.FechaNacimiento = (DateTime)datos.Lector["FechaNacimiento"];
+                    aux.Sexo = char.Parse(datos.Lector["Sexo"].ToString());
+                    aux.Email = datos.Lector["Email"].ToString();
+                    aux.Telefono = datos.Lector["Telefono"].ToString();
+                    aux.Celular = datos.Lector["Celular"].ToString();
+                    aux.Direccion = datos.Lector["Direccion"].ToString();
+                    aux.Ciudad = datos.Lector["Ciudad"].ToString();
+                    aux.Provincia = datos.Lector["Provincia"].ToString();
+                    aux.CodigoPostal = datos.Lector["CodigoPostal"].ToString();
+                    aux.ObraSocial = datos.Lector["ObraSocial"].ToString();
+                    aux.NumeroObraSocial = datos.Lector["NumeroObraSocial"].ToString();
+
+                    return aux;
+                }
+
+                return null;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 }

@@ -15,7 +15,6 @@ namespace dominio
         public string Apellidos { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public char Sexo { get; set; }
-        public string GrupoSanguineo { get; set; }
         public string Email { get; set; }
         public string Telefono { get; set; }
         public string Celular { get; set; }

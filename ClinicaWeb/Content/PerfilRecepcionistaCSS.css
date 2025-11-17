@@ -432,6 +432,11 @@ body {
     margin-top: 22px !important;
 }
 
+#pantalla-listarPaciente .resultado-paciente{
+    text-align: center;
+}
+
+
 
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: CITAS DIARIAS)---------------------------- */
 /* ===========================

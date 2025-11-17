@@ -4,7 +4,7 @@ GO
 USE CLINICA_DB;
 GO
 
-DROP DATABASE CLINICA_DB;
+--DROP DATABASE CLINICA_DB;
 
 
 CREATE TABLE [dbo].[PACIENTES] (
@@ -15,7 +15,6 @@ CREATE TABLE [dbo].[PACIENTES] (
     [Apellidos] VARCHAR(50) NOT NULL,
     [FechaNacimiento] DATE NOT NULL,
     [Sexo] CHAR(1) NOT NULL,                -- F / M / O
-    --[GrupoSanguineo] VARCHAR(8) NOT NULL,
     [Email] VARCHAR(100) NOT NULL,
     [Telefono] VARCHAR(20) NULL,
     [Celular] VARCHAR(20) NULL,

@@ -30,7 +30,6 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 nuevo.Apellidos = txtApellido.Value;
                 nuevo.FechaNacimiento = DateTime.Parse(txtFechaNacimiento.Value);
                 nuevo.Sexo = ddlSexo.Value[0];
-                nuevo.GrupoSanguineo = "";
                 nuevo.Email = txtMail.Value;
                 nuevo.Telefono = txtTelefono.Value;
                 nuevo.Celular = txtCelular.Value;
