@@ -1,6 +1,7 @@
-﻿using System;
-using dominio;
+﻿using dominio;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -96,6 +97,16 @@ namespace negocio
                 datos.setearParametro("@id", id);
                 datos.ejecutarAccion();
             }
+            catch (SqlException ex)
+            {
+                // Error de clave foránea (no se puede borrar porque está en uso)
+                if (ex.Number == 547)
+                {
+                    throw new Exception("No se puede eliminar la especialidad porque está asignada a uno o más médicos.");
+                }
+
+                throw new Exception("Error al eliminar especialidad: " + ex.Message);
+            }
             catch (Exception ex)
             {
                 throw new Exception("Error al eliminar especialidad: " + ex.Message);
@@ -104,6 +115,39 @@ namespace negocio
             {
                 datos.cerrarConexion();
             }
+        }
+
+        public List<Especialidad> BuscarPorNombre(string nombre)
+        {
+            List<Especialidad> lista = new List<Especialidad>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "SELECT IdEspecialidad, Nombre " +
+                    "FROM ESPECIALIDAD " +
+                    "WHERE Nombre COLLATE Latin1_General_CI_AI LIKE @nombre COLLATE Latin1_General_CI_AI");
+
+                datos.setearParametro("@nombre", "%" + nombre + "%");
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    lista.Add(new Especialidad
+                    {
+                        IdEspecialidad = (int)datos.Lector["IdEspecialidad"],
+                        Nombre = datos.Lector["Nombre"].ToString()
+                    });
+                }
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return lista;
         }
     }
 }
