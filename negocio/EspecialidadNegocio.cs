@@ -99,7 +99,7 @@ namespace negocio
             }
             catch (SqlException ex)
             {
-                // Error de clave foránea (no se puede borrar porque está en uso)
+               
                 if (ex.Number == 547)
                 {
                     throw new Exception("No se puede eliminar la especialidad porque está asignada a uno o más médicos.");
@@ -149,5 +149,7 @@ namespace negocio
 
             return lista;
         }
+
+
     }
 }

@@ -32,7 +32,7 @@ namespace negocio
                     aux.Email = datos.Lector["Email"] != DBNull.Value ? datos.Lector["Email"].ToString() : "";
                     aux.IdTurnoTrabajo = datos.Lector["IdTurnoTrabajo"] != DBNull.Value ? (int)datos.Lector["IdTurnoTrabajo"] : 0;
 
-                    //aux.IdEspecialidades = ObtenerEspecialidades(aux.IdMedico);
+                    aux.Especialidades = ObtenerEspecialidades(aux.IdMedico);
 
                     listaMedico.Add(aux);
                 }
@@ -120,5 +120,42 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        private List<Especialidad> ObtenerEspecialidades(int idMedico)
+        {
+            List<Especialidad> lista = new List<Especialidad>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    @"SELECT E.IdEspecialidad, E.Nombre, E.Descripcion
+              FROM MEDICO_ESPECIALIDAD ME
+              INNER JOIN ESPECIALIDAD E ON ME.IdEspecialidad = E.IdEspecialidad
+              WHERE ME.IdMedico = @id");
+
+                datos.setearParametro("@id", idMedico);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    lista.Add(new Especialidad
+                    {
+                        IdEspecialidad = (int)datos.Lector["IdEspecialidad"],
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Descripcion = datos.Lector["Descripcion"].ToString()
+                    });
+                }
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return lista;
+        }
+
+        
+
     }
 }

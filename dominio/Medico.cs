@@ -14,8 +14,8 @@ namespace dominio
         public string Dni { get; set; }
         public string Telefono { get; set; }
         public string Email { get; set; }
-
         public int IdTurnoTrabajo { get; set; }
-        public List<int> IdEspecialidades { get; set; }  // por si un medico tiene varias especialidades    
+
+        public List<Especialidad> Especialidades { get; set; }
     }
 }

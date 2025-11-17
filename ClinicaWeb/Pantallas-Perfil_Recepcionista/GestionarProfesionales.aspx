@@ -1,5 +1,6 @@
-﻿<%@ Page Title="Gestión de Profesionales" Language="C#" MasterPageFile="~/PerfilRecepcionista.Master"  
-    AutoEventWireup="true" CodeBehind="GestionarProfesionales.aspx.cs" Inherits="Clinic.Pantallas_Perfil_Recepcionista.GestionarProfesionales" %>
+﻿<%@ Page Title="Gestión de Profesionales" Language="C#" MasterPageFile="~/PerfilRecepcionista.Master"
+    AutoEventWireup="true" CodeBehind="GestionarProfesionales.aspx.cs"
+    Inherits="Clinic.Pantallas_Perfil_Recepcionista.GestionarProfesionales" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -20,26 +21,34 @@
         <div class="card contenedor-filtro border-0 mb-4" style="border-radius: 10px;">
             <div class="card-body">
                 <div class="row g-3 align-items-end">
+
                     <div class="col-md-4">
                         <label class="form-label text-white">Nombre</label>
-                        <input type="text" class="form-control bg-dark text-light border-secondary" placeholder="Buscar por Nombre" />
+                        <asp:TextBox ID="txtNombre" runat="server"
+                            CssClass="form-control bg-dark text-light border-secondary"
+                            Placeholder="Buscar por Nombre" />
                     </div>
+
                     <div class="col-md-4">
                         <label class="form-label text-white">Apellido</label>
-                        <input type="text" class="form-control bg-dark text-light border-secondary" placeholder="Buscar por Apellido" />
+                        <asp:TextBox ID="txtApellido" runat="server"
+                            CssClass="form-control bg-dark text-light border-secondary"
+                            Placeholder="Buscar por Apellido" />
                     </div>
+
                     <div class="col-md-4">
                         <label class="form-label text-white">Especialidad</label>
                         <div class="d-flex gap-2">
-                            <select class="form-select bg-dark text-light border-secondary">
-                                <option selected>Filtrar por Especialidad</option>
-                                <option>Cardiología</option>
-                                <option>Pediatría</option>
-                                <option>Dermatología</option>
-                            </select>
-                            <button class="btn btn-primary fw-bold px-4">Buscar</button>
+                            <asp:DropDownList ID="ddlEspecialidad" runat="server"
+                                CssClass="form-select bg-dark text-light border-secondary">
+                            </asp:DropDownList>
+
+                            <asp:Button ID="btnBuscar" runat="server"
+                                CssClass="btn btn-primary fw-bold px-4"
+                                Text="Buscar" OnClick="btnBuscar_Click" />
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -52,58 +61,48 @@
                         <tr>
                             <th>NOMBRE</th>
                             <th>APELLIDO</th>
-                            <th>MATRÍCULA</th>
-                            <th>ESPECIALIDAD</th>
+                            <th>DNI</th>
                             <th>TELÉFONO</th>
-                            <th>CELULAR</th>
                             <th>EMAIL</th>
+                            <th>ESPECIALIDADES</th>
                             <th>ACCIONES</th>
                         </tr>
                     </thead>
+
                     <tbody>
-                        <tr>
-                            <td>Juan</td>
-                            <td class="fw-bold">Pérez</td>
-                            <td>MN12345</td>
-                            <td>Cardiología</td>
-                            <td>4501-9876</td>
-                            <td>11-5555-1234</td>
-                            <td>juan.perez@clinic.com</td>
-                            <td>
-                                <button class="btn btn-outline-info btn-sm me-1"><i class="bi bi-eye"></i></button>
-                                <button class="btn btn-outline-warning btn-sm me-1"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>María</td>
-                            <td class="fw-bold">González</td>
-                            <td>MN67890</td>
-                            <td>Dermatología</td>
-                            <td>4788-1234</td>
-                            <td>11-4444-5678</td>
-                            <td>maria.gonzalez@clinic.com</td>
-                            <td>
-                                <button class="btn btn-outline-info btn-sm me-1"><i class="bi bi-eye"></i></button>
-                                <button class="btn btn-outline-warning btn-sm me-1"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Carlos</td>
-                            <td class="fw-bold">Rodríguez</td>
-                            <td>MN11223</td>
-                            <td>Pediatría</td>
-                            <td>4902-5432</td>
-                            <td>11-3333-8765</td>
-                            <td>carlos.r@clinic.com</td>
-                            <td>
-                                <button class="btn btn-outline-info btn-sm me-1"><i class="bi bi-eye"></i></button>
-                                <button class="btn btn-outline-warning btn-sm me-1"><i class="bi bi-pencil"></i></button>
-                                <button class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
+                        <asp:Repeater ID="repProfesionales" runat="server">
+                            <ItemTemplate>
+                                <tr>
+                                    <td><%# Eval("Nombre") %></td>
+                                    <td><%# Eval("Apellido") %></td>
+                                    <td><%# Eval("Dni") %></td>
+                                    <td><%# Eval("Telefono") %></td>
+                                    <td><%# Eval("Email") %></td>
+
+                                    
+                                    <td>
+                                        <%# string.Join(", ",
+                                         ((dominio.Medico)Container.DataItem)
+                                             .Especialidades.Select(esp => esp.Nombre)
+                                         ) %>
+                                    </td>
+
+                                    <td>
+                                        <button class="btn btn-outline-info btn-sm me-1">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-outline-warning btn-sm me-1">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-outline-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:Repeater>
                     </tbody>
+
                 </table>
             </div>
         </div>

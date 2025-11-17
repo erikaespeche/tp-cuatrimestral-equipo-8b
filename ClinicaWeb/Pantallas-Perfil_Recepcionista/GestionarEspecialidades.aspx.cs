@@ -24,7 +24,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             List<Especialidad> lista;
 
             if (string.IsNullOrWhiteSpace(filtro))
-                lista = negocio.Listar();  // trae todo
+                lista = negocio.Listar();  
             else
                 lista = negocio.BuscarPorNombre(filtro);
 
