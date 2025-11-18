@@ -91,15 +91,10 @@ body {
 }
 
 /*VALIDACIONES EN ROJO*/
-.is-invalid {
-    border: 2px solid #dc3545 !important;
-    background-color: #3b1f1f !important;
+.input-error {
+    border: 2px solid red !important;
 }
 
-    /* ESTO ES LO NUEVO (PASO 1) */
-    .is-invalid + .invalid-feedback {
-        display: block !important;
-    }
 
 
 /* ============================
@@ -838,6 +833,11 @@ body {
         color: #e2e8f0;
         border-top: 1px solid #334155;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    #pantalla-especialidades .titulo-especialidad {
+        /*color: dimgrey !important;*/
+        font-size: 18px !important;
     }
 
     /* Íconos */

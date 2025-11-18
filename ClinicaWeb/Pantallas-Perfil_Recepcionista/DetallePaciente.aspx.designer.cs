@@ -33,6 +33,15 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.Label lblApellido;
 
         /// <summary>
+        /// Control lblTipoDocumento.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTipoDocumento;
+
+        /// <summary>
         /// Control lblDni.
         /// </summary>
         /// <remarks>
@@ -105,6 +114,15 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.Label lblProvincia;
 
         /// <summary>
+        /// Control lblCodigoPostal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCodigoPostal;
+
+        /// <summary>
         /// Control lblObraSocial.
         /// </summary>
         /// <remarks>
@@ -121,15 +139,6 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblNroObraSocial;
-
-        /// <summary>
-        /// Control lblCodigoPostal.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCodigoPostal;
 
         /// <summary>
         /// Control lblSexo.
@@ -150,13 +159,22 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtNombreEdit;
 
         /// <summary>
-        /// Control invalidNombre.
+        /// Control valNombreReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidNombre;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valNombreReq;
+
+        /// <summary>
+        /// Control valNombreRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valNombreRegex;
 
         /// <summary>
         /// Control txtApellidoEdit.
@@ -168,13 +186,40 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtApellidoEdit;
 
         /// <summary>
-        /// Control invalidApellido.
+        /// Control valApellidoReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidApellido;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valApellidoReq;
+
+        /// <summary>
+        /// Control valApellidoRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valApellidoRegex;
+
+        /// <summary>
+        /// Control ddlTipoDocEdit.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoDocEdit;
+
+        /// <summary>
+        /// Control valTipoDocReq.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valTipoDocReq;
 
         /// <summary>
         /// Control txtDniEdit.
@@ -186,13 +231,22 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtDniEdit;
 
         /// <summary>
-        /// Control invalidDni.
+        /// Control valDniReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidDni;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valDniReq;
+
+        /// <summary>
+        /// Control valDniRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valDniRegex;
 
         /// <summary>
         /// Control txtMailEdit.
@@ -204,13 +258,22 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtMailEdit;
 
         /// <summary>
-        /// Control invalidMail.
+        /// Control valMailReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidMail;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valMailReq;
+
+        /// <summary>
+        /// Control valMailRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valMailRegex;
 
         /// <summary>
         /// Control txtCelEdit.
@@ -222,13 +285,13 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtCelEdit;
 
         /// <summary>
-        /// Control invalidCel.
+        /// Control valCelRegex.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidCel;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valCelRegex;
 
         /// <summary>
         /// Control txtTelEdit.
@@ -240,13 +303,13 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtTelEdit;
 
         /// <summary>
-        /// Control invalidTel.
+        /// Control valTelRegex.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidTel;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valTelRegex;
 
         /// <summary>
         /// Control txtFechaEdit.
@@ -258,13 +321,22 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtFechaEdit;
 
         /// <summary>
-        /// Control invalidFecha.
+        /// Control valFechaReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidFecha;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valFechaReq;
+
+        /// <summary>
+        /// Control valFechaRango.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RangeValidator valFechaRango;
 
         /// <summary>
         /// Control ddlSexoEdit.
@@ -276,13 +348,13 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.DropDownList ddlSexoEdit;
 
         /// <summary>
-        /// Control invalidSexo.
+        /// Control valSexoReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidSexo;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valSexoReq;
 
         /// <summary>
         /// Control txtDirEdit.
@@ -294,13 +366,22 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtDirEdit;
 
         /// <summary>
-        /// Control invalidDireccion.
+        /// Control valDirReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidDireccion;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valDirReq;
+
+        /// <summary>
+        /// Control valDirRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valDirRegex;
 
         /// <summary>
         /// Control txtCiudadEdit.
@@ -312,13 +393,22 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtCiudadEdit;
 
         /// <summary>
-        /// Control invalidCiudad.
+        /// Control valCiudadReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidCiudad;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valCiudadReq;
+
+        /// <summary>
+        /// Control valCiudadRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valCiudadRegex;
 
         /// <summary>
         /// Control txtProvEdit.
@@ -330,13 +420,22 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtProvEdit;
 
         /// <summary>
-        /// Control invalidProvincia.
+        /// Control valProvReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidProvincia;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valProvReq;
+
+        /// <summary>
+        /// Control valProvRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valProvRegex;
 
         /// <summary>
         /// Control txtCpEdit.
@@ -348,13 +447,22 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtCpEdit;
 
         /// <summary>
-        /// Control invalidCp.
+        /// Control valCpReq.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invalidCp;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valCpReq;
+
+        /// <summary>
+        /// Control valCpRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valCpRegex;
 
         /// <summary>
         /// Control txtObraEdit.
@@ -366,6 +474,15 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtObraEdit;
 
         /// <summary>
+        /// Control valObraRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valObraRegex;
+
+        /// <summary>
         /// Control txtNumObraEdit.
         /// </summary>
         /// <remarks>
@@ -375,6 +492,15 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtNumObraEdit;
 
         /// <summary>
+        /// Control valNumObraRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valNumObraRegex;
+
+        /// <summary>
         /// Control btnGuardarCambios.
         /// </summary>
         /// <remarks>
@@ -382,5 +508,23 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnGuardarCambios;
+
+        /// <summary>
+        /// Control btnAceptarExito.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarExito;
+
+        /// <summary>
+        /// Control btnAceptarError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarError;
     }
 }

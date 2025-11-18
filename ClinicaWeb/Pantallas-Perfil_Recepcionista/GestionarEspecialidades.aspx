@@ -8,9 +8,10 @@
         
         <div class="esp-header d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h2 class="esp-titulo fw-bold">Especialidades disponibles</h2>
-                <p class="esp-subtitulo text-secondary">Consulta rápida de especialidades médicas de la clínica.</p>
+                <h2 class="esp-titulo fw-bold">Gestión de Especialidades</h2>
+                <p class="esp-subtitulo text-secondary">Busque, agregue, modifique o elimine especialidades de la clínica.</p>
             </div>
+            <asp:Button ID="btnAgregar" runat="server" Text="+ Agregar Nueva Especialidad" CssClass="btn btn-primary fw-bold px-4 py-2" />
         </div>
 
         <div class="esp-card bg-dark p-4 rounded mb-4 border border-secondary">
@@ -38,7 +39,8 @@
                 <table class="table table-dark table-borderless align-middle mb-0">
                     <thead class="esp-tabla-header">
                         <tr>
-                            <th>Especialidad</th>
+                            <th class="titulo-especialidad">Especialidad</th>
+                            <th class="text-end" style="width: 120px;">Acciones</th>
                         </tr>
                     </thead>
 
@@ -46,7 +48,14 @@
                         <asp:Repeater ID="repEspecialidades" runat="server">
                             <ItemTemplate>
                                 <tr>
-                                    <td><%# Eval("Nombre") %></td>
+                                    <td>
+                                        <%# Eval("Nombre") %>
+                                    </td>
+                                    <!-- Columna derecha ACCIONES -->
+                                    <td class="text-end">
+                                        <i class="bi bi-pencil text-light me-3 esp-icono-editar" style="cursor: pointer;"></i>
+                                        <i class="bi bi-trash text-danger esp-icono-eliminar" style="cursor: pointer;"></i>
+                                    </td>
                                 </tr>
                             </ItemTemplate>
                         </asp:Repeater>

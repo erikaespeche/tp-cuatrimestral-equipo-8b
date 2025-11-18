@@ -15,6 +15,11 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         {
             if (!IsPostBack)
             {
+                // Setear fecha máxima para el validator (hoy)
+                valFechaRango.MaximumValue = DateTime.Now.ToString("yyyy-MM-dd");
+
+
+                // Tu código original
                 string dni = Request.QueryString["dni"];
 
                 if (!string.IsNullOrEmpty(dni))
@@ -23,6 +28,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                     Response.Redirect("ListarPaciente.aspx?error=SinDNI");
             }
         }
+
 
 
         // ======================== CARGAR DATOS ========================
@@ -39,6 +45,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
             lblNombre.Text = paciente.Nombres;
             lblApellido.Text = paciente.Apellidos;
+            lblTipoDocumento.Text = paciente.TipoDocumento;
             lblDni.Text = paciente.DniPaciente.ToString();
             lblMail.Text = paciente.Email;
             lblCelular.Text = paciente.Celular;
@@ -57,125 +64,102 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         // ======================== BOTÓN GUARDAR ========================
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
-            LimpiarErrores();
-
-            if (!ValidarCampos())
+            try
             {
-                // Evita que JS recargue valores
-                ScriptManager.RegisterStartupScript(this, GetType(), "ModoEdicion", "window.modoEdicion = true;", true);
+                // 1) VALIDAR ASP.NET
+                if (!Page.IsValid)
+                {
+                    ScriptManager.RegisterStartupScript(
+                        this, this.GetType(),
+                        "abrirModal",
+                        "abrirModalEditar();",
+                        true
+                    );
+                    return;
+                }
 
-                // Reabrir modal
-                ScriptManager.RegisterStartupScript(this, GetType(), "Pop", "abrirModalEditar();", true);
-                return;
+                PacienteNegocio negocio = new PacienteNegocio();
+
+                string dniQuery = Request.QueryString["dni"];
+                var pacienteOriginal = negocio.BuscarPorDni(dniQuery);
+
+                if (pacienteOriginal == null)
+                {
+                    Response.Redirect("ListarPaciente.aspx?error=PacienteNoEncontrado");
+                    return;
+                }
+
+                // =============================
+                // 2) CREAR OBJETO PACIENTE A MODIFICAR
+                // =============================
+                Paciente p = pacienteOriginal;   // <-- CLAVE: partimos del original
+
+                // 3) Asignar campos editados
+                p.Nombres = txtNombreEdit.Text.Trim();
+                p.Apellidos = txtApellidoEdit.Text.Trim();
+                p.Email = txtMailEdit.Text.Trim();
+                p.Celular = txtCelEdit.Text.Trim();
+                p.Telefono = txtTelEdit.Text.Trim();
+                p.Direccion = txtDirEdit.Text.Trim();
+                p.Ciudad = txtCiudadEdit.Text.Trim();
+                p.Provincia = txtProvEdit.Text.Trim();
+                p.CodigoPostal = txtCpEdit.Text.Trim();
+                p.ObraSocial = txtObraEdit.Text.Trim();
+                p.NumeroObraSocial = txtNumObraEdit.Text.Trim();
+
+                if (int.TryParse(txtDniEdit.Text, out int dniParsed))
+                    p.DniPaciente = dniParsed;
+
+                if (DateTime.TryParse(txtFechaEdit.Text, out DateTime fechaN))
+                    p.FechaNacimiento = fechaN;
+
+                if (!string.IsNullOrEmpty(ddlSexoEdit.SelectedValue))
+                    p.Sexo = char.Parse(ddlSexoEdit.SelectedValue);
+
+                // =============================
+                // 4) GUARDAR CAMBIOS
+                // =============================
+                negocio.Modificar(p);
+
+                // =============================
+                // 5) MOSTRAR MODAL DE ÉXITO
+                // =============================
+                ScriptManager.RegisterStartupScript(
+                    this,
+                    GetType(),
+                    "modalExito",
+                    "var m = new bootstrap.Modal(document.getElementById('modalExito')); m.show();",
+                    true
+                );
             }
-
-            PacienteNegocio negocio = new PacienteNegocio();
-            Paciente p = new Paciente();
-
-            string dniQuery = Request.QueryString["dni"];
-            var pacienteOriginal = negocio.BuscarPorDni(dniQuery);
-
-            p.IdPaciente = pacienteOriginal.IdPaciente;
-            p.TipoDocumento = pacienteOriginal.TipoDocumento;
-
-            p.DniPaciente = int.Parse(txtDniEdit.Text);
-            p.Nombres = txtNombreEdit.Text;
-            p.Apellidos = txtApellidoEdit.Text;
-            p.Email = txtMailEdit.Text;
-            p.Celular = txtCelEdit.Text;
-            p.Telefono = txtTelEdit.Text;
-            p.Direccion = txtDirEdit.Text;
-            p.Ciudad = txtCiudadEdit.Text;
-            p.Provincia = txtProvEdit.Text;
-            p.CodigoPostal = txtCpEdit.Text;
-            p.ObraSocial = txtObraEdit.Text;
-            p.NumeroObraSocial = txtNumObraEdit.Text;
-            p.FechaNacimiento = DateTime.Parse(txtFechaEdit.Text);
-            p.Sexo = char.Parse(ddlSexoEdit.SelectedValue);
-
-            negocio.Modificar(p);
-
-            Response.Redirect("DetallePaciente.aspx?dni=" + p.DniPaciente + "&ok=1");
-        }
-
-
-        // ======================== VALIDACIÓN ========================
-        private bool ValidarCampos()
-        {
-            bool ok = true;
-
-            if (string.IsNullOrWhiteSpace(txtNombreEdit.Text))
-                MarcarError(txtNombreEdit, invalidNombre, ref ok);
-
-            if (string.IsNullOrWhiteSpace(txtApellidoEdit.Text))
-                MarcarError(txtApellidoEdit, invalidApellido, ref ok);
-
-            if (!int.TryParse(txtDniEdit.Text, out _))
-                MarcarError(txtDniEdit, invalidDni, ref ok);
-
-            if (!Regex.IsMatch(txtMailEdit.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-                MarcarError(txtMailEdit, invalidMail, ref ok);
-
-            if (!DateTime.TryParse(txtFechaEdit.Text, out _))
-                MarcarError(txtFechaEdit, invalidFecha, ref ok);
-
-            if (string.IsNullOrWhiteSpace(txtDirEdit.Text))
-                MarcarError(txtDirEdit, invalidDireccion, ref ok);
-
-            if (string.IsNullOrWhiteSpace(txtCiudadEdit.Text))
-                MarcarError(txtCiudadEdit, invalidCiudad, ref ok);
-
-            if (string.IsNullOrWhiteSpace(txtProvEdit.Text))
-                MarcarError(txtProvEdit, invalidProvincia, ref ok);
-
-            if (!Regex.IsMatch(txtCpEdit.Text, @"^\d{3,5}$"))
-                MarcarError(txtCpEdit, invalidCp, ref ok);
-
-            if (!string.IsNullOrWhiteSpace(txtTelEdit.Text) && !txtTelEdit.Text.All(char.IsDigit))
-                MarcarError(txtTelEdit, invalidTel, ref ok);
-
-            if (!string.IsNullOrWhiteSpace(txtCelEdit.Text) && !txtCelEdit.Text.All(char.IsDigit))
-                MarcarError(txtCelEdit, invalidCel, ref ok);
-
-            return ok;
-        }
-
-
-        // ======================== MARCAR ERROR ========================
-        private void MarcarError(WebControl control, Control feedback, ref bool ok)
-        {
-            control.CssClass += " is-invalid";
-
-            if (feedback != null)
-                feedback.Visible = true;
-
-            ok = false;
-        }
-
-
-        // ======================== LIMPIAR ========================
-        private void LimpiarErrores()
-        {
-            foreach (var ctrl in new List<WebControl>
+            catch (Exception ex)
             {
-                txtNombreEdit, txtApellidoEdit, txtDniEdit, txtMailEdit, txtTelEdit,
-                txtCelEdit, txtFechaEdit, txtDirEdit, txtCiudadEdit, txtProvEdit, txtCpEdit
-            })
-            {
-                ctrl.CssClass = ctrl.CssClass.Replace("is-invalid", "").Trim();
+                string errorMsg = "Error al guardar el paciente: " + ex.Message;
+                errorMsg = errorMsg.Replace("'", "\\'").Replace("\r", "").Replace("\n", "<br>");
+                ScriptManager.RegisterStartupScript(
+                 this,
+                 GetType(),
+                 "modalError",
+                 $"var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = '{errorMsg}';",
+                 true
+                );
             }
-
-            invalidNombre.Visible =
-            invalidApellido.Visible =
-            invalidDni.Visible =
-            invalidMail.Visible =
-            invalidFecha.Visible =
-            invalidDireccion.Visible =
-            invalidCiudad.Visible =
-            invalidProvincia.Visible =
-            invalidCp.Visible =
-            invalidTel.Visible =
-            invalidCel.Visible = false;
         }
+
+
+        protected void btnAceptarExito_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("ListarPaciente.aspx");
+        }
+
+        protected void btnAceptarError_Click(object sender, EventArgs e)
+        {
+            // Cierra el modal. Bootstrap ya lo maneja.
+        }
+
+
+
+
+
     }
 }
