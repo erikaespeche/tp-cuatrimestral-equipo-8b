@@ -162,6 +162,8 @@
             <div class="modal-content bg-danger text-white p-4 rounded">
                 <h4 class="mb-3">Error al registrar el paciente</h4>
 
+                
+
                 <div class="text-end">
                     <asp:Button ID="btnAceptarError" runat="server"
                         CssClass="btn btn-light"

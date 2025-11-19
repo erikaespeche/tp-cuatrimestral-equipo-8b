@@ -3,6 +3,15 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+
+
+
+<%-- Para que se ejcute el Modal de Exito o Error el formulario tiene que estar dentro de "asp:UpdatePanel" y ContentTemplate quedando los Modales de Exito o Error afuera --%>
+  <asp:UpdatePanel ID="updForm" runat="server" UpdateMode="Conditional">
+    <ContentTemplate> 
+
+<div id="pantalla-detallepaciente"><!-- ⬅️ ID agregado -->
+
     <div class="container py-4">
 
         <!-- Encabezado -->
@@ -115,7 +124,14 @@
         <!-- Maqueta de turnos -->
         <div class="card p-4">
             <div class="d-flex justify-content-end mb-3">
-                <button type="button" class="btn btn-add">+ Agregar Nuevo Turno</button>
+                
+                
+                <asp:Button ID="btnAbrirTurno" runat="server"
+                    CssClass="btn btn-add"
+                    Text="+ Agregar Nuevo Turno"
+                    OnClick="btnAbrirTurno_Click" />
+
+
             </div>
 
             <table class="custom-table align-middle w-100">
@@ -155,7 +171,7 @@
 
     <div class="modal fade" id="modalEditar" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl">
-            <div class="modal-content bg-dark text-light p-3">
+            <div class="ventana-editar-paciente modal-content bg-dark text-light p-3">
 
                 <div class="modal-header border-0 contenedor-titulo-editar-paciente">
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
@@ -384,16 +400,27 @@
                     <asp:Button ID="btnGuardarCambios" runat="server"
                         Text="Guardar"
                         CssClass="btn btn-primary"
-                        OnClick="btnGuardarCambios_Click"
                         ValidationGroup="EditarPaciente"
                         UseSubmitBehavior="false"
-                        OnClientClick="return validarModalEditar();" />
+                        OnClientClick="return ejecutarGuardado();"
+                        OnClick="btnGuardarCambios_Click" />
+
+
                 </div>
 
             </div>
         </div>
     </div>
 
+
+
+
+
+
+
+</div> <!-- ⬅️ cierre del div agregado -->
+  </ContentTemplate>
+</asp:UpdatePanel>
 
 <%--    <!-- MODAL — CAMBIOS GUARDADOS -->
     <div class="modal fade" id="modalGuardado" tabindex="-1">
@@ -412,9 +439,6 @@
     </div>--%>
 
 
-    <!-- =========================================== -->
-    <!-- MODAL CORRECTO -->
-    <!-- =========================================== -->
 
      <!-- ===================== -->
     <!--     MODAL ÉXITO       -->
@@ -428,7 +452,7 @@
                     <asp:Button ID="btnAceptarExito" runat="server"
                         CssClass="btn btn-light"
                         Text="Aceptar"
-                        OnClick="btnAceptarExito_Click" />
+                        OnClientClick="location.reload(); return false;" />
                 </div>
             </div>
         </div>
@@ -442,384 +466,542 @@
             <div class="modal-content bg-danger text-white p-4 rounded">
                 <h4 class="mb-3">Error al registrar el paciente</h4>
 
+                <!-- Aquí se inyecta el mensaje -->
+                <div id="modalErrorBody" class="mb-3"></div>
+
                 <div class="text-end">
                     <asp:Button ID="btnAceptarError" runat="server"
                         CssClass="btn btn-light"
                         Text="Aceptar"
-                        OnClick="btnAceptarError_Click" />
+                        OnClientClick="location.reload(); return false;" />
                 </div>
             </div>
         </div>
     </div>
 
+
+
+   <!-- =============================== -->
+<!--      MODAL AGREGAR TURNO        -->
+<!-- =============================== -->
+<div class="modal fade" id="modalNuevoTurno" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content modal-turno-dark">
+
+            <!-- TÍTULO -->
+            <div class="modal-header border-0">
+                <h3 class="text-white fw-bold">Agendar Nuevo Turno</h3>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row g-4">
+
+                    <!-- Especialidad -->
+                    <div class="col-md-6">
+                        <label class="form-label text-light">Especialidad</label>
+                        <asp:DropDownList ID="ddlEspecialidad" runat="server"
+                            CssClass="form-select dropdown-dark">
+                            <asp:ListItem Text="Seleccionar especialidad" Value="" />
+                        </asp:DropDownList>
+                    </div>
+
+                    <!-- Profesional -->
+                    <div class="col-md-6">
+                        <label class="form-label text-light">Profesional o Médico</label>
+                        <asp:DropDownList ID="ddlProfesional" runat="server"
+                            CssClass="form-select dropdown-dark">
+                            <asp:ListItem Text="Seleccionar profesional" Value="" />
+                        </asp:DropDownList>
+                    </div>
+
+                    <!-- Fecha -->
+                    <div class="col-md-6">
+                        <label class="form-label text-light">Fecha</label>
+
+                        <div class="calendar-container-dark">
+                            <asp:Calendar ID="calTurno" runat="server"
+                                CssClass="calendar-dark"
+                                DayNameFormat="Shortest"
+                                NextPrevFormat="FullMonth"
+                                BorderStyle="None"
+                                OnSelectionChanged="calTurno_SelectionChanged" />
+                        </div>
+                    </div>
+
+                    <!-- Horarios -->
+                    <div class="col-md-6">
+                        <label class="form-label text-light">Hora</label>
+
+                        <div class="d-grid gap-2">
+                            <asp:Repeater ID="repHoras" runat="server">
+                                <ItemTemplate>
+                                    <button type="button"
+                                        class="hora-btn"
+                                        data-hora='<%# Eval("Hora") %>'>
+                                        <%# Eval("Hora") %>
+                                    </button>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </div>
+
+                        <asp:HiddenField ID="hfHoraSeleccionada" runat="server" />
+                    </div>
+
+                    <!-- Comentarios -->
+                    <div class="col-12">
+                        <label class="form-label text-light">Comentarios</label>
+                        <asp:TextBox ID="txtComentarios" TextMode="MultiLine" Rows="3" runat="server"
+                            CssClass="form-control comments-dark"
+                            placeholder="Añada notas adicionales aquí..."></asp:TextBox>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <asp:Button ID="btnAgendarTurno" runat="server" Text="Agendar Turno"
+                    CssClass="btn btn-primary btn-turno" />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
     <!-- =========================================== -->
     <!-- JS: CARGA AUTOMÁTICA DE DATOS AL MODAL -->
     <!-- =========================================== -->
-
     <script>
+        (function () {
+            // ============================
+            // UTILIDADES
+            // ============================
+            const id = (serverId) => document.getElementById(serverId);
+
+            // Referencias a controles
+            const txtNombre = id('<%= txtNombreEdit.ClientID %>');
+        const txtApellido = id('<%= txtApellidoEdit.ClientID %>');
+        const ddlTipoDoc = id('<%= ddlTipoDocEdit.ClientID %>');
+        const txtDni = id('<%= txtDniEdit.ClientID %>');
+        const txtMail = id('<%= txtMailEdit.ClientID %>');
+        const txtCel = id('<%= txtCelEdit.ClientID %>');
+        const txtTel = id('<%= txtTelEdit.ClientID %>');
+        const txtFecha = id('<%= txtFechaEdit.ClientID %>');
+        const ddlSexo = id('<%= ddlSexoEdit.ClientID %>');
+        const txtDir = id('<%= txtDirEdit.ClientID %>');
+        const txtCiudad = id('<%= txtCiudadEdit.ClientID %>');
+        const txtProv = id('<%= txtProvEdit.ClientID %>');
+        const txtCp = id('<%= txtCpEdit.ClientID %>');
+        const txtObra = id('<%= txtObraEdit.ClientID %>');
+        const txtNumObra = id('<%= txtNumObraEdit.ClientID %>');
+        const btnGuardar = id('<%= btnGuardarCambios.ClientID %>');
+
+        // Regex y mensajes
+        const regex = {
+            nombre: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
+            apellido: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
+            dni: /^[0-9]{7,8}$/,
+            mail: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+            cel: /^[0-9]{10,13}$/,
+            tel: /^[0-9]{7,10}$/,
+            dir: /^(?=.*[A-Za-zÁÉÍÓÚáéíóúÑñ])(?=.*\d)[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ .,-]+$/,
+            ciudadProv: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
+            cp: /^(\d{4}|[A-Za-z]\d{4}[A-Za-z]{3})$/
+        };
+
+        const mensajes = {
+            nombre: "Ingrese un nombre válido (solo letras).",
+            apellido: "Ingrese un apellido válido (solo letras).",
+            dni: "Ingrese un DNI válido (7 a 8 dígitos numéricos).",
+            mail: "Formato de mail inválido.",
+            cel: "Ingrese un celular válido (10 a 13 dígitos).",
+            tel: "Ingrese un teléfono válido (7 a 10 dígitos).",
+            fecha: "Ingrese una fecha válida entre 1905 y hoy.",
+            dir: "Ingrese una dirección válida (calle + numeración).",
+            ciudad: "Ingrese una ciudad válida (solo letras).",
+            prov: "Ingrese una provincia válida (solo letras).",
+            cp: "Formato inválido. Ej: 1000 o C1000ABC.",
+            tipoDoc: "Seleccione un tipo de documento.",
+            sexo: "Seleccione un sexo válido."
+        };
+
+        // Feedback visual cerca del control (sin tocar el layout)
+        function showFeedback(el, msg) {
+            el.classList.remove('is-valid');
+            el.classList.add('is-invalid');
+            let fb = el.parentNode.querySelector('.invalid-feedback-inline');
+            if (!fb) {
+                fb = document.createElement('div');
+                fb.className = 'invalid-feedback invalid-feedback-inline';
+                el.parentNode.appendChild(fb);
+            }
+            fb.innerHTML = msg;
+        }
+        function showOk(el) {
+            el.classList.remove('is-invalid');
+            el.classList.add('is-valid');
+            let fb = el.parentNode.querySelector('.invalid-feedback-inline');
+            if (fb) fb.innerHTML = '';
+        }
+        function clearValidation(el) {
+            el.classList.remove('is-invalid', 'is-valid');
+            let fb = el.parentNode.querySelector('.invalid-feedback-inline');
+            if (fb) fb.innerHTML = '';
+        }
+
+        // ============================
+        // VALIDADORES INDIVIDUALES
+        // ============================
+        function validarNombre() {
+            const v = txtNombre.value.trim();
+            if (v.length === 0) { showFeedback(txtNombre, "El nombre es obligatorio."); return false; }
+            if (!regex.nombre.test(v)) { showFeedback(txtNombre, mensajes.nombre); return false; }
+            showOk(txtNombre); return true;
+        }
+        function validarApellido() {
+            const v = txtApellido.value.trim();
+            if (v.length === 0) { showFeedback(txtApellido, "El apellido es obligatorio."); return false; }
+            if (!regex.apellido.test(v)) { showFeedback(txtApellido, mensajes.apellido); return false; }
+            showOk(txtApellido); return true;
+        }
+        function validarTipoDoc() {
+            const v = ddlTipoDoc.value.trim();
+            if (v === "") { showFeedback(ddlTipoDoc, mensajes.tipoDoc); return false; }
+            showOk(ddlTipoDoc); return true;
+        }
+        function validarDni() {
+            const v = txtDni.value.trim();
+            if (v.length === 0) { showFeedback(txtDni, "El DNI es obligatorio."); return false; }
+            if (!regex.dni.test(v)) { showFeedback(txtDni, mensajes.dni); return false; }
+            showOk(txtDni); return true;
+        }
+        function validarMail() {
+            const v = txtMail.value.trim();
+            if (v.length === 0) { showFeedback(txtMail, "El mail es obligatorio."); return false; }
+            if (!regex.mail.test(v)) { showFeedback(txtMail, mensajes.mail); return false; }
+            showOk(txtMail); return true;
+        }
+        function validarCelular() {
+            const v = txtCel.value.trim();
+            if (v.length === 0) { clearValidation(txtCel); return true; }
+            if (!regex.cel.test(v)) { showFeedback(txtCel, mensajes.cel); return false; }
+            showOk(txtCel); return true;
+        }
+        function validarTelefono() {
+            const v = txtTel.value.trim();
+            if (v.length === 0) { clearValidation(txtTel); return true; }
+            if (!regex.tel.test(v)) { showFeedback(txtTel, mensajes.tel); return false; }
+            showOk(txtTel); return true;
+        }
+        function validarFecha() {
+            const v = txtFecha.value;
+            if (!v) { showFeedback(txtFecha, "La fecha es obligatoria."); return false; }
+            const d = new Date(v);
+            if (isNaN(d.getTime())) { showFeedback(txtFecha, mensajes.fecha); return false; }
+            const min = new Date("1905-01-01");
+            const hoy = new Date(); // normalizamos a fecha sin hora
+            const dNorm = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+            const hoyNorm = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+            if (dNorm < min || dNorm > hoyNorm) { showFeedback(txtFecha, mensajes.fecha); return false; }
+            showOk(txtFecha); return true;
+        }
+        function validarSexo() {
+            const v = ddlSexo.value.trim();
+            if (v === "") { showFeedback(ddlSexo, mensajes.sexo); return false; }
+            showOk(ddlSexo); return true;
+        }
+        function validarDireccion() {
+            const v = txtDir.value.trim();
+            if (v.length === 0) { showFeedback(txtDir, "La dirección es obligatoria."); return false; }
+            if (!regex.dir.test(v)) { showFeedback(txtDir, mensajes.dir); return false; }
+            showOk(txtDir); return true;
+        }
+        function validarCiudad() {
+            const v = txtCiudad.value.trim();
+            if (v.length === 0) { showFeedback(txtCiudad, "La ciudad es obligatoria."); return false; }
+            if (!regex.ciudadProv.test(v)) { showFeedback(txtCiudad, mensajes.ciudad); return false; }
+            showOk(txtCiudad); return true;
+        }
+        function validarProvincia() {
+            const v = txtProv.value.trim();
+            if (v.length === 0) { showFeedback(txtProv, "La provincia es obligatoria."); return false; }
+            if (!regex.ciudadProv.test(v)) { showFeedback(txtProv, mensajes.prov); return false; }
+            showOk(txtProv); return true;
+        }
+        function validarCp() {
+            const v = txtCp.value.trim();
+            if (v.length === 0) { showFeedback(txtCp, "El código postal es obligatorio."); return false; }
+            if (!regex.cp.test(v)) { showFeedback(txtCp, mensajes.cp); return false; }
+            showOk(txtCp); return true;
+        }
+        function validarObra() {
+            const v = txtObra.value.trim();
+            if (v.length === 0) { clearValidation(txtObra); return true; }
+            const r = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]+$/;
+            if (!r.test(v)) { showFeedback(txtObra, "Ingrese una obra social válida."); return false; }
+            showOk(txtObra); return true;
+        }
+        function validarNumObra() {
+            const v = txtNumObra.value.trim();
+            if (v.length === 0) { clearValidation(txtNumObra); return true; }
+            const r = /^[A-Za-z0-9\-\/]+$/;
+            if (!r.test(v)) { showFeedback(txtNumObra, "Ingrese un número válido (letras, números, '-' o '/')."); return false; }
+            showOk(txtNumObra); return true;
+        }
+
+        // ============================
+        // VALIDACIÓN GLOBAL + HABILITAR GUARDAR
+        // ============================
+        function validarTodo() {
+            const results = [
+                validarNombre(),
+                validarApellido(),
+                validarTipoDoc(),
+                validarDni(),
+                validarMail(),
+                validarCelular(),
+                validarTelefono(),
+                validarFecha(),
+                validarSexo(),
+                validarDireccion(),
+                validarCiudad(),
+                validarProvincia(),
+                validarCp(),
+                validarObra(),
+                validarNumObra()
+            ];
+            const allOk = results.every(r => r === true);
+            if (btnGuardar) btnGuardar.disabled = !allOk;
+            return allOk;
+        }
+
+        // Exponer para usar al abrir el modal
+        window.__validarEditarModal = validarTodo;
+
+        // ============================
+        // ATTACH DE EVENTOS DE ENTRADA
+        // ============================
+        function attach() {
+            if (!txtNombre) return; // seguridad
+            const mapInput = [
+                [txtNombre, validarNombre],
+                [txtApellido, validarApellido],
+                [ddlTipoDoc, validarTipoDoc],
+                [txtDni, validarDni],
+                [txtMail, validarMail],
+                [txtCel, validarCelular],
+                [txtTel, validarTelefono],
+                [txtFecha, validarFecha],
+                [ddlSexo, validarSexo],
+                [txtDir, validarDireccion],
+                [txtCiudad, validarCiudad],
+                [txtProv, validarProvincia],
+                [txtCp, validarCp],
+                [txtObra, validarObra],
+                [txtNumObra, validarNumObra]
+            ];
+            mapInput.forEach(([el, fn]) => {
+                if (!el) return;
+                el.addEventListener('input', function () { fn(); validarTodo(); });
+                el.addEventListener('change', function () { fn(); validarTodo(); });
+            });
+            if (btnGuardar) btnGuardar.disabled = true;
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', attach);
+        } else {
+            attach();
+        }
+
+        // ============================
+        // CARGA AUTOMÁTICA AL ABRIR MODAL
+        // ============================
         document.addEventListener("DOMContentLoaded", function () {
-
             window.modoEdicion = false;
-
             const modalEditar = document.getElementById('modalEditar');
 
             modalEditar.addEventListener('show.bs.modal', function () {
-
                 if (window.modoEdicion === true) {
                     window.modoEdicion = false;
                     return;
                 }
 
                 // Cargar labels → inputs
-                document.getElementById('<%= txtNombreEdit.ClientID %>').value = document.getElementById('<%= lblNombre.ClientID %>').innerText.trim();
-                document.getElementById('<%= txtApellidoEdit.ClientID %>').value = document.getElementById('<%= lblApellido.ClientID %>').innerText.trim();
-                document.getElementById('<%= ddlTipoDocEdit.ClientID %>').value = document.getElementById('<%= lblTipoDocumento.ClientID %>').innerText.trim();
-                document.getElementById('<%= txtDniEdit.ClientID %>').value = document.getElementById('<%= lblDni.ClientID %>').innerText.trim();
-                document.getElementById('<%= txtMailEdit.ClientID %>').value = document.getElementById('<%= lblMail.ClientID %>').innerText.trim();
-
-                document.getElementById('<%= txtCelEdit.ClientID %>').value = document.getElementById('<%= lblCelular.ClientID %>').innerText.trim();
-                document.getElementById('<%= txtTelEdit.ClientID %>').value = document.getElementById('<%= lblTelefono.ClientID %>').innerText.trim();
+                id('<%= txtNombreEdit.ClientID %>').value = id('<%= lblNombre.ClientID %>').innerText.trim();
+                id('<%= txtApellidoEdit.ClientID %>').value = id('<%= lblApellido.ClientID %>').innerText.trim();
+                id('<%= ddlTipoDocEdit.ClientID %>').value = id('<%= lblTipoDocumento.ClientID %>').innerText.trim();
+                id('<%= txtDniEdit.ClientID %>').value = id('<%= lblDni.ClientID %>').innerText.trim();
+                id('<%= txtMailEdit.ClientID %>').value = id('<%= lblMail.ClientID %>').innerText.trim();
+                id('<%= txtCelEdit.ClientID %>').value = id('<%= lblCelular.ClientID %>').innerText.trim();
+                id('<%= txtTelEdit.ClientID %>').value = id('<%= lblTelefono.ClientID %>').innerText.trim();
 
                 // Fecha dd/MM/yyyy → yyyy-MM-dd
-                let fechaTexto = document.getElementById('<%= lblFechaNacimiento.ClientID %>').innerText.trim();
+                let fechaTexto = id('<%= lblFechaNacimiento.ClientID %>').innerText.trim();
                 let partes = fechaTexto.split('/');
                 let fechaISO = `${partes[2]}-${partes[1]}-${partes[0]}`;
-                document.getElementById('<%= txtFechaEdit.ClientID %>').value = fechaISO;
+                id('<%= txtFechaEdit.ClientID %>').value = fechaISO;
 
-                document.getElementById('<%= ddlSexoEdit.ClientID %>').value = document.getElementById('<%= lblSexo.ClientID %>').innerText.trim();
-                document.getElementById('<%= txtDirEdit.ClientID %>').value = document.getElementById('<%= lblDireccion.ClientID %>').innerText.trim();
-                document.getElementById('<%= txtCiudadEdit.ClientID %>').value = document.getElementById('<%= lblCiudad.ClientID %>').innerText.trim();
-                document.getElementById('<%= txtProvEdit.ClientID %>').value = document.getElementById('<%= lblProvincia.ClientID %>').innerText.trim();
-                document.getElementById('<%= txtCpEdit.ClientID %>').value = document.getElementById('<%= lblCodigoPostal.ClientID %>').innerText.trim();
+                id('<%= ddlSexoEdit.ClientID %>').value = id('<%= lblSexo.ClientID %>').innerText.trim();
+                id('<%= txtDirEdit.ClientID %>').value = id('<%= lblDireccion.ClientID %>').innerText.trim();
+                id('<%= txtCiudadEdit.ClientID %>').value = id('<%= lblCiudad.ClientID %>').innerText.trim();
+                id('<%= txtProvEdit.ClientID %>').value = id('<%= lblProvincia.ClientID %>').innerText.trim();
+                id('<%= txtCpEdit.ClientID %>').value = id('<%= lblCodigoPostal.ClientID %>').innerText.trim();
+                id('<%= txtObraEdit.ClientID %>').value = id('<%= lblObraSocial.ClientID %>').innerText.trim();
+                id('<%= txtNumObraEdit.ClientID %>').value = id('<%= lblNroObraSocial.ClientID %>').innerText.trim();
 
-                document.getElementById('<%= txtObraEdit.ClientID %>').value = document.getElementById('<%= lblObraSocial.ClientID %>').innerText.trim();
-                document.getElementById('<%= txtNumObraEdit.ClientID %>').value = document.getElementById('<%= lblNroObraSocial.ClientID %>').innerText.trim();
-
-                // run real-time validation on open
-                setTimeout(function () { window.__validarEditarModal && window.__validarEditarModal(); }, 10);
+                // Ejecutar validación inicial para estado del botón
+                setTimeout(function () { validarTodo(); }, 10);
             });
-        });
 
-        function abrirModalEditar() {
-            window.modoEdicion = true;
-            var modal = new bootstrap.Modal(document.getElementById('modalEditar'));
-            modal.show();
-        }
-    </script>
+            // Abrir modal manualmente desde code-behind si es necesario
+            window.abrirModalEditar = function () {
+                window.modoEdicion = true;
+                var modal = new bootstrap.Modal(document.getElementById('modalEditar'));
+                modal.show();
+            };
 
-    <!-- =========================================== -->
-    <!-- JS: MOSTRAR MODAL DE GUARDADO SI ?ok=1 -->
-    <!-- =========================================== -->
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+            // Mostrar modal de guardado si ?ok=1 (si lo usás)
             const urlParams = new URLSearchParams(window.location.search);
-
             if (urlParams.get("ok") === "1") {
                 const modal = new bootstrap.Modal(document.getElementById("modalGuardado"));
                 modal.show();
-
                 urlParams.delete("ok");
                 const newUrl = window.location.pathname + "?" + urlParams.toString();
                 window.history.replaceState({}, "", newUrl);
             }
         });
-    </script>
 
-    <!-- =========================================== -->
-    <!-- JS: VALIDACIÓN CLIENTE (tiempo real SOLO en el modal) -->
-    <!-- =========================================== -->
-
-    <script>
-        (function () {
-            // Obtener referencias a controles server-side (client IDs)
-            const id = (serverId) => document.getElementById(serverId);
-
-            const txtNombre = id('<%= txtNombreEdit.ClientID %>');
-            const txtApellido = id('<%= txtApellidoEdit.ClientID %>');
-            const ddlTipoDoc = id('<%= ddlTipoDocEdit.ClientID %>');
-            const txtDni = id('<%= txtDniEdit.ClientID %>');
-            const txtMail = id('<%= txtMailEdit.ClientID %>');
-            const txtCel = id('<%= txtCelEdit.ClientID %>');
-            const txtTel = id('<%= txtTelEdit.ClientID %>');
-            const txtFecha = id('<%= txtFechaEdit.ClientID %>');
-            const ddlSexo = id('<%= ddlSexoEdit.ClientID %>');
-            const txtDir = id('<%= txtDirEdit.ClientID %>');
-            const txtCiudad = id('<%= txtCiudadEdit.ClientID %>');
-            const txtProv = id('<%= txtProvEdit.ClientID %>');
-            const txtCp = id('<%= txtCpEdit.ClientID %>');
-            const txtObra = id('<%= txtObraEdit.ClientID %>');
-            const txtNumObra = id('<%= txtNumObraEdit.ClientID %>');
-            const btnGuardar = id('<%= btnGuardarCambios.ClientID %>');
-
-            // Regex y mensajes (mismos que en server)
-            const regex = {
-                nombre: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
-                apellido: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
-                dni: /^[0-9]{7,8}$/,
-                mail: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
-                cel: /^[0-9]{10,13}$/,
-                tel: /^[0-9]{7,10}$/,
-                dir: /^(?=.*[A-Za-zÁÉÍÓÚáéíóúÑñ])(?=.*\d)[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ .,-]+$/,
-                ciudadProv: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/,
-                cp: /^(\d{4}|[A-Za-z]\d{4}[A-Za-z]{3})$/
-            };
-
-            const mensajes = {
-                nombre: "Ingrese un nombre válido (solo letras).",
-                apellido: "Ingrese un apellido válido (solo letras).",
-                dni: "Ingrese un DNI válido (7 a 8 dígitos numéricos).",
-                mail: "Formato de mail inválido.",
-                cel: "Ingrese un celular válido (10 a 13 dígitos).",
-                tel: "Ingrese un teléfono válido (7 a 10 dígitos).",
-                fecha: "Ingrese una fecha válida entre 1905 y hoy.",
-                dir: "Ingrese una dirección válida (calle + numeración).",
-                ciudad: "Ingrese una ciudad válida (solo letras).",
-                prov: "Ingrese una provincia válida (solo letras).",
-                cp: "Formato inválido. Ej: 1000 o C1000ABC.",
-                tipoDoc: "Seleccione un tipo de documento.",
-                sexo: "Seleccione un sexo válido."
-            };
-
-            // Helpers para mostrar feedback (crea <div class="invalid-feedback"> si no existe)
-            function showFeedback(el, msg) {
-                // remove success text node if present
-                el.classList.remove('is-valid');
-                el.classList.add('is-invalid');
-
-                // find existing feedback
-                let fb = el.parentNode.querySelector('.invalid-feedback-inline');
-                if (!fb) {
-                    fb = document.createElement('div');
-                    fb.className = 'invalid-feedback invalid-feedback-inline';
-                    // keep same visual placement: appended right after the control
-                    el.parentNode.appendChild(fb);
-                }
-                fb.innerHTML = msg;
-            }
-
-            function showOk(el) {
-                el.classList.remove('is-invalid');
-                el.classList.add('is-valid');
-                let fb = el.parentNode.querySelector('.invalid-feedback-inline');
-                if (fb) fb.innerHTML = '';
-            }
-
-            function clearValidation(el) {
-                el.classList.remove('is-invalid', 'is-valid');
-                let fb = el.parentNode.querySelector('.invalid-feedback-inline');
-                if (fb) fb.innerHTML = '';
-            }
-
-            // Cada validador devuelve true/false
-            function validarNombre() {
-                const v = txtNombre.value.trim();
-                if (v.length === 0) {
-                    showFeedback(txtNombre, "El nombre es obligatorio.");
-                    return false;
-                }
-                if (!regex.nombre.test(v)) { showFeedback(txtNombre, mensajes.nombre); return false; }
-                showOk(txtNombre); return true;
-            }
-
-            function validarApellido() {
-                const v = txtApellido.value.trim();
-                if (v.length === 0) {
-                    showFeedback(txtApellido, "El apellido es obligatorio.");
-                    return false;
-                }
-                if (!regex.apellido.test(v)) { showFeedback(txtApellido, mensajes.apellido); return false; }
-                showOk(txtApellido); return true;
-            }
-
-            function validarTipoDoc() {
-                const v = ddlTipoDoc.value.trim();
-                if (v === "") { showFeedback(ddlTipoDoc, mensajes.tipoDoc); return false; }
-                showOk(ddlTipoDoc); return true;
-            }
-
-            function validarDni() {
-                const v = txtDni.value.trim();
-                if (v.length === 0) { showFeedback(txtDni, "El DNI es obligatorio."); return false; }
-                if (!regex.dni.test(v)) { showFeedback(txtDni, mensajes.dni); return false; }
-                showOk(txtDni); return true;
-            }
-
-            function validarMail() {
-                const v = txtMail.value.trim();
-                if (v.length === 0) { showFeedback(txtMail, "El mail es obligatorio."); return false; }
-                if (!regex.mail.test(v)) { showFeedback(txtMail, mensajes.mail); return false; }
-                showOk(txtMail); return true;
-            }
-
-            function validarCelular() {
-                const v = txtCel.value.trim();
-                if (v.length === 0) { clearValidation(txtCel); return true; } // opcional
-                if (!regex.cel.test(v)) { showFeedback(txtCel, mensajes.cel); return false; }
-                showOk(txtCel); return true;
-            }
-
-            function validarTelefono() {
-                const v = txtTel.value.trim();
-                if (v.length === 0) { clearValidation(txtTel); return true; } // opcional
-                if (!regex.tel.test(v)) { showFeedback(txtTel, mensajes.tel); return false; }
-                showOk(txtTel); return true;
-            }
-
-            function validarFecha() {
-                const v = txtFecha.value;
-                if (!v) { showFeedback(txtFecha, "La fecha es obligatoria."); return false; }
-                const d = new Date(v);
-                if (isNaN(d.getTime())) { showFeedback(txtFecha, mensajes.fecha); return false; }
-                const min = new Date("1905-01-01");
-                const hoy = new Date();
-                // normalize dates (timezones)
-                const dNorm = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-                if (dNorm < min || dNorm > new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate())) { showFeedback(txtFecha, mensajes.fecha); return false; }
-                showOk(txtFecha); return true;
-            }
-
-            function validarSexo() {
-                const v = ddlSexo.value.trim();
-                if (v === "") { showFeedback(ddlSexo, mensajes.sexo); return false; }
-                showOk(ddlSexo); return true;
-            }
-
-            function validarDireccion() {
-                const v = txtDir.value.trim();
-                if (v.length === 0) { showFeedback(txtDir, "La dirección es obligatoria."); return false; }
-                if (!regex.dir.test(v)) { showFeedback(txtDir, mensajes.dir); return false; }
-                showOk(txtDir); return true;
-            }
-
-            function validarCiudad() {
-                const v = txtCiudad.value.trim();
-                if (v.length === 0) { showFeedback(txtCiudad, "La ciudad es obligatoria."); return false; }
-                if (!regex.ciudadProv.test(v)) { showFeedback(txtCiudad, mensajes.ciudad); return false; }
-                showOk(txtCiudad); return true;
-            }
-
-            function validarProvincia() {
-                const v = txtProv.value.trim();
-                if (v.length === 0) { showFeedback(txtProv, "La provincia es obligatoria."); return false; }
-                if (!regex.ciudadProv.test(v)) { showFeedback(txtProv, mensajes.prov); return false; }
-                showOk(txtProv); return true;
-            }
-
-            function validarCp() {
-                const v = txtCp.value.trim();
-                if (v.length === 0) { showFeedback(txtCp, "El código postal es obligatorio."); return false; }
-                if (!regex.cp.test(v)) { showFeedback(txtCp, mensajes.cp); return false; }
-                showOk(txtCp); return true;
-            }
-
-            function validarObra() {
-                // obra social es opcional en modal/servidor valida formato: regex permite letras/números
-                const v = txtObra.value.trim();
-                if (v.length === 0) { clearValidation(txtObra); return true; }
-                // simple regex check (server has regex) - reuse dir? server: ^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]+$
-                const r = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]+$/;
-                if (!r.test(v)) { showFeedback(txtObra, "Ingrese una obra social válida."); return false; }
-                showOk(txtObra); return true;
-            }
-
-            function validarNumObra() {
-                const v = txtNumObra.value.trim();
-                if (v.length === 0) { clearValidation(txtNumObra); return true; }
-                const r = /^[A-Za-z0-9\-\/]+$/;
-                if (!r.test(v)) { showFeedback(txtNumObra, "Ingrese un número válido (letras, números, '-' o '/')."); return false; }
-                showOk(txtNumObra); return true;
-            }
-
-            // Ejecutar todos
-            function validarTodo() {
-                const results = [
-                    validarNombre(),
-                    validarApellido(),
-                    validarTipoDoc(),
-                    validarDni(),
-                    validarMail(),
-                    validarCelular(),
-                    validarTelefono(),
-                    validarFecha(),
-                    validarSexo(),
-                    validarDireccion(),
-                    validarCiudad(),
-                    validarProvincia(),
-                    validarCp(),
-                    validarObra(),
-                    validarNumObra()
-                ];
-                const allOk = results.every(r => r === true);
-                btnGuardar.disabled = !allOk;
-                return allOk;
-            }
-
-            // Exponer una función global para disparar validación (usada al abrir modal)
-            window.__validarEditarModal = validarTodo;
-
-            // Attach events (input/change)
-            function attach() {
-                if (!txtNombre) return;
-
-                const mapInput = [
-                    [txtNombre, validarNombre],
-                    [txtApellido, validarApellido],
-                    [ddlTipoDoc, validarTipoDoc],
-                    [txtDni, validarDni],
-                    [txtMail, validarMail],
-                    [txtCel, validarCelular],
-                    [txtTel, validarTelefono],
-                    [txtFecha, validarFecha],
-                    [ddlSexo, validarSexo],
-                    [txtDir, validarDireccion],
-                    [txtCiudad, validarCiudad],
-                    [txtProv, validarProvincia],
-                    [txtCp, validarCp],
-                    [txtObra, validarObra],
-                    [txtNumObra, validarNumObra]
-                ];
-
-                mapInput.forEach(([el, fn]) => {
-                    if (!el) return;
-                    // input events catch typing; change for selects/date
-                    el.addEventListener('input', function () { fn(); validarTodo(); });
-                    el.addEventListener('change', function () { fn(); validarTodo(); });
-                    // remove server-side validator messages when user types
-                });
-
-                // inicializar estado
-                btnGuardar.disabled = true;
-            }
-
-            // Run attach on DOM ready (and also when modal is created)
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', attach);
-            } else {
-                attach();
-            }
-
-            // Keep original validarModalEditar behavior (for ASP.NET validators on server)
+            // ============================
+            // VALIDACIÓN FINAL AL CLIC EN GUARDAR
+            // ============================
             window.validarModalEditar = function () {
-                // run client validation first
+                // Ejecuta validación de cliente propia
                 const clientOk = validarTodo();
 
-                // run ASP.NET client validators if available
+                // Ejecuta validaciones de ASP.NET si están disponibles
                 if (typeof (Page_ClientValidate) === 'function') {
                     Page_ClientValidate('EditarPaciente');
                 }
 
-                if (!Page_IsValid || !clientOk) {
+                // Si ASP.NET define Page_IsValid, usamos eso; si no, confiamos en clientOk
+                const aspValid = (typeof window.Page_IsValid !== 'undefined') ? window.Page_IsValid : true;
+
+                if (!clientOk || !aspValid) {
+                    // Mostrar modal de error
+                    var modalError = new bootstrap.Modal(document.getElementById('modalError'));
+                    modalError.show();
+
+                    // Re-abrir el modal de edición (por si se cerró)
                     setTimeout(function () {
                         var modal = new bootstrap.Modal(document.getElementById('modalEditar'));
                         modal.show();
                     }, 150);
-                    return false;
+
+                    return false; // Evita el postback si hay errores
                 }
+
+                // Todo OK → permitir postback para ejecutar btnGuardarCambios_Click
                 return true;
             };
-
         })();
+
+
+
+
+
+
+
+
+        
+        f<%--unction ejecutarGuardado() {
+            if (typeof Page_ClientValidate === 'function') {
+                Page_ClientValidate('EditarPaciente');
+            }
+
+            if (!Page_IsValid) {
+                var modalError = new bootstrap.Modal(document.getElementById('modalError'));
+                modalError.show();
+                return false;
+            }
+
+            // ✅ Usar el name del control para garantizar el postback
+            __doPostBack(document.getElementById('<%= btnGuardarCambios.ClientID %>').name, '');
+
+                return false; // evita doble envío
+        }--%>
+
+
+
+
+        
+        function ejecutarGuardado() {
+            if (typeof Page_ClientValidate === 'function') {
+                Page_ClientValidate('EditarPaciente');
+            }
+
+            if (!Page_IsValid) {
+                var modalError = new bootstrap.Modal(document.getElementById('modalError'));
+                modalError.show();
+                return false;
+            }
+
+            __doPostBack(document.getElementById('<%= btnGuardarCambios.ClientID %>').name, '');
+                return false;
+            }
+    
+
+    
+
+
+
+
     </script>
+
+
+    <%--JS para seleccionar horario--%>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".hora-btn").forEach(btn => {
+                btn.addEventListener("click", function () {
+
+                    document.querySelectorAll(".hora-btn").forEach(b => b.classList.remove("active"));
+
+                    this.classList.add("active");
+
+                    let hora = this.getAttribute("data-hora");
+                    document.getElementById('<%= hfHoraSeleccionada.ClientID %>').value = hora;
+                });
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+   
+
+
+
+    
+
 
 </asp:Content>

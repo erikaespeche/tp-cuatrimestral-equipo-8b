@@ -18,16 +18,23 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 // Setear fecha máxima para el validator (hoy)
                 valFechaRango.MaximumValue = DateTime.Now.ToString("yyyy-MM-dd");
 
-
-                // Tu código original
+                // Recuperar DNI desde querystring
                 string dni = Request.QueryString["dni"];
 
                 if (!string.IsNullOrEmpty(dni))
+                {
                     CargarDatosPaciente(dni);
+                    // Guardar el DNI en ViewState para usarlo después
+                    ViewState["dni"] = dni;
+                }
                 else
+                {
+                    // Si no hay DNI, redirigir a la lista de pacientes
                     Response.Redirect("ListarPaciente.aspx?error=SinDNI");
+                }
             }
         }
+
 
 
 
@@ -125,12 +132,13 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 // 5) MOSTRAR MODAL DE ÉXITO
                 // =============================
                 ScriptManager.RegisterStartupScript(
-                    this,
-                    GetType(),
-                    "modalExito",
-                    "var m = new bootstrap.Modal(document.getElementById('modalExito')); m.show();",
-                    true
+                  this,
+                  GetType(),
+                  "ShowSuccessModal",
+                  "$('#modalExito').modal('show');",
+                   true
                 );
+
             }
             catch (Exception ex)
             {
@@ -149,8 +157,15 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
         protected void btnAceptarExito_Click(object sender, EventArgs e)
         {
-            Response.Redirect("ListarPaciente.aspx");
+            string dni = ViewState["dni"] as string;
+            if (!string.IsNullOrEmpty(dni))
+                Response.Redirect("DetallePaciente.aspx?dni=" + dni);
+            else
+                Response.Redirect("ListarPaciente.aspx?error=SinDNI");
         }
+
+
+
 
         protected void btnAceptarError_Click(object sender, EventArgs e)
         {
@@ -158,6 +173,32 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         }
 
 
+
+
+
+
+        // =======================================================
+        // ===============   CARGAR DATOS DEL MODAL AGREGAR TURNO  ============
+        // =======================================================
+        protected void btnAbrirTurno_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(
+                this,
+                GetType(),
+                "MostrarModalNuevoTurno",
+                "var m = new bootstrap.Modal(document.getElementById('modalNuevoTurno')); m.show();",
+                true
+            );
+        }
+
+        protected void calTurno_SelectionChanged(object sender, EventArgs e)
+        {
+            // Si querés, puedes guardar la fecha seleccionada aquí
+            DateTime fecha = calTurno.SelectedDate;
+
+            // (Opcional) Mostrar algo o actualizar otros campos
+            //txtFechaTurno.Text = fecha.ToString("yyyy-MM-dd");
+        }
 
 
 

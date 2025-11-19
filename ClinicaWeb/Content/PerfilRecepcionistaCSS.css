@@ -95,8 +95,9 @@ body {
     border: 2px solid red !important;
 }
 
-
-
+.ventana-editar-paciente {
+    background-color: #101A23 !important;
+}
 /* ============================
    BOTÓN AGREGAR TURNO
 ============================= */
@@ -233,6 +234,94 @@ body {
 }
 
 
+
+
+/* ============================
+  VENTANA AGREGAR NUEVO TURNO
+============================= */
+/* ===========================================
+    MODAL OSCURO ESTILO MOCKUP
+=========================================== */
+.modal-turno-dark {
+    background-color: #0f141a !important;
+    color: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #1f252d !important;
+}
+
+/* Dropdowns */
+.dropdown-dark {
+    background-color: #0f141a !important;
+    color: white !important;
+    border: 1px solid #2c323b !important;
+    padding: 10px;
+}
+
+    .dropdown-dark option {
+        background-color: #1a1f25;
+    }
+
+/* Comentarios */
+.comments-dark {
+    background-color: #0f141a !important;
+    border: 1px solid #2c323b !important;
+    color: white;
+}
+
+/* Calendario */
+.calendar-container-dark {
+    background-color: #0f141a;
+    border: 1px solid #2c323b;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.calendar-dark {
+    width: 100%;
+}
+
+    .calendar-dark td, .calendar-dark th {
+        padding: 8px;
+        text-align: center;
+        color: #d4d4d4;
+    }
+
+    .calendar-dark a {
+        color: #fff !important;
+        text-decoration: none;
+    }
+
+    .calendar-dark .selected {
+        background-color: #1573ff !important;
+        border-radius: 50%;
+        color: white !important;
+    }
+
+/* Botones de horario */
+.hora-btn {
+    background-color: #0f141a;
+    border: 1px solid #2c323b !important;
+    padding: 12px;
+    color: #d4d4d4;
+    border-radius: 8px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+    .hora-btn:hover,
+    .hora-btn.active {
+        background-color: #1573ff !important;
+        border-color: #1573ff !important;
+        color: white !important;
+    }
+
+/* Botón azul */
+.btn-turno {
+    background-color: #1573ff;
+    border: none;
+    padding: 10px 25px;
+}
 
 
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: AGREGAR NUEVO PACIENTE)---------------------------- */
