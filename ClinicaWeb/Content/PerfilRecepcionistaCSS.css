@@ -1026,13 +1026,14 @@ body {
 
 #pantalla-agregarEspecialidad .fila-4 {
     padding-top: 3px !important;
-
+}
 
     /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: GESTIONAR PROFESIONALES)---------------------------- */
 
-    #pantalla-profesionales {
-    color: #f1f5f9;
-    min-height: 100vh;
+#pantalla-profesionales {
+    width: 80%;
+    margin: 140px auto 60px auto;
+    font-family: "Inter", sans-serif;
 }
 
     /* Título */
@@ -1126,3 +1127,51 @@ body {
     #pantalla-profesionales .form-control::placeholder {
         color: #646B6B !important;
     }
+
+/*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: AGREGAR NUEVO PROFESIONAL)---------------------------- */
+
+
+#pantalla-agregarProfesional .titulo {
+    color: #ffffff;
+    padding-top: 10px;
+}
+
+#pantalla-agregarProfesional .label-text {
+    color: #d1d5db;
+    font-weight: 500;
+}
+
+/* Inputs y selects */
+#pantalla-agregarProfesional .form-control,
+#pantalla-agregarProfesional .form-select {
+    background-color: #1B2636;
+    color: #fff;
+    border: 1px solid #2c3e50;
+    border-radius: 6px;
+}
+
+    #pantalla-agregarProfesional .form-control::placeholder {
+        color: #b0b8c1;
+    }
+
+    #pantalla-agregarProfesional .form-select option {
+        background-color: #1B2636;
+        color: #fff;
+    }
+
+/* Botón Registrar Profesional */
+#pantalla-agregarProfesional .btn-add {
+    background-color: #2563eb;
+    color: #fff;
+    font-weight: 600;
+}
+
+    #pantalla-agregarProfesional .btn-add:hover {
+        background-color: #1e40af;
+    }
+
+
+
+#pantalla-agregarProfesional .fila-4 {
+    padding-top: 3px !important;
+}

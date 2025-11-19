@@ -60,6 +60,11 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             repProfesionales.DataBind();
         }
 
+        protected void btnAgregar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("AgregarNuevoProfesional.aspx");
+        }
+
         private string Normalizar(string texto)
         {
             if (string.IsNullOrEmpty(texto)) return "";

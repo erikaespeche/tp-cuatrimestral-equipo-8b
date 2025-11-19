@@ -12,9 +12,7 @@
                 <h2 class="fw-bold mb-1">Gestión de Profesionales</h2>
                 <p class="text-secondary">Busque, agregue, modifique o elimine profesionales de la clínica.</p>
             </div>
-            <button class="btn boton-agregar btn-primary fw-bold px-4 py-2">
-                + Agregar Nuevo Profesional
-            </button>
+            <asp:Button ID="btnAgregar" runat="server" Text="+ Agregar Nuevo Profesional" CssClass="btn btn-primary fw-bold px-4 py-2" OnClick="btnAgregar_Click"/>
         </div>
 
         <!-- Filtros -->
