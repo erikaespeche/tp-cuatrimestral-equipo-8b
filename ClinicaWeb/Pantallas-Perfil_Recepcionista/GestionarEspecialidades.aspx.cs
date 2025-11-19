@@ -48,10 +48,27 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("AgregarEspecialidad.aspx");
+            Response.Redirect("AgregarNuevaEspecialidad.aspx");
         }
 
-        
-        
+        protected void repEspecialidades_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            int idEspecialidad = int.Parse(e.CommandArgument.ToString());
+
+            if (e.CommandName == "Editar")
+            {
+                Response.Redirect("EditarEspecialidad.aspx?id=" + idEspecialidad);
+            }
+
+            if (e.CommandName == "Eliminar")
+            {
+                EspecialidadNegocio neg = new EspecialidadNegocio();
+                neg.Eliminar(idEspecialidad);
+
+                CargarEspecialidades();
+            }
+        }
+
+
     }
 }

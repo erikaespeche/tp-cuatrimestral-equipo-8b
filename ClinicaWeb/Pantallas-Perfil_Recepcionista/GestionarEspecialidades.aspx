@@ -11,7 +11,7 @@
                 <h2 class="esp-titulo fw-bold">Gestión de Especialidades</h2>
                 <p class="esp-subtitulo text-secondary">Busque, agregue, modifique o elimine especialidades de la clínica.</p>
             </div>
-            <asp:Button ID="btnAgregar" runat="server" Text="+ Agregar Nueva Especialidad" CssClass="btn btn-primary fw-bold px-4 py-2" />
+            <asp:Button ID="btnAgregar" runat="server" Text="+ Agregar Nueva Especialidad" CssClass="btn btn-primary fw-bold px-4 py-2" OnClick="btnAgregar_Click"/>
         </div>
 
         <div class="esp-card bg-dark p-4 rounded mb-4 border border-secondary">
@@ -45,7 +45,7 @@
                     </thead>
 
                     <tbody class="esp-tabla-body">
-                        <asp:Repeater ID="repEspecialidades" runat="server">
+                        <asp:Repeater ID="repEspecialidades" runat="server" OnItemCommand="repEspecialidades_ItemCommand">
                             <ItemTemplate>
                                 <tr>
                                     <td>
@@ -53,8 +53,15 @@
                                     </td>
                                     <!-- Columna derecha ACCIONES -->
                                     <td class="text-end">
-                                        <i class="bi bi-pencil text-light me-3 esp-icono-editar" style="cursor: pointer;"></i>
-                                        <i class="bi bi-trash text-danger esp-icono-eliminar" style="cursor: pointer;"></i>
+                                        <asp:LinkButton ID="btnEditar" runat="server"
+                                            CommandName="Editar" CommandArgument='<%# Eval("IdEspecialidad") %>' CssClass="me-3">
+                                            <i class="bi bi-pencil text-light"></i>
+                                        </asp:LinkButton>
+
+                                        <asp:LinkButton ID="btnEliminar" runat="server"
+                                            CommandName="Eliminar" CommandArgument='<%# Eval("IdEspecialidad") %>'>
+                                            <i class="bi bi-trash text-danger"></i>
+                                        </asp:LinkButton>
                                     </td>
                                 </tr>
                             </ItemTemplate>
