@@ -150,6 +150,67 @@ namespace negocio
             return lista;
         }
 
+        public Especialidad ObtenerPorId(int id)
+        {
+            Especialidad esp = null;
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"SELECT IdEspecialidad, Nombre, Descripcion 
+                               FROM ESPECIALIDAD
+                               WHERE IdEspecialidad = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    esp = new Especialidad
+                    {
+                        IdEspecialidad = (int)datos.Lector["IdEspecialidad"],
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Descripcion = datos.Lector["Descripcion"].ToString()
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener la especialidad: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return esp;
+        }
+
+        public bool ExisteNombre(string nombre, int idExcluir = 0)
+        {
+            bool existe = false;
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"SELECT COUNT(*) AS Cantidad 
+                               FROM ESPECIALIDAD 
+                               WHERE Nombre = @nombre AND IdEspecialidad <> @id");
+                datos.setearParametro("@nombre", nombre);
+                datos.setearParametro("@id", idExcluir);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    existe = ((int)datos.Lector["Cantidad"]) > 0;
+                }
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return existe;
+        }
 
     }
 }

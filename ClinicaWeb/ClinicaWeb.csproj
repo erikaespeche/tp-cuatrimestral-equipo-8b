@@ -128,10 +128,12 @@
     <Content Include="Pantallas-Perfil_Medico\DiagnosticoPaciente.aspx" />
     <Content Include="Pantallas-Perfil_Medico\ListadoCitas.aspx" />
     <Content Include="Pantallas-Perfil_Medico\PacienteEnSala.aspx" />
+    <Content Include="Pantallas-Perfil_Recepcionista\AgregarNuevaEspecialidad.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\AgregarNuevoPaciente.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\CitasDiarias.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\ConfigurarAgendaProfesional.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\DetallePaciente.aspx" />
+    <Content Include="Pantallas-Perfil_Recepcionista\EditarEspecialidad.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\GestionarEspecialidades.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\GestionarProfesionales.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\ListarPaciente.aspx" />
@@ -262,6 +264,13 @@
     <Compile Include="Pantallas-Perfil_Medico\PacienteEnSala.aspx.designer.cs">
       <DependentUpon>PacienteEnSala.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\AgregarNuevaEspecialidad.aspx.cs">
+      <DependentUpon>AgregarNuevaEspecialidad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\AgregarNuevaEspecialidad.aspx.designer.cs">
+      <DependentUpon>AgregarNuevaEspecialidad.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pantallas-Perfil_Recepcionista\AgregarNuevoPaciente.aspx.cs">
       <DependentUpon>AgregarNuevoPaciente.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -289,6 +298,13 @@
     </Compile>
     <Compile Include="Pantallas-Perfil_Recepcionista\DetallePaciente.aspx.designer.cs">
       <DependentUpon>DetallePaciente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\EditarEspecialidad.aspx.cs">
+      <DependentUpon>EditarEspecialidad.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\EditarEspecialidad.aspx.designer.cs">
+      <DependentUpon>EditarEspecialidad.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pantallas-Perfil_Recepcionista\GestionarEspecialidades.aspx.cs">
       <DependentUpon>GestionarEspecialidades.aspx</DependentUpon>

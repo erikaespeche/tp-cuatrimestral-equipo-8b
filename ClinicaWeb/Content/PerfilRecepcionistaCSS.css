@@ -980,11 +980,57 @@ body {
 }
 
 
+/*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: AGREGAR NUEVA ESPECIALIDAD)---------------------------- */
 
 
-/*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: GESTIONAR PROFESIONALES)---------------------------- */
+#pantalla-agregarEspecialidad .titulo {
+    color: #ffffff;
+    padding-top: 10px;
+}
 
-#pantalla-profesionales {
+#pantalla-agregarEspecialidad .label-text {
+    color: #d1d5db;
+    font-weight: 500;
+}
+
+/* Inputs y selects */
+#pantalla-agregarEspecialidad .form-control,
+#pantalla-agregarEspecialidad .form-select {
+    background-color: #1B2636;
+    color: #fff;
+    border: 1px solid #2c3e50;
+    border-radius: 6px;
+}
+
+    #pantalla-agregarEspecialidad .form-control::placeholder {
+        color: #b0b8c1;
+    }
+
+    #pantalla-agregarEspecialidad .form-select option {
+        background-color: #1B2636;
+        color: #fff;
+    }
+
+/* Botón Registrar Especialidad */
+#pantalla-agregarEspecialidad .btn-add {
+    background-color: #2563eb;
+    color: #fff;
+    font-weight: 600;
+}
+
+    #pantalla-agregarEspecialidad .btn-add:hover {
+        background-color: #1e40af;
+    }
+
+
+
+#pantalla-agregarEspecialidad .fila-4 {
+    padding-top: 3px !important;
+
+
+    /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: GESTIONAR PROFESIONALES)---------------------------- */
+
+    #pantalla-profesionales {
     color: #f1f5f9;
     min-height: 100vh;
 }
