@@ -1026,14 +1026,17 @@ body {
 
 #pantalla-agregarEspecialidad .fila-4 {
     padding-top: 3px !important;
+}
 
 
-    /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: GESTIONAR PROFESIONALES)---------------------------- */
+
+
+/*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: GESTIONAR PROFESIONALES)---------------------------- */
 
     #pantalla-profesionales {
-    color: #f1f5f9;
-    min-height: 100vh;
-}
+      color: #f1f5f9;
+      min-height: 100vh;
+   }
 
     /* Título */
     #pantalla-profesionales h2 {

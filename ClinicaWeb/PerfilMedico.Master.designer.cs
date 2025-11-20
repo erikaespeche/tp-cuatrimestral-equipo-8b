@@ -7,11 +7,11 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace ClinicaWeb
+namespace Clinic
 {
 
 
-    public partial class PerfilMedico
+    public partial class PerfilMedicoMaster
     {
 
         /// <summary>
@@ -40,15 +40,6 @@ namespace ClinicaWeb
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.ScriptManager ScriptManager1;
-
-        /// <summary>
-        /// Control btnSalir.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSalir;
 
         /// <summary>
         /// Control MainContent.

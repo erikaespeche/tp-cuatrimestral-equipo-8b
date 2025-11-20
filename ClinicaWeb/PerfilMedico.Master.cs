@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace ClinicaWeb
+namespace Clinic
 {
-    public partial class PerfilMedico : System.Web.UI.MasterPage
+    public partial class PerfilMedicoMaster : MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
