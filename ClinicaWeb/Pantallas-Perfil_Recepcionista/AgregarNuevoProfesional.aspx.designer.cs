@@ -11,79 +11,115 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 {
 
 
-    public partial class GestionarEspecialidades
+    public partial class AgregarNuevoProfesional
     {
 
         /// <summary>
-        /// Control btnAgregar.
+        /// Control updForm.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAgregar;
+        protected global::System.Web.UI.UpdatePanel updForm;
 
         /// <summary>
-        /// Control txtBuscarEspecialidad.
+        /// Control txtNombreProfesional.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBuscarEspecialidad;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtNombreProfesional;
 
         /// <summary>
-        /// Control btnBuscar.
+        /// Control txtApellidoProfesional.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscar;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtApellidoProfesional;
 
         /// <summary>
-        /// Control btnLimpiar.
+        /// Control txtDniProfesional.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLimpiar;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtDniProfesional;
 
         /// <summary>
-        /// Control upEspecialidades.
+        /// Control txtEmailProfesional.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upEspecialidades;
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl txtEmailProfesional;
 
         /// <summary>
-        /// Control repEspecialidades.
+        /// Control txtTelefonoProfesional.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater repEspecialidades;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtTelefonoProfesional;
 
         /// <summary>
-        /// Control hfIdEliminar.
+        /// Control ddlTurnoTrabajo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfIdEliminar;
+        protected global::System.Web.UI.WebControls.DropDownList ddlTurnoTrabajo;
 
         /// <summary>
-        /// Control btnConfirmarEliminar.
+        /// Control ddlEspecialidad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmarEliminar;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEspecialidad;
+
+        /// <summary>
+        /// Control btnCancelar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelar;
+
+        /// <summary>
+        /// Control btnRegistrarProfesional.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRegistrarProfesional;
+
+        /// <summary>
+        /// Control btnAceptarExito.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarExito;
+
+        /// <summary>
+        /// Control btnAceptarError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarError;
     }
 }

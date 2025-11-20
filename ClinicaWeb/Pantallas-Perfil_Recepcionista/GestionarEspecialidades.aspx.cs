@@ -24,7 +24,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             List<Especialidad> lista;
 
             if (string.IsNullOrWhiteSpace(filtro))
-                lista = negocio.Listar();  
+                lista = negocio.Listar();
             else
                 lista = negocio.BuscarPorNombre(filtro);
 
@@ -58,14 +58,64 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             if (e.CommandName == "Editar")
             {
                 Response.Redirect("EditarEspecialidad.aspx?id=" + idEspecialidad);
+                return;
             }
 
-            if (e.CommandName == "Eliminar")
+            if (e.CommandName == "MostrarModal")
             {
-                EspecialidadNegocio neg = new EspecialidadNegocio();
-                neg.Eliminar(idEspecialidad);
+                hfIdEliminar.Value = idEspecialidad.ToString();
 
-                CargarEspecialidades();
+                ScriptManager.RegisterStartupScript(
+                    this,
+                    GetType(),
+                    "MostrarModalEliminar",
+                    "MostrarModalEliminar();",
+                    true
+                );
+
+                upEspecialidades.Update(); 
+            }
+        }
+
+        protected void btnConfirmarEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(hfIdEliminar.Value))
+                {
+                    int id = int.Parse(hfIdEliminar.Value);
+
+                    EspecialidadNegocio neg = new EspecialidadNegocio();
+                    neg.Eliminar(id);
+
+                    CargarEspecialidades();
+                }
+            }
+            catch (Exception ex)
+            {
+                string mensaje = ex.Message.Replace("'", "\\'");
+
+                string script = $@"
+        document.addEventListener('DOMContentLoaded', function() {{
+            var msg = document.getElementById('modalErrorMensaje');
+            if (msg) {{
+                msg.innerText = '{mensaje}';
+            }}
+
+            var modalElement = document.getElementById('modalErrorEliminar');
+            if (modalElement) {{
+                var modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                modal.show();
+            }}
+        }});
+    ";
+
+                Page.ClientScript.RegisterStartupScript(
+                    this.GetType(),
+                    "ErrorModal",
+                    script,
+                    true
+                );
             }
         }
 

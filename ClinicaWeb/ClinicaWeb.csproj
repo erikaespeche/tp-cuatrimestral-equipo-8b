@@ -132,6 +132,7 @@
     <Content Include="Pantallas-Perfil_Medico\PacienteEnSala.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\AgregarNuevaEspecialidad.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\AgregarNuevoPaciente.aspx" />
+    <Content Include="Pantallas-Perfil_Recepcionista\AgregarNuevoProfesional.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\CitasDiarias.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\ConfigurarAgendaProfesional.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\DetallePaciente.aspx" />
@@ -293,6 +294,13 @@
     </Compile>
     <Compile Include="Pantallas-Perfil_Recepcionista\AgregarNuevoPaciente.aspx.designer.cs">
       <DependentUpon>AgregarNuevoPaciente.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\AgregarNuevoProfesional.aspx.cs">
+      <DependentUpon>AgregarNuevoProfesional.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Perfil_Recepcionista\AgregarNuevoProfesional.aspx.designer.cs">
+      <DependentUpon>AgregarNuevoProfesional.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pantallas-Perfil_Recepcionista\CitasDiarias.aspx.cs">
       <DependentUpon>CitasDiarias.aspx</DependentUpon>
