@@ -26,8 +26,8 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         {
             EspecialidadNegocio espNegocio = new EspecialidadNegocio();
             ddlEspecialidad.DataSource = espNegocio.Listar();
-            ddlEspecialidad.DataTextField = "Nombre";      
-            ddlEspecialidad.DataValueField = "IdEspecialidad"; 
+            ddlEspecialidad.DataTextField = "Nombre";
+            ddlEspecialidad.DataValueField = "IdEspecialidad";
             ddlEspecialidad.DataBind();
 
             ddlEspecialidad.Items.Insert(0, new ListItem("Filtrar por Especialidad", "0"));
@@ -45,7 +45,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             var lista = negocio.Listar();
             string nom = Normalizar(txtNombre.Text);
             string ape = Normalizar(txtApellido.Text);
-            
+
 
             int idEsp = int.Parse(ddlEspecialidad.SelectedValue);
 

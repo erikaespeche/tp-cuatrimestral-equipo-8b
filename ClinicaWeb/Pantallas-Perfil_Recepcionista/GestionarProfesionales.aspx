@@ -6,16 +6,16 @@
 
     <div id="pantalla-profesionales" class="container-fluid text-light py-4" style="max-width: 85%; margin: auto;">
 
-        <!-- Título y botón -->
+        
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h2 class="fw-bold mb-1">Gestión de Profesionales</h2>
                 <p class="text-secondary">Busque, agregue, modifique o elimine profesionales de la clínica.</p>
             </div>
-            <asp:Button ID="btnAgregar" runat="server" Text="+ Agregar Nuevo Profesional" CssClass="btn btn-primary fw-bold px-4 py-2" OnClick="btnAgregar_Click"/>
+            <asp:Button ID="btnAgregar" runat="server" Text="+ Agregar Nuevo Profesional" CssClass="btn btn-primary fw-bold px-4 py-2" OnClick="btnAgregar_Click" />
         </div>
 
-        <!-- Filtros -->
+        
         <div class="card contenedor-filtro border-0 mb-4" style="border-radius: 10px;">
             <div class="card-body">
                 <div class="row g-3 align-items-end">
@@ -51,7 +51,7 @@
             </div>
         </div>
 
-        <!-- Tabla -->
+        
         <div class="card border-0" style="border-radius: 10px;">
             <div class="table-responsive">
                 <table class="custom-table align-middle w-100" style="border-radius: 10px;">
@@ -77,7 +77,7 @@
                                     <td><%# Eval("Telefono") %></td>
                                     <td><%# Eval("Email") %></td>
 
-                                    
+
                                     <td>
                                         <%# string.Join(", ",
                                          ((dominio.Medico)Container.DataItem)
