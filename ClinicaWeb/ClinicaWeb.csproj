@@ -415,6 +415,10 @@
       <Project>{9dfaeecf-e36b-4949-afed-8996e24cde7f}</Project>
       <Name>dominio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{f256a831-cae6-4b50-896e-11d513d93669}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\negocio\negocio.csproj">
       <Project>{080e50c0-c872-4b95-9e00-cd6816b9cc31}</Project>
       <Name>negocio</Name>
