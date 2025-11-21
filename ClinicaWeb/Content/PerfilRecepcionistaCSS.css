@@ -1027,27 +1027,23 @@ body {
 #pantalla-agregarEspecialidad .fila-4 {
     padding-top: 3px !important;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 97a23e7d6871960ddc138ca763a079dd6a3c4742
 
+}
 
 
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: GESTIONAR PROFESIONALES)---------------------------- */
+    /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: GESTIONAR PROFESIONALES)---------------------------- */
 
-<<<<<<< HEAD
     #pantalla-profesionales {
       color: #f1f5f9;
       min-height: 100vh;
    }
-=======
 #pantalla-profesionales {
     width: 80%;
     margin: 140px auto 60px auto;
     font-family: "Inter", sans-serif;
 }
->>>>>>> 97a23e7d6871960ddc138ca763a079dd6a3c4742
 
     /* Título */
     #pantalla-profesionales h2 {
