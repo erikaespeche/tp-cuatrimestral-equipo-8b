@@ -37,6 +37,29 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
+            // Limpiar campos del formulario
+            txtNombreEdit.Text = "";
+            txtApellidoEdit.Text = "";
+            txtDniEdit.Text = "";
+            txtNombreUsuario.Text = "";
+            txtContrasena.Text = "";
+            txtConfirmarContrasena.Text = "";
+            txtMailEdit.Text = "";
+            ddlRol2.SelectedIndex = 0;
+
+            // Abrir el modal usando script
+            ScriptManager.RegisterStartupScript(
+                this,
+                this.GetType(),
+                "abrirModal",
+                "$('#modalAgregarUsuario').modal('show');",
+                true
+            );
+        }
+
+
+        protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        {
             //Response.Redirect("AgregarNuevoProfesional.aspx");
         }
 

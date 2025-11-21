@@ -418,7 +418,7 @@
 
 
 
-</div> <!-- ⬅️ cierre del div agregado -->
+</div> <!-- ⬅️ cierre del div raiz -->
   </ContentTemplate>
 </asp:UpdatePanel>
 

@@ -106,19 +106,41 @@ CREATE TABLE [dbo].[NOTIFICACION] (
 );
 GO
 
-CREATE TABLE [dbo].[USUARIO](
-    IdUsuario INT IDENTITY(1,1) NOT NULL,
-	[DniUsuario] INT NOT NULL,
-	[Nombres] VARCHAR(50) NOT NULL,
-    [Apellidos] VARCHAR(50) NOT NULL,
-    Contraseña VARCHAR(200) NOT NULL,
-    Rol VARCHAR(20) NOT NULL,
-    Email VARCHAR(100) NOT NULL,
+CREATE TABLE [dbo].[ROL](
+    IdRol INT IDENTITY(1,1) NOT NULL,
+    NombreRol VARCHAR(50) NOT NULL,  -- Administrador / Médico / Recepcionista
+    CONSTRAINT PK_ROL PRIMARY KEY (IdRol),
+    CONSTRAINT UQ_Rol_Nombre UNIQUE (NombreRol)
+);
+GO
 
-    CONSTRAINT PK_USUARIO PRIMARY KEY (IdUsuario)
+CREATE TABLE [dbo].[USUARIOS](
+    IdUsuario INT IDENTITY(1,1) NOT NULL,
+    DniUsuario INT NOT NULL,
+    Nombres VARCHAR(50) NOT NULL,
+    Apellidos VARCHAR(50) NOT NULL,
+	NombreUsuario VARCHAR(50) NOT NULL,
+    Contrasena VARCHAR(200) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    IdRol INT NOT NULL,  -- FK a ROL
+
+    CONSTRAINT PK_USUARIO PRIMARY KEY (IdUsuario),
+
+    -- Unique constraints 
+    CONSTRAINT UQ_Usuario_DNI UNIQUE (DniUsuario),
+    CONSTRAINT UQ_Usuario_Email UNIQUE (Email),
+
+    -- Foreign Key
+    CONSTRAINT FK_Usuario_Rol FOREIGN KEY (IdRol)
+        REFERENCES ROL(IdRol)
 );
 GO
 
 ------------
 -- INSERT --
 
+INSERT INTO ROL (NombreRol)
+VALUES ('Administrador'), ('Medico'), ('Recepcionista');
+
+
+DROP TABLE USUARIO
