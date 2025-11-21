@@ -35,7 +35,7 @@
             <div class="tabla-sala">
                 <table>
                     <thead>
-                        <tr>
+                        <tr class="titulos-pacientes-sala">
                             <th>HORA TURNO</th>
                             <th>NOMBRE</th>
                             <th>APELLIDO</th>
@@ -90,7 +90,7 @@
 
         <!-- TAB ATENDIDO -->
         <div class="tab-pane fade" id="atendido">
-            <p class="text-muted">No hay pacientes atendidos.</p>
+            <p class="texto-atendidos text-muted">No hay pacientes atendidos.</p>
         </div>
 
     </div>

@@ -5,8 +5,10 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <div id="pantalla-citas-medicos" class="page-wrap d-flex align-items-start justify-content-center">
-        <div class="citas-card shadow-sm">
-            <h1 class="titulo mb-3">Listado de Citas Diarias</h1>
+        
+        <div class="citas-card contenedor-citas shadow-sm">
+            
+            <h1 class="titulo titlo-citas-diarias mb-3">Listado de Citas Diarias</h1>
 
             <div class="row g-4">
                 <!-- Col: Calendario -->
@@ -14,14 +16,14 @@
                     <div class="calendar-box p-3">
                         <%--<div class="d-flex justify-content-between align-items-center mb-2">
                             <div class="calendar-title">
-                                <span class="mes">Junio</span>
+                                <span class="mes">junio</span>
                                 <span class="anio">2024</span>
                             </div>
                             <div class="calendar-controls">
-                                <asp:Button  runat="server" CssClass="btn btn-sm btn-outline-secondary"
-                                    Text="⟨" OnClick="PrevMonthBtn_Click" />
-                                <asp:Button ID="NextMonthBtn" runat="server" CssClass="btn btn-sm btn-outline-secondary ms-2"
-                                    Text="⟩" OnClick="NextMonthBtn_Click" />
+                                <asp:button  runat="server" cssclass="btn btn-sm btn-outline-secondary"
+                                    text="⟨" onclick="prevmonthbtn_click" />
+                                <asp:button id="nextmonthbtn" runat="server" cssclass="btn btn-sm btn-outline-secondary ms-2"
+                                    text="⟩" onclick="nextmonthbtn_click" />
                             </div>
                         </div>--%>
 
