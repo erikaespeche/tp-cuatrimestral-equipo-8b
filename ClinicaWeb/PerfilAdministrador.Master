@@ -23,6 +23,8 @@
     <!-- Estilo CSS Personalizado -->
     <link href="~/Content/PerfilMedicosCSS.css" rel="stylesheet" />
     <link href="~/content/menuestilos.css" rel="stylesheet" />
+    <link href="~/Content/PerfilAdministradorCSS.css" rel="stylesheet" />
+
 
      <!-- ⭐ AGREGAR ESTO ⭐ -->
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />

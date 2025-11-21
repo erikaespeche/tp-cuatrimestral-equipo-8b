@@ -108,7 +108,9 @@ GO
 
 CREATE TABLE [dbo].[USUARIO](
     IdUsuario INT IDENTITY(1,1) NOT NULL,
-    Nombre VARCHAR(50) NOT NULL,
+	[DniUsuario] INT NOT NULL,
+	[Nombres] VARCHAR(50) NOT NULL,
+    [Apellidos] VARCHAR(50) NOT NULL,
     Contraseña VARCHAR(200) NOT NULL,
     Rol VARCHAR(20) NOT NULL,
     Email VARCHAR(100) NOT NULL,

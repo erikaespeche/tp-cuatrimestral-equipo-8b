@@ -13,5 +13,35 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         {
 
         }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            //var lista = negocio.Listar();
+            //string nom = Normalizar(txtNombre.Text);
+            //string ape = Normalizar(txtApellido.Text);
+
+
+            //int idEsp = int.Parse(ddlEspecialidad.SelectedValue);
+
+            //var filtrado = lista.Where(p =>
+            //    Normalizar(p.Nombre).Contains(nom) &&
+            //    Normalizar(p.Apellido).Contains(ape) &&
+            //    (idEsp == 0 || p.Especialidades.Any(espI => espI.IdEspecialidad == idEsp))
+            //).ToList();
+
+
+            //repProfesionales.DataSource = filtrado;
+            //repProfesionales.DataBind();
+        }
+
+
+        protected void btnAgregar_Click(object sender, EventArgs e)
+        {
+            //Response.Redirect("AgregarNuevoProfesional.aspx");
+        }
+
+
+
+
     }
 }

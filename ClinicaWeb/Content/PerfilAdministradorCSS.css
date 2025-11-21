@@ -1,0 +1,122 @@
+﻿body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #121A25; /* Fondo oscuro institucional #0f172a */
+    color: #e2e8f0; /* Texto blanco para contraste */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-variant-caps: petite-caps;
+}
+
+
+
+
+/* ------------------------------ PERFIL ADMINISTRADOR (PANTALLA: GESTION USUARIOS)----------------------------------- */
+
+#pantalla-usuarios {
+    color: #f1f5f9;
+    min-height: 100vh;
+    width: 80%;
+    margin: 140px auto 60px auto;
+    font-family: "Inter", sans-serif;
+}
+
+    /* Título */
+    #pantalla-usuarios h2 {
+        margin-top: 60px;
+    }
+
+    #pantalla-usuarios .contenedor-filtro {
+        padding-top: 0px !important;
+    }
+
+    /* Tarjetas */
+    #pantalla-usuarios .card {
+        background-color: #1e293b !important;
+        border-radius: 12px;
+        padding-top: 0px !important;
+    }
+
+    /* Labels */
+    #pantalla-usuarios .form-label {
+        color: #ffffff !important;
+    }
+
+    /* Inputs y selects */
+    #pantalla-usuarios .form-control,
+    #pantalla-usuarios .form-select {
+        background-color: #0f172a !important;
+        color: #f1f5f9 !important;
+        border: 1px solid #334155 !important;
+    }
+
+        #pantalla-usuarios .form-control:focus,
+        #pantalla-usuarios .form-select:focus {
+            box-shadow: 0 0 0 2px #3b82f6 !important;
+            border-color: #3b82f6 !important;
+        }
+
+    /* Tabla */
+    #pantalla-usuarios table {
+        background-color: #1e293b !important;
+        border-radius: 10px !important;
+        overflow: hidden;
+    }
+
+    #pantalla-usuarios th{
+        text-align: center !important;
+    }
+
+    #pantalla-usuarios td {
+        text-align: center !important;
+    }
+
+    #pantalla-usuarios thead th {
+        color: #94a3b8 !important;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    #pantalla-usuarios tbody td {
+        color: #f8fafc !important;
+        font-size: 0.95rem;
+    }
+
+    /* Botones */
+    #pantalla-usuarios .btn {
+        border-radius: 8px;
+    }
+
+    #pantalla-usuarios .boton-agregar {
+        margin-top: 60px;
+    }
+
+    #pantalla-usuarios .btn-outline-info {
+        border: none !important;
+        color: #38bdf8 !important;
+    }
+
+    #pantalla-usuarios .btn-outline-warning {
+        border: none !important;
+        color: #facc15 !important;
+    }
+
+    #pantalla-usuarios .btn-outline-danger {
+        border: none !important;
+        color: #ef4444 !important;
+    }
+
+    #pantalla-usuarios .btn-primary {
+        background-color: #2563eb !important;
+        border: none !important;
+    }
+
+        #pantalla-usuarios .btn-primary:hover {
+            background-color: #1d4ed8 !important;
+        }
+
+    #pantalla-usuarios .form-control::placeholder {
+        color: #646B6B !important;
+    }
+
+
