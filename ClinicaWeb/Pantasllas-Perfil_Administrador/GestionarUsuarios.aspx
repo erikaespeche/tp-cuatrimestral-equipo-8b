@@ -109,9 +109,13 @@
                                         <button class="btn btn-outline-warning btn-sm me-1" commandname="Editar" commandargument='<%# Eval("IdUsuario") %>'>
                                             <i class="bi bi-pencil"></i>
                                         </button>
-                                        <button class="btn btn-outline-danger btn-sm" commandname="Eliminar'" commandargument='<%# Eval("IdUsuario") %>'>
+                                        <asp:LinkButton ID="btnEliminar" runat="server"
+                                            CommandName="Eliminar"
+                                            CommandArgument='<%# Eval("IdUsuario") %>'
+                                            CssClass="btn btn-outline-danger btn-sm">
                                             <i class="bi bi-trash"></i>
-                                        </button>
+                                        </asp:LinkButton>
+
                                     </td>
                                 </tr>
                             </ItemTemplate>
@@ -211,10 +215,17 @@
                     <!-- Contraseña -->
                     <div class="col-md-6">
                         <label class="form-label">Contraseña*</label>
-                        <asp:TextBox ID="txtContrasena" runat="server"
-                            CssClass="form-control"
-                            TextMode="Password"
-                            Style="background-color: #21364B; border: 1px solid gray; color: white;" />
+                        <div class="input-group">
+                            <asp:TextBox ID="txtContrasena" runat="server"
+                                ClientIDMode="Static"
+                                CssClass="form-control"
+                                TextMode="Password"
+                                Style="background-color: #21364B; border: 1px solid gray; color: white;" />
+                            <button type="button" class="btn btn-outline-secondary"
+                                onclick="togglePassword('txtContrasena', this)">
+                                <i class="bi bi-eye-slash"></i>
+                            </button>
+                         </div>
 
                         <asp:RequiredFieldValidator ID="valPassReq" runat="server"
                             ControlToValidate="txtContrasena"
@@ -228,13 +239,24 @@
                             CssClass="text-danger" ValidationGroup="AgregarUsuario" />
                     </div>
 
+   
+
+
                     <!-- Confirmar Contraseña -->
                     <div class="col-md-6">
                         <label class="form-label">Confirmar Contraseña*</label>
-                        <asp:TextBox ID="txtConfirmarContrasena" runat="server"
-                            CssClass="form-control"
-                            TextMode="Password"
-                            Style="background-color: #21364B; border: 1px solid gray; color: white;" />
+                        <div class="input-group">
+                            <asp:TextBox ID="txtConfirmarContrasena" runat="server"
+                                ClientIDMode="Static"
+                                CssClass="form-control"
+                                TextMode="Password"
+                                Style="background-color: #21364B; border: 1px solid gray; color: white;" />
+
+                            <button type="button" class="btn btn-outline-secondary"
+                                onclick="togglePassword('txtConfirmarContrasena', this)">
+                                <i class="bi bi-eye-slash"></i>
+                            </button>
+                        </div>
 
                         <asp:RequiredFieldValidator ID="valPassConfReq" runat="server"
                             ControlToValidate="txtConfirmarContrasena"
@@ -364,6 +386,32 @@
     </div>
 
 
+    <!-- ===================== -->
+    <!--  MODAL CONFIRMAR ELIMINAR  -->
+    <!-- ===================== -->
+    <div class="modal fade" id="modalConfirmarEliminar" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-light p-4 rounded">
+
+                <h4 class="mb-3">¿Eliminar usuario?</h4>
+                <p>Esta acción no se puede deshacer.</p>
+
+                <asp:HiddenField ID="hfIdAEliminar" runat="server" />
+
+                <div class="text-end">
+                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <asp:Button ID="btnConfirmarEliminar" runat="server"
+                        CssClass="btn btn-danger"
+                        Text="Eliminar"
+                        OnClick="btnConfirmarEliminar_Click" />
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
 
@@ -427,6 +475,40 @@
 
         });
 
+
+
+
+
+
+        //Mostrar/ocultar contraseña
+        function togglePassword(id, btn) {
+            const input = document.getElementById(id);
+
+            if (input.type === "password") {
+                input.type = "text";
+                btn.innerHTML = '<i class="bi bi-eye"></i>';
+            } else {
+                input.type = "password";
+                btn.innerHTML = '<i class="bi bi-eye-slash"></i>';
+            }
+        }
+
+
+
+
+
+        //
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Cada vez que se cierra un modal, eliminamos el backdrop para evitar pantalla oscura
+            document.addEventListener('hidden.bs.modal', function () {
+                document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+                document.body.classList.remove('modal-open');
+                document.body.style.removeProperty("overflow");
+                document.body.style.removeProperty("padding-right");
+            });
+
+        });
 
     </script>
 

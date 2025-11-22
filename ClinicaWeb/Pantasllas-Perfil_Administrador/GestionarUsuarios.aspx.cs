@@ -187,20 +187,48 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 
             if (e.CommandName == "Eliminar")
             {
-                try
-                {
-                    UsuarioNegocio negocio = new UsuarioNegocio();
-                    negocio.Eliminar(id);
+                // Guardo el ID del usuario a eliminar
+                hfIdAEliminar.Value = e.CommandArgument.ToString();
 
-                    CargarUsuarios();
-                }
-                catch (Exception ex)
-                {
-                    string msg = ex.Message.Replace("'", "\\'");
-                    ScriptManager.RegisterStartupScript(this, GetType(), "error",
-                        $"alert('Error al eliminar: {msg}');", true);
-                }
+                // Mostrar modal de confirmación
+                ScriptManager.RegisterStartupScript(this, GetType(), "modalConfirmar",
+                    "var m = new bootstrap.Modal(document.getElementById('modalConfirmarEliminar')); m.show();", true);
             }
         }
+
+
+
+        /// ------------------------------------------------------
+        // BOTON ELIMINAR
+        // ------------------------------------------------------
+        protected void btnConfirmarEliminar_Click(object sender, EventArgs e)
+        {
+            if (!int.TryParse(hfIdAEliminar.Value, out int id))
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "errorEliminar",
+                    "document.getElementById('modalErrorBody').innerText = 'No se recibió un ID válido.'; mostrarModal('modalError');",
+                    true);
+                return;
+            }
+
+            try
+            {
+                UsuarioNegocio negocio = new UsuarioNegocio();
+                negocio.Eliminar(id);   // <-- AHORA SÍ, CORRECTO
+
+                CargarUsuarios();
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "exitoEliminar",
+                    "mostrarModal('modalExito');", true);
+            }
+            catch (Exception ex)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "errorEliminar",
+                    $"document.getElementById('modalErrorBody').innerText = '{ex.Message.Replace("'", "")}'; mostrarModal('modalError');",
+                    true);
+            }
+        }
+
+
     }
 }
