@@ -93,7 +93,7 @@
                     </thead>
 
                     <tbody>
-                        <asp:Repeater ID="repUsuarios" runat="server">
+                        <asp:Repeater ID="repUsuarios" runat="server" OnItemCommand="repUsuarios_ItemCommand">
                             <ItemTemplate>
                                 <tr>
                                     <td><%# Eval("Nombres") %></td>
@@ -103,13 +103,13 @@
                                     <td><%# Eval("Rol.NombreRol") %></td>
 
                                     <td>
-                                        <button class="btn btn-outline-info btn-sm me-1">
+                                        <%--<button class="btn btn-outline-info btn-sm me-1" commandname="Ver" commandargument='<%# Eval("IdUsuario") %>'>
                                             <i class="bi bi-eye"></i>
-                                        </button>
-                                        <button class="btn btn-outline-warning btn-sm me-1">
+                                        </button>--%>
+                                        <button class="btn btn-outline-warning btn-sm me-1" commandname="Editar" commandargument='<%# Eval("IdUsuario") %>'>
                                             <i class="bi bi-pencil"></i>
                                         </button>
-                                        <button class="btn btn-outline-danger btn-sm">
+                                        <button class="btn btn-outline-danger btn-sm" commandname="Eliminar'" commandargument='<%# Eval("IdUsuario") %>'>
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </td>
