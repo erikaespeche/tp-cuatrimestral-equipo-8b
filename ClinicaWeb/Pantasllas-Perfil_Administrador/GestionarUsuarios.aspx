@@ -58,7 +58,12 @@
                         <label class="form-label text-white">Rol</label>
                         <div class="d-flex gap-2">
                             <asp:DropDownList ID="ddlRol" runat="server"
+                                
                                 CssClass="form-select bg-dark text-light border-secondary">
+                                <asp:ListItem Value="">-- Seleccione --</asp:ListItem>
+                                <asp:ListItem Value="ADMINISTRADOR">Administrador</asp:ListItem>
+                                <asp:ListItem Value="MEDICO">Médico</asp:ListItem>
+                                <asp:ListItem Value="RECEPCIONISTA">Recepcionista</asp:ListItem>
                             </asp:DropDownList>
 
                             <asp:Button ID="btnBuscar" runat="server"
@@ -121,182 +126,307 @@
 
 
 
-        <!-- =========================================== -->
-        <!-- MODAL AGREGAR USUARIO -->
-        <!-- =========================================== -->
+   <!-- =========================================== -->
+<!-- MODAL AGREGAR USUARIO -->
+<!-- =========================================== -->
 
-        <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="ventana-editar-paciente modal-content bg-dark text-light p-3">
+<div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="ventana-editar-paciente modal-content bg-dark text-light p-3">
 
-                    <div class="modal-header border-0 contenedor-titulo-editar-paciente">
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                        <h3 class="modal-title">Agregar Nuevo Usuario</h3>
-                        <p class="modal-title">Agrega un usuario. Los campos marcados con * son obligatorios.</p>
+            <div class="modal-header border-0 contenedor-titulo-editar-paciente">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <h3 class="modal-title">Agregar Nuevo Usuario</h3>
+                <p class="modal-title">Agrega un usuario. Los campos marcados con * son obligatorios.</p>
+            </div>
+
+            <div class="modal-body">
+                <div class="row g-3">
+
+                    <!-- Nombre -->
+                    <div class="col-md-6">
+                        <label class="form-label">Nombre*</label>
+                        <asp:TextBox ID="txtNombreEdit" runat="server"
+                            CssClass="form-control"
+                            Style="background-color: #21364B; border: 1px solid gray; color: white;" />
+                        <asp:RequiredFieldValidator ID="valNombreReq" runat="server"
+                            ControlToValidate="txtNombreEdit" ErrorMessage="El nombre es obligatorio."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                        <asp:RegularExpressionValidator ID="valNombreRegex" runat="server"
+                            ControlToValidate="txtNombreEdit"
+                            ValidationExpression="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
+                            ErrorMessage="Ingrese un nombre válido (solo letras)."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
                     </div>
 
-                    <div class="modal-body">
-                        <div class="row g-3">
+                    <!-- Apellido -->
+                    <div class="col-md-6">
+                        <label class="form-label">Apellido*</label>
+                        <asp:TextBox ID="txtApellidoEdit" runat="server"
+                            CssClass="form-control"
+                            Style="background-color: #21364B; border: 1px solid gray; color: white;" />
+                        <asp:RequiredFieldValidator ID="valApellidoReq" runat="server"
+                            ControlToValidate="txtApellidoEdit" ErrorMessage="El apellido es obligatorio."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                        <asp:RegularExpressionValidator ID="valApellidoRegex" runat="server"
+                            ControlToValidate="txtApellidoEdit"
+                            ValidationExpression="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
+                            ErrorMessage="Ingrese un apellido válido (solo letras)."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                    </div>
 
-                            <!-- Nombre -->
-                            <div class="col-md-6">
-                                <label class="form-label">Nombre*</label>
-                                <asp:TextBox ID="txtNombreEdit" runat="server" CssClass="form-control" />
-                                <asp:RequiredFieldValidator ID="valNombreReq" runat="server"
-                                    ControlToValidate="txtNombreEdit" ErrorMessage="El nombre es obligatorio."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                                <asp:RegularExpressionValidator ID="valNombreRegex" runat="server"
-                                    ControlToValidate="txtNombreEdit"
-                                    ValidationExpression="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
-                                    ErrorMessage="Ingrese un nombre válido (solo letras)."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                            </div>
+                    <!-- DNI -->
+                    <div class="col-md-6">
+                        <label class="form-label">DNI*</label>
+                        <asp:TextBox ID="txtDniEdit" runat="server"
+                            MaxLength="8"
+                            CssClass="form-control"
+                            Style="background-color: #21364B; border: 1px solid gray; color: white;" />
 
-                            <!-- Apellido -->
-                            <div class="col-md-6">
-                                <label class="form-label">Apellido*</label>
-                                <asp:TextBox ID="txtApellidoEdit" runat="server" CssClass="form-control" />
-                                <asp:RequiredFieldValidator ID="valApellidoReq" runat="server"
-                                    ControlToValidate="txtApellidoEdit" ErrorMessage="El apellido es obligatorio."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                                <asp:RegularExpressionValidator ID="valApellidoRegex" runat="server"
-                                    ControlToValidate="txtApellidoEdit"
-                                    ValidationExpression="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
-                                    ErrorMessage="Ingrese un apellido válido (solo letras)."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                            </div>
+                        <asp:RequiredFieldValidator ID="valDniReq" runat="server"
+                            ControlToValidate="txtDniEdit"
+                            ErrorMessage="El DNI es obligatorio."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                        <asp:RegularExpressionValidator ID="valDniRegex" runat="server"
+                            ControlToValidate="txtDniEdit"
+                            ValidationExpression="^[0-9]{7,8}$"
+                            ErrorMessage="Ingrese un DNI válido (7 a 8 dígitos numéricos)."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                    </div>
 
-                            
+                    <!-- Nombre de Usuario -->
+                    <div class="col-md-6">
+                        <label class="form-label">*Nombre de Usuario</label>
+                        <asp:TextBox ID="txtNombreUsuario" runat="server"
+                            CssClass="form-control"
+                            Style="background-color: #21364B; border: 1px solid gray; color: white;" />
+                        <asp:RegularExpressionValidator ID="valNumObraRegex" runat="server"
+                            ControlToValidate="txtNombreUsuario"
+                            ValidationExpression="^[A-Za-z0-9\-\/]+$"
+                            ErrorMessage="Ingrese un usuario válido (letras, números, '-' o '/')."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                    </div>
 
-                            <!-- Documento -->
-                            <div class="col-md-6">
-                                <label class="form-label">DNI*</label>
-                                <asp:TextBox ID="txtDniEdit" runat="server" CssClass="form-control" MaxLength="8" />
-                                <asp:RequiredFieldValidator ID="valDniReq" runat="server"
-                                    ControlToValidate="txtDniEdit"
-                                    ErrorMessage="El DNI es obligatorio."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                                <asp:RegularExpressionValidator ID="valDniRegex" runat="server"
-                                    ControlToValidate="txtDniEdit"
-                                    ValidationExpression="^[0-9]{7,8}$"
-                                    ErrorMessage="Ingrese un DNI válido (7 a 8 dígitos numéricos)."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                            </div>
+                    <!-- Contraseña -->
+                    <div class="col-md-6">
+                        <label class="form-label">Contraseña*</label>
+                        <asp:TextBox ID="txtContrasena" runat="server"
+                            CssClass="form-control"
+                            TextMode="Password"
+                            Style="background-color: #21364B; border: 1px solid gray; color: white;" />
 
+                        <asp:RequiredFieldValidator ID="valPassReq" runat="server"
+                            ControlToValidate="txtContrasena"
+                            ErrorMessage="La contraseña es obligatoria."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
 
-                            <!-- Nombre de Usuario -->
-                            <div class="col-md-6">
-                                <label class="form-label">Nombre de Usuario</label>
-                                <asp:TextBox ID="txtNombreUsuario" runat="server" CssClass="form-control" />
-                                <asp:RegularExpressionValidator ID="valNumObraRegex" runat="server"
-                                    ControlToValidate="txtNombreUsuario"
-                                    ValidationExpression="^[A-Za-z0-9\-\/]+$"
-                                    ErrorMessage="Ingrese un usuario válido (letras, números, '-' o '/')."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                            </div>
+                        <asp:RegularExpressionValidator ID="valPassStrong" runat="server"
+                            ControlToValidate="txtContrasena"
+                            ValidationExpression="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':&quot;\\|,.&lt;&gt;\/?])(?=.{6,}).+$"
+                            ErrorMessage="La contraseña debe tener al menos 6 caracteres, una mayúscula, un número y un caracter especial."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                    </div>
 
+                    <!-- Confirmar Contraseña -->
+                    <div class="col-md-6">
+                        <label class="form-label">Confirmar Contraseña*</label>
+                        <asp:TextBox ID="txtConfirmarContrasena" runat="server"
+                            CssClass="form-control"
+                            TextMode="Password"
+                            Style="background-color: #21364B; border: 1px solid gray; color: white;" />
 
+                        <asp:RequiredFieldValidator ID="valPassConfReq" runat="server"
+                            ControlToValidate="txtConfirmarContrasena"
+                            ErrorMessage="Debe confirmar la contraseña."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
 
-                            <!-- Contraseña -->
-                            <div class="col-md-6">
-                                <label class="form-label">Contraseña*</label>
-                                <asp:TextBox ID="txtContrasena" runat="server" CssClass="form-control" TextMode="Password" />
+                        <asp:CompareValidator ID="valPassCompare" runat="server"
+                            ControlToValidate="txtConfirmarContrasena"
+                            ControlToCompare="txtContrasena"
+                            ErrorMessage="Las contraseñas no coinciden."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                    </div>
 
-                                <asp:RequiredFieldValidator ID="valPassReq" runat="server"
-                                    ControlToValidate="txtContrasena"
-                                    ErrorMessage="La contraseña es obligatoria."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                    <!-- Mail -->
+                    <div class="col-md-6">
+                        <label class="form-label">Mail*</label>
+                        <asp:TextBox ID="txtMailEdit" runat="server"
+                            CssClass="form-control"
+                            Style="background-color: #21364B; border: 1px solid gray; color: white;" />
+                        <asp:RequiredFieldValidator ID="valMailReq" runat="server"
+                            ControlToValidate="txtMailEdit"
+                            ErrorMessage="El mail es obligatorio."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                        <asp:RegularExpressionValidator ID="valMailRegex" runat="server"
+                            ControlToValidate="txtMailEdit"
+                            ValidationExpression="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+                            ErrorMessage="Formato de mail inválido."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
+                    </div>
 
-                                <!-- Valida: mínimo 6 caracteres, 1 mayúscula, 1 número, 1 caracter especial -->
-                                <asp:RegularExpressionValidator ID="valPassStrong" runat="server"
-                                    ControlToValidate="txtContrasena"
-                                    ValidationExpression="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':&quot;\\|,.&lt;&gt;\/?])(?=.{6,}).+$"
-                                    ErrorMessage="La contraseña debe tener al menos 6 caracteres, una mayúscula, un número y un caracter especial."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                            </div>
-
-                            <!-- Confirmar Contraseña -->
-                            <div class="col-md-6">
-                                <label class="form-label">Confirmar Contraseña*</label>
-                                <asp:TextBox ID="txtConfirmarContrasena" runat="server" CssClass="form-control" TextMode="Password" />
-
-                                <asp:RequiredFieldValidator ID="valPassConfReq" runat="server"
-                                    ControlToValidate="txtConfirmarContrasena"
-                                    ErrorMessage="Debe confirmar la contraseña."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-
-                                <asp:CompareValidator ID="valPassCompare" runat="server"
-                                    ControlToValidate="txtConfirmarContrasena"
-                                    ControlToCompare="txtContrasena"
-                                    ErrorMessage="Las contraseñas no coinciden."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                            </div>
-
-
-
-                            <!-- Mail -->
-                            <div class="col-md-6">
-                                <label class="form-label">Mail*</label>
-                                <asp:TextBox ID="txtMailEdit" runat="server" CssClass="form-control" />
-                                <asp:RequiredFieldValidator ID="valMailReq" runat="server"
-                                    ControlToValidate="txtMailEdit"
-                                    ErrorMessage="El mail es obligatorio."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                                <asp:RegularExpressionValidator ID="valMailRegex" runat="server"
-                                    ControlToValidate="txtMailEdit"
-                                    ValidationExpression="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
-                                    ErrorMessage="Formato de mail inválido."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                            </div>
-
-
-                            <!-- Rol -->
-                            <div class="col-md-6">
-                                <label class="form-label">Rol*</label>
-                                <asp:DropDownList ID="ddlRol2" runat="server" CssClass="form-select">
-                                    <asp:ListItem Value="">-- Seleccione --</asp:ListItem>
-                                    <asp:ListItem Value="ADMINISTRADOR">Administrador</asp:ListItem>
-                                    <asp:ListItem Value="MEDICO">Médico</asp:ListItem>
-                                    <asp:ListItem Value="RECEPCIONISTA">Recepcionista</asp:ListItem>
-                                </asp:DropDownList>
-                                <asp:RequiredFieldValidator ID="valRol" runat="server"
-                                    ControlToValidate="ddlRol2" InitialValue=""
-                                    ErrorMessage="Seleccione el rol del usuario."
-                                    CssClass="text-danger" ValidationGroup="AgregarUsuario" />
-                            </div>
+                    <!-- Rol -->
+                    <div class="col-md-6">
+                        <label class="form-label">Rol*</label>
+                        <asp:DropDownList ID="ddlRol2" runat="server"
+                            CssClass="form-select"
+                            Style="background-color: #21364B; border: 1px solid gray; color: white;">
+                            <asp:ListItem Value="">-- Seleccione --</asp:ListItem>
+                            <asp:ListItem Value="1">Administrador</asp:ListItem>
+                            <asp:ListItem Value="2">Médico</asp:ListItem>
+                            <asp:ListItem Value="3">Recepcionista</asp:ListItem>
+                        </asp:DropDownList>
 
 
-
-
-
-                        </div>
-                    </div> <%-- CIERRE MODAL --%>
-
-                    <!-- Botones -->
-                    <div class="modal-footer border-0 d-flex justify-content-end">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-
-                        <asp:Button ID="btnGuardarCambios" runat="server"
-                            Text="Guardar"
-                            CssClass="btn btn-primary"
-                            ValidationGroup="AgregarUsuario"
-                            UseSubmitBehavior="false"
-                            OnClientClick="return ejecutarGuardado();"
-                            OnClick="btnGuardarCambios_Click" />
-
-
+                        <asp:RequiredFieldValidator ID="valRol" runat="server"
+                            ControlToValidate="ddlRol2"
+                            InitialValue=""
+                            ErrorMessage="Seleccione el rol del usuario."
+                            CssClass="text-danger" ValidationGroup="AgregarUsuario" />
                     </div>
 
                 </div>
+            </div> <!-- FIN MODAL BODY -->
+
+            <!-- Botones -->
+            <div class="modal-footer border-0 d-flex justify-content-end">
+               <%-- <button type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    onclick="location.reload();">
+                    Cancelar
+                </button>--%>
+                <button type="button"
+                    class="btn btn-secondary"
+                    onclick="window.location.href='GestionarUsuarios.aspx';">
+                    Cancelar
+                </button>
+
+
+
+                <asp:Button ID="btnGuardarCambios" runat="server"
+                    Text="Guardar"
+                    CssClass="btn btn-primary"
+                    ValidationGroup="AgregarUsuario"
+                    UseSubmitBehavior="false"
+                    OnClick="btnGuardarCambios_Click" />
             </div>
+
         </div>
-
-
+    </div>
+</div>
 
 
 
 
   </ContentTemplate>
 </asp:UpdatePanel>
+
+
+    <!-- ===================== -->
+    <!--     MODAL ÉXITO       -->
+    <!-- ===================== -->
+    <div class="modal fade" id="modalExito" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-success text-white p-4 rounded">
+                <h4 class="mb-3">Usuario registrado correctamente</h4>
+                
+                <div class="text-end">
+                    <%-- CAMBIO 2: Cambiamos el mensaje del modal de éxito. El OnClientClick está bien para recargar. --%>
+                    <asp:Button ID="btnAceptarExito" runat="server"
+                        CssClass="btn btn-light"
+                        Text="Aceptar"
+                        OnClientClick="location.reload(); return false;" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== -->
+    <!--      MODAL ERROR      -->
+    <!-- ===================== -->
+    <div class="modal fade" id="modalError" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-danger text-white p-4 rounded">
+                <%-- CAMBIO 3: Cambiamos el mensaje del modal de error. --%>
+                <h4 class="mb-3">Error al registrar el usuario</h4>
+
+                <div id="modalErrorBody" class="mb-3"></div>
+
+                <div class="text-end">
+                    <asp:Button ID="btnAceptarError" runat="server"
+                        CssClass="btn btn-light"
+                        Text="Aceptar"
+                        OnClientClick="location.reload(); return false;" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <%-- CAMBIO 4: Script para la funcionalidad de los modales. --%>
+    <script>
+        function ejecutarGuardado() {
+            // Ejecuta la validación del grupo 'AgregarUsuario'
+            if (typeof (Page_ClientValidate) === 'function') {
+                Page_ClientValidate('AgregarUsuario');
+
+                // Si la validación del cliente falla, Page_IsValid es false y retornamos false.
+                if (!Page_IsValid) {
+                    // El modal permanece abierto automáticamente porque el postback se cancela.
+                    return false;
+                }
+            }
+            // Si la validación es correcta, permite el postback para el guardado en C#
+            return true;
+        }
+
+        // Función para mostrar un modal específico (éxito o error)
+        function mostrarModal(idModal) {
+            var modal = new bootstrap.Modal(document.getElementById(idModal));
+            modal.show();
+        }
+
+        // Función para reabrir el modal de agregar usuario si hubo un error de validación del servidor
+        function reabrirModalAgregarUsuario() {
+            var modal = new bootstrap.Modal(document.getElementById('modalAgregarUsuario'));
+            modal.show();
+        }
+
+
+
+
+
+
+        //VALIDACIÓN VISUAL DE CAMPOS (rojo en error)
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const campos = document.querySelectorAll("#modalAgregarUsuario input, #modalAgregarUsuario select");
+
+            campos.forEach(campo => {
+                campo.addEventListener("input", function () {
+
+                    // Ejecuta validación del grupo
+                    if (typeof (Page_ClientValidate) === "function") {
+                        Page_ClientValidate('AgregarUsuario');
+                    }
+
+                    // Si este campo tiene error → borde rojo
+                    if (!campo.classList.contains("aspNetDisabled")) {
+                        if (!campo.isValid) {
+                            campo.style.border = "2px solid #ff4d4d";
+                        } else {
+                            campo.style.border = "1px solid gray";
+                        }
+                    }
+                });
+            });
+
+        });
+
+
+    </script>
 
 </asp:Content>

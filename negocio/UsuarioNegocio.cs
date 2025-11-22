@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using dominio;
 
 
+
 namespace negocio
 {
     public class UsuarioNegocio
@@ -67,37 +68,66 @@ namespace negocio
             return lista;
         }
 
-        public int Agregar(Usuario nuevo)
+        // Asegúrate que tu clase 'Usuario' tenga las propiedades que se mapean a la tabla.
+
+
+
+        // negocio/UsuarioNegocio.cs
+
+        // ... (métodos Listar, Modificar, Eliminar, etc.)
+
+        public int Agregar(Usuario nuevoUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
+            int idGenerado = 0;
 
             try
             {
+                // ... (Tu consulta SQL y seteo de parámetros se mantienen igual) ...
+
                 datos.setearConsulta(@"
-                    INSERT INTO USUARIOS 
-                    (DniUsuario, Nombres, Apellidos, NombreUsuario, Contrasena, Email, IdRol)
-                    VALUES (@dni, @nombres, @apellidos, @user, @pass, @mail, @rol);
-                    SELECT SCOPE_IDENTITY();");
+                  INSERT INTO USUARIOS (DniUsuario, Nombres, Apellidos, NombreUsuario, Contrasena, Email, IdRol) 
+                  VALUES (@dni, @nombres, @apellidos, @user, @pass, @mail, @rol);
+                  SELECT CAST(SCOPE_IDENTITY() AS INT);");
 
-                datos.setearParametro("@dni", nuevo.DniUsuario);
-                datos.setearParametro("@nombres", nuevo.Nombres);
-                datos.setearParametro("@apellidos", nuevo.Apellidos);
-                datos.setearParametro("@user", nuevo.NombreUsuario);
-                datos.setearParametro("@pass", nuevo.Contrasena);
-                datos.setearParametro("@mail", nuevo.Email);
-                datos.setearParametro("@rol", nuevo.IdRol);
+                datos.setearParametro("@dni", nuevoUsuario.DniUsuario);
+                datos.setearParametro("@nombres", nuevoUsuario.Nombres);
+                datos.setearParametro("@apellidos", nuevoUsuario.Apellidos);
+                datos.setearParametro("@user", nuevoUsuario.NombreUsuario);
+                datos.setearParametro("@pass", nuevoUsuario.Contrasena);
+                datos.setearParametro("@mail", nuevoUsuario.Email);
+                datos.setearParametro("@rol", nuevoUsuario.IdRol);
 
-                return datos.obtenerId();
+                idGenerado = datos.ejecutarAccionScalar();
+
+                return idGenerado;
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                // Errores por violación de UNIQUE (duplicados)
+                if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    if (ex.Message.Contains("UQ_Usuario_DNI"))
+                        throw new Exception("El DNI ingresado ya está registrado para otro usuario.");
+
+                    throw new Exception("Ya existe un registro con valores únicos duplicados.");
+                }
+
+                throw new Exception("Error de base de datos al registrar el usuario: " + ex.Message, ex);
+            }
+            throw new Exception("Error de base de datos al intentar registrar el usuario: " + ex.Message, ex);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al agregar usuario: " + ex.Message);
+                // En caso de cualquier otro error no manejado
+                throw new Exception("Error general al intentar registrar el usuario: " + ex.Message);
             }
             finally
             {
                 datos.cerrarConexion();
             }
         }
+
 
         public void Modificar(Usuario usuario)
         {

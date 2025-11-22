@@ -595,21 +595,21 @@
 
             // Referencias a controles
             const txtNombre = id('<%= txtNombreEdit.ClientID %>');
-        const txtApellido = id('<%= txtApellidoEdit.ClientID %>');
-        const ddlTipoDoc = id('<%= ddlTipoDocEdit.ClientID %>');
-        const txtDni = id('<%= txtDniEdit.ClientID %>');
-        const txtMail = id('<%= txtMailEdit.ClientID %>');
-        const txtCel = id('<%= txtCelEdit.ClientID %>');
-        const txtTel = id('<%= txtTelEdit.ClientID %>');
-        const txtFecha = id('<%= txtFechaEdit.ClientID %>');
-        const ddlSexo = id('<%= ddlSexoEdit.ClientID %>');
-        const txtDir = id('<%= txtDirEdit.ClientID %>');
-        const txtCiudad = id('<%= txtCiudadEdit.ClientID %>');
-        const txtProv = id('<%= txtProvEdit.ClientID %>');
-        const txtCp = id('<%= txtCpEdit.ClientID %>');
-        const txtObra = id('<%= txtObraEdit.ClientID %>');
-        const txtNumObra = id('<%= txtNumObraEdit.ClientID %>');
-        const btnGuardar = id('<%= btnGuardarCambios.ClientID %>');
+            const txtApellido = id('<%= txtApellidoEdit.ClientID %>');
+            const ddlTipoDoc = id('<%= ddlTipoDocEdit.ClientID %>');
+            const txtDni = id('<%= txtDniEdit.ClientID %>');
+            const txtMail = id('<%= txtMailEdit.ClientID %>');
+            const txtCel = id('<%= txtCelEdit.ClientID %>');
+            const txtTel = id('<%= txtTelEdit.ClientID %>');
+            const txtFecha = id('<%= txtFechaEdit.ClientID %>');
+            const ddlSexo = id('<%= ddlSexoEdit.ClientID %>');
+            const txtDir = id('<%= txtDirEdit.ClientID %>');
+            const txtCiudad = id('<%= txtCiudadEdit.ClientID %>');
+            const txtProv = id('<%= txtProvEdit.ClientID %>');
+            const txtCp = id('<%= txtCpEdit.ClientID %>');
+            const txtObra = id('<%= txtObraEdit.ClientID %>');
+            const txtNumObra = id('<%= txtNumObraEdit.ClientID %>');
+            const btnGuardar = id('<%= btnGuardarCambios.ClientID %>');
 
         // Regex y mensajes
         const regex = {

@@ -93,7 +93,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Usuarios</a>
                             <ul class="dropdown-menu dropdown-dark">
-                                <li><a runat="server" href="~/Pantallas-Perfil_Administrador/GestionarUsuarios.aspx" class="dropdown-item">Gestionar Usuarios</a></li>
+                                <li><a runat="server" href="~/Pantasllas-Perfil_Administrador/GestionarUsuarios.aspx" class="dropdown-item">Gestionar Usuarios</a></li>
                             </ul>
                         </li>
 

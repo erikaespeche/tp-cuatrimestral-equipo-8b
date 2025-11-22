@@ -27,6 +27,7 @@ namespace negocio
 
         public void setearConsulta(string consulta)
         {
+            comando.Parameters.Clear();   // LÍNEA OBLIGATORIA
             comando.CommandType = CommandType.Text;
             comando.CommandText = consulta;
         }
@@ -60,6 +61,20 @@ namespace negocio
             return id;
         }
 
+       
+
+        public int ejecutarAccionScalar()
+        {
+            comando.Connection = conexion;
+
+            conexion.Open();
+            object result = comando.ExecuteScalar();
+            conexion.Close();
+
+            return Convert.ToInt32(result);
+        }
+
+
         public void cerrarConexion()
         {
             if (lector != null && !lector.IsClosed)
@@ -69,5 +84,7 @@ namespace negocio
 
             comando.Parameters.Clear();
         }
+
+
     }
 }

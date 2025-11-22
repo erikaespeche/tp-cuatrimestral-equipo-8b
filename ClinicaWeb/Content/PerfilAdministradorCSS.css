@@ -120,3 +120,22 @@
     }
 
 
+    #pantalla-usuarios TextBox {
+        background-color: #0F172A !important;
+    }
+
+ #pantalla-usuarios .input-dark {
+    background-color: red !important;
+    color: #ffffff !important;
+    border: 1px solid #334155 !important; /* tono gris azulado */
+}
+
+    #pantalla-usuarios .input-dark:focus {
+        background-color: #0F172A !important;
+        color: #fff !important;
+        border-color: #475569 !important;
+        box-shadow: 0 0 0 0.15rem rgba(51, 65, 85, 0.4);
+    }
+
+
+
