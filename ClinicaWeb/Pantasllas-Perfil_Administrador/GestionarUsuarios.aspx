@@ -1,4 +1,5 @@
-﻿<%@ Page Title="Clinica - Gestión de Usuarios" Language="C#" MasterPageFile="~/PerfilAdministrador.Master" AutoEventWireup="true" CodeBehind="GestionarUsuarios.aspx.cs" Inherits="Clinic.Pantasllas_Perfil_Administrador.GestionarUsuarios" %>
+﻿<%@ Page Title="Clinica - Gestión de Usuarios" Language="C#" MasterPageFile="~/PerfilAdministrador.Master" 
+    AutoEventWireup="true" CodeBehind="GestionarUsuarios.aspx.cs" Inherits="Clinic.Pantasllas_Perfil_Administrador.GestionarUsuarios" %>
 
 
 

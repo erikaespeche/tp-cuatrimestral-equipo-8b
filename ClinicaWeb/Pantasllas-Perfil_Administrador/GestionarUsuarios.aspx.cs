@@ -9,33 +9,35 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 {
     public partial class GestionarUsuarios : System.Web.UI.Page
     {
+        
         protected void Page_Load(object sender, EventArgs e)
         {
+
+           
             if (!IsPostBack)
             {
-                // Si necesitás cargar listado aquí, hacelo
                 CargarUsuarios();
+
+                
             }
 
-            // Marca los campos inválidos con borde rojo
+            // Marca campos inválidos con borde rojo
             foreach (var validator in Page.Validators)
             {
-                if (validator is BaseValidator baseValidator && !baseValidator.IsValid)
+                if (validator is BaseValidator v && !v.IsValid)
                 {
-                    Control ctrl = FindControl(baseValidator.ControlToValidate);
+                    Control ctrl = FindControl(v.ControlToValidate);
                     if (ctrl is TextBox txt)
                     {
-                        txt.CssClass = txt.CssClass.Replace("border-secondary", "");
                         txt.CssClass += " border-danger";
                     }
                 }
             }
         }
 
-
-
-
-        // ------------------- BOTÓN AGREGAR -----------------------
+        // ------------------------------------------------------
+        // BOTÓN AGREGAR NUEVO USUARIO
+        // ------------------------------------------------------
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             LimpiarCamposModal();
@@ -47,20 +49,20 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             );
         }
 
-
-        // ----------------- BOTÓN GUARDAR CAMBIOS -----------------
+        // ------------------------------------------------------
+        // GUARDAR USUARIO (INSERT)
+        // ------------------------------------------------------
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
             if (!Page.IsValid)
             {
-                // Vuelve a abrir el modal para corregir datos inválidos
-                ScriptManager.RegisterStartupScript(this, GetType(), "reabrir", "reabrirModalAgregarUsuario();", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "reabrir",
+                    "reabrirModalAgregarUsuario();", true);
                 return;
             }
 
             try
             {
-                // Construyo el usuario con los datos del formulario
                 Usuario nuevo = new Usuario()
                 {
                     DniUsuario = int.Parse(txtDniEdit.Text),
@@ -75,7 +77,9 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                 UsuarioNegocio negocio = new UsuarioNegocio();
                 negocio.Agregar(nuevo);
 
-                // Mostrar modal de éxito
+                // 🔥 IMPORTANTE: refresco la tabla
+                CargarUsuarios();
+
                 ScriptManager.RegisterStartupScript(
                     this, GetType(), "exito",
                     "mostrarModal('modalExito');",
@@ -85,14 +89,12 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             catch (Exception ex)
             {
                 string msg = ex.Message.Replace("'", "\\'");
-
                 ScriptManager.RegisterStartupScript(
                     this, GetType(), "error",
                     $"document.getElementById('modalErrorBody').innerHTML = '{msg}'; mostrarModal('modalError');",
                     true
                 );
 
-                // Reabrir modal agregar
                 ScriptManager.RegisterStartupScript(
                     this, GetType(), "reabrirAdd",
                     "reabrirModalAgregarUsuario();",
@@ -101,10 +103,64 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             }
         }
 
+        // ------------------------------------------------------
+        // CARGAR USUARIOS
+        // ------------------------------------------------------
+        private void CargarUsuarios()
+        {
+            UsuarioNegocio negocio = new UsuarioNegocio();
+            List<Usuario> lista = negocio.Listar();
+
+            // PROBAR SI TRAE DATOS
+            Response.Write($"<script>console.log('Usuarios encontrados: {lista.Count}');</script>");
+
+            repUsuarios.DataSource = lista;
+            repUsuarios.DataBind();
+        }
 
 
-        // ------------------------ MÉTODOS AUXILIARES -------------------------
 
+        
+
+
+        // ===============================
+        //     BOTÓN BUSCAR
+        // ===============================
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                UsuarioNegocio negocio = new UsuarioNegocio();
+                List<Usuario> lista = negocio.Listar();
+
+                // FILTROS
+                if (!string.IsNullOrWhiteSpace(txtNombre.Text))
+                    lista = lista.FindAll(u => u.Nombres.ToUpper().Contains(txtNombre.Text.ToUpper()));
+
+                if (!string.IsNullOrWhiteSpace(txtApellido.Text))
+                    lista = lista.FindAll(u => u.Apellidos.ToUpper().Contains(txtApellido.Text.ToUpper()));
+
+                if (!string.IsNullOrWhiteSpace(TextDocumento.Text))
+                    lista = lista.FindAll(u => u.DniUsuario.ToString().Contains(TextDocumento.Text));
+
+                if (!string.IsNullOrWhiteSpace(TextUsuario.Text))
+                    lista = lista.FindAll(u => u.NombreUsuario.ToUpper().Contains(TextUsuario.Text.ToUpper()));
+
+                if (!string.IsNullOrWhiteSpace(ddlRol.SelectedValue))
+                    lista = lista.FindAll(u => u.Rol.NombreRol.ToUpper() == ddlRol.SelectedValue.ToUpper());
+
+                repUsuarios.DataSource = lista;
+                repUsuarios.DataBind();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al filtrar usuarios: " + ex.Message);
+            }
+        }
+
+        // ------------------------------------------------------
+        // METODOS AUXILIARES
+        // ------------------------------------------------------
         private void LimpiarCamposModal()
         {
             txtNombreEdit.Text = "";
@@ -117,73 +173,34 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             ddlRol2.SelectedIndex = 0;
         }
 
-        private void MostrarModalExito()
+        // ------------------------------------------------------
+        // MANEJO DE ACCIONES DEL REPEATER (EDITAR / ELIMINAR)
+        // ------------------------------------------------------
+        protected void repUsuarios_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, GetType(),
-                "CerrarModalReg", "$('#modalAgregarUsuario').modal('hide');", true);
+            int id = int.Parse(e.CommandArgument.ToString());
 
-            ScriptManager.RegisterStartupScript(this, GetType(),
-                "AbrirExito", "mostrarModal('modalExito');", true);
-        }
-
-        private void MostrarModalError(string mensaje)
-        {
-            mensaje = mensaje.Replace("'", "\\'");
-            ScriptManager.RegisterStartupScript(this, GetType(),
-                "CerrarModalReg", "$('#modalAgregarUsuario').modal('hide');", true);
-
-            ScriptManager.RegisterStartupScript(this, GetType(),
-                "AbrirError",
-                $"document.getElementById('modalErrorBody').innerHTML = '{mensaje}'; mostrarModal('modalError');",
-                true
-            );
-        }
-
-        // ----------------- BOTÓN BUSCAR USUSARIOS -----------------
-        protected void btnBuscar_Click(object sender, EventArgs e)
-        {
-            UsuarioNegocio negocio = new UsuarioNegocio();
-            var lista = negocio.Listar();
-
-            // FILTROS
-            if (!string.IsNullOrEmpty(txtNombre.Text))
-                lista = lista.FindAll(x => x.Nombres.ToUpper().Contains(txtNombre.Text.ToUpper()));
-
-            if (!string.IsNullOrEmpty(txtApellido.Text))
-                lista = lista.FindAll(x => x.Apellidos.ToUpper().Contains(txtApellido.Text.ToUpper()));
-
-            if (!string.IsNullOrEmpty(TextDocumento.Text))
-                lista = lista.FindAll(x => x.DniUsuario.ToString().Contains(TextDocumento.Text));
-
-            if (!string.IsNullOrEmpty(TextUsuario.Text))
-                lista = lista.FindAll(x => x.NombreUsuario.ToUpper().Contains(TextUsuario.Text.ToUpper()));
-
-            if (!string.IsNullOrEmpty(ddlRol.SelectedValue))
-                lista = lista.FindAll(x => x.Rol.NombreRol == ddlRol.SelectedValue);
-
-            repUsuarios.DataSource = lista;
-            repUsuarios.DataBind();
-        }
-
-
-        // ----------------- LISTAR USUSARIOS -----------------
-        private void CargarUsuarios()
-        {
-            try
+            if (e.CommandName == "Editar")
             {
-                UsuarioNegocio negocio = new UsuarioNegocio();
-                List<Usuario> lista = negocio.Listar();
-
-                repUsuarios.DataSource = lista;
-                repUsuarios.DataBind();
+                Response.Redirect("EditarUsuario.aspx?id=" + id);
             }
-            catch (Exception ex)
+
+            if (e.CommandName == "Eliminar")
             {
-                // Manejo de errores opcional
-                string script = $"alert('Error al cargar usuarios: {ex.Message}');";
-                ScriptManager.RegisterStartupScript(this, GetType(), "alertaError", script, true);
+                try
+                {
+                    UsuarioNegocio negocio = new UsuarioNegocio();
+                    negocio.Eliminar(id);
+
+                    CargarUsuarios();
+                }
+                catch (Exception ex)
+                {
+                    string msg = ex.Message.Replace("'", "\\'");
+                    ScriptManager.RegisterStartupScript(this, GetType(), "error",
+                        $"alert('Error al eliminar: {msg}');", true);
+                }
             }
         }
-
     }
 }

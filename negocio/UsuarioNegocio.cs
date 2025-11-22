@@ -68,7 +68,7 @@ namespace negocio
             return lista;
         }
 
-        // Asegúrate que tu clase 'Usuario' tenga las propiedades que se mapean a la tabla.
+
 
 
 
@@ -83,12 +83,10 @@ namespace negocio
 
             try
             {
-                // ... (Tu consulta SQL y seteo de parámetros se mantienen igual) ...
-
                 datos.setearConsulta(@"
-                  INSERT INTO USUARIOS (DniUsuario, Nombres, Apellidos, NombreUsuario, Contrasena, Email, IdRol) 
-                  VALUES (@dni, @nombres, @apellidos, @user, @pass, @mail, @rol);
-                  SELECT CAST(SCOPE_IDENTITY() AS INT);");
+            INSERT INTO USUARIOS (DniUsuario, Nombres, Apellidos, NombreUsuario, Contrasena, Email, IdRol) 
+            VALUES (@dni, @nombres, @apellidos, @user, @pass, @mail, @rol);
+            SELECT CAST(SCOPE_IDENTITY() AS INT);");
 
                 datos.setearParametro("@dni", nuevoUsuario.DniUsuario);
                 datos.setearParametro("@nombres", nuevoUsuario.Nombres);
@@ -99,7 +97,6 @@ namespace negocio
                 datos.setearParametro("@rol", nuevoUsuario.IdRol);
 
                 idGenerado = datos.ejecutarAccionScalar();
-
                 return idGenerado;
             }
             catch (System.Data.SqlClient.SqlException ex)
@@ -115,11 +112,8 @@ namespace negocio
 
                 throw new Exception("Error de base de datos al registrar el usuario: " + ex.Message, ex);
             }
-            throw new Exception("Error de base de datos al intentar registrar el usuario: " + ex.Message, ex);
-            }
             catch (Exception ex)
             {
-                // En caso de cualquier otro error no manejado
                 throw new Exception("Error general al intentar registrar el usuario: " + ex.Message);
             }
             finally
@@ -127,6 +121,7 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
 
 
         public void Modificar(Usuario usuario)
