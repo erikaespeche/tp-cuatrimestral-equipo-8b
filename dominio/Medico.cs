@@ -17,5 +17,6 @@ namespace dominio
         public int IdTurnoTrabajo { get; set; }
 
         public List<Especialidad> Especialidades { get; set; }
+        public string NombreCompleto => $"{Nombre} {Apellido}";
     }
 }

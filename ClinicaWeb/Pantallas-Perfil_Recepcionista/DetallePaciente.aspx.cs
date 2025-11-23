@@ -2,6 +2,9 @@
 using negocio;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.UI;
@@ -32,6 +35,10 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                     // Si no hay DNI, redirigir a la lista de pacientes
                     Response.Redirect("ListarPaciente.aspx?error=SinDNI");
                 }
+                CargarMedicos();
+                CargarEspecialidades();
+                CargarHorasDisponibles();
+                CargarCitasPaciente();
             }
         }
 
@@ -50,6 +57,8 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 return;
             }
 
+            ViewState["IdPaciente"] = paciente.IdPaciente;
+
             lblNombre.Text = paciente.Nombres;
             lblApellido.Text = paciente.Apellidos;
             lblTipoDocumento.Text = paciente.TipoDocumento;
@@ -65,6 +74,59 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             lblNroObraSocial.Text = paciente.NumeroObraSocial;
             lblCodigoPostal.Text = paciente.CodigoPostal;
             lblSexo.Text = paciente.Sexo.ToString();
+        }
+
+        private void CargarEspecialidades()
+        {
+            EspecialidadNegocio espNeg = new EspecialidadNegocio();
+            var lista = espNeg.Listar();
+
+            ddlEspecialidad.DataSource = lista;
+            ddlEspecialidad.DataTextField = "Nombre";       
+            ddlEspecialidad.DataValueField = "IdEspecialidad"; 
+            ddlEspecialidad.DataBind();
+
+            ddlEspecialidad.Items.Insert(0, new ListItem("Seleccionar especialidad", "0"));
+        }
+
+        private void CargarMedicos()
+        {
+            MedicoNegocio medNeg = new MedicoNegocio();
+            var lista = medNeg.Listar();
+
+            ddlProfesional.DataSource = lista;
+            ddlProfesional.DataTextField = "NombreCompleto"; 
+            ddlProfesional.DataValueField = "IdMedico";
+            ddlProfesional.DataBind();
+
+            ddlProfesional.Items.Insert(0, new ListItem("Seleccionar profesional", "0"));
+        }
+
+        private void CargarHorasDisponibles()
+        {
+            ddlHora.Items.Clear(); // Limpiamos por si hay algo
+            ddlHora.Items.Add(new ListItem("Seleccionar hora", "")); // Item inicial
+
+            var horas = new List<string> { "08:00", "09:00", "10:00", "11:00" };
+            foreach (var h in horas)
+            {
+                ddlHora.Items.Add(new ListItem(h, h));
+            }
+        }
+
+        private void CargarCitasPaciente()
+        {
+            // Obtenés el Id del paciente desde el ViewState
+            if (ViewState["IdPaciente"] == null)
+                return;
+
+            int idPaciente = (int)ViewState["IdPaciente"];
+
+            TurnoNegocio turnoNeg = new TurnoNegocio();
+            var listaTurnos = turnoNeg.ListarPorPaciente(idPaciente); 
+
+            rptCitas.DataSource = listaTurnos;
+            rptCitas.DataBind();
         }
 
 
@@ -173,6 +235,73 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         }
 
 
+        protected void btnAgendarTurno_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Validaciones básicas
+                if (ddlEspecialidad.SelectedValue == "0" || ddlProfesional.SelectedValue == "0"
+                    || string.IsNullOrEmpty(txtFechaTurno.Text) || ddlHora.SelectedValue == "")
+                {
+                    ScriptManager.RegisterStartupScript(
+                        this, GetType(),
+                        "alert", "alert('Complete todos los campos antes de guardar el turno');", true);
+                    return;
+                }
+
+                TurnoNegocio turnoNeg = new TurnoNegocio();
+
+                // Convertir fecha 
+                DateTime fecha = DateTime.Parse(txtFechaTurno.Text);
+                TimeSpan hora = TimeSpan.Parse(ddlHora.SelectedValue);
+
+                // Combinar fecha + hora
+                DateTime fechaCompleta = fecha.Date + hora;
+
+                // Crear objeto Turno
+                Turno nuevoTurno = new Turno
+                {
+                    IdPaciente = (int)ViewState["IdPaciente"],
+                    IdEspecialidad = int.Parse(ddlEspecialidad.SelectedValue),
+                    IdMedico = int.Parse(ddlProfesional.SelectedValue),
+                    Fecha = fechaCompleta, 
+                    Observaciones = txtObservaciones.Text
+                };
+
+
+                // Guardar en DB
+                turnoNeg.Agregar(nuevoTurno);
+
+                //actualizar citas
+                CargarCitasPaciente();
+
+                // Cerrar modal y mostrar mensaje de éxito
+                ScriptManager.RegisterStartupScript(
+                    this, GetType(),
+                    "ShowSuccessModal",
+                    "$('#modalNuevoTurno').modal('hide'); alert('Turno agregado correctamente');",
+                    true
+                );
+
+                // Limpiar campos
+                ddlEspecialidad.SelectedIndex = 0;
+                ddlProfesional.SelectedIndex = 0;
+                txtFechaTurno.Text = "";
+                ddlHora.SelectedIndex = 0;
+                txtObservaciones.Text = "";
+            }
+            catch (Exception ex)
+            {
+                string errorMsg = "Error al guardar el turno: " + ex.Message;
+                errorMsg = errorMsg.Replace("'", "\\'").Replace("\r", "").Replace("\n", "<br>");
+                ScriptManager.RegisterStartupScript(
+                    this, GetType(),
+                    "modalError",
+                    $"var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = '{errorMsg}';",
+                    true
+                );
+            }
+        }
 
 
 
@@ -193,14 +322,8 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
         protected void calTurno_SelectionChanged(object sender, EventArgs e)
         {
-            // Si querés, puedes guardar la fecha seleccionada aquí
-            DateTime fecha = calTurno.SelectedDate;
-
-            // (Opcional) Mostrar algo o actualizar otros campos
-            //txtFechaTurno.Text = fecha.ToString("yyyy-MM-dd");
+            // Guardamos la fecha seleccionada en el HiddenField
         }
-
-
 
     }
 }

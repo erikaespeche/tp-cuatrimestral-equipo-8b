@@ -145,19 +145,27 @@
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td>25/05/2024</td>
-                        <td>10:00</td>
-                        <td>Dr. Alan Grant</td>
-                        <td>Consulta General</td>
-                        <td><span class="badge badge-confirmado">Confirmado</span></td>
-                        <td>
-                            <button class="btn btn-primary btn-sm me-1">Enviar Recordatorio</button>
-                            <button class="btn btn-warning btn-sm me-1 text-dark">Reprogramar</button>
-                            <button class="btn btn-danger btn-sm">Cancelar</button>
-                        </td>
-                    </tr>
+                    <asp:Repeater ID="rptCitas" runat="server">
+                        <ItemTemplate>
+                            <tr>
+                                <td><%# Eval("Fecha") %></td>
+                                <td><%# Eval("Hora") %></td>
+                                <td><%# Eval("Medico") %></td>
+                                <td>
+                                    <span class='badge <%# Eval("Estado") == "Confirmado" ? "badge-confirmado" : "badge-pendiente" %>'>
+                                        <%# Eval("Estado") %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm me-1">Enviar Recordatorio</button>
+                                    <button class="btn btn-warning btn-sm me-1 text-dark">Reprogramar</button>
+                                    <button class="btn btn-danger btn-sm">Cancelar</button>
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </tbody>
+
             </table>
         </div>
 
@@ -479,7 +487,7 @@
 
 
 
-   <!-- =============================== -->
+<!-- =============================== -->
 <!--      MODAL AGREGAR TURNO        -->
 <!-- =============================== -->
 <div class="modal fade" id="modalNuevoTurno" tabindex="-1">
@@ -498,17 +506,15 @@
                     <!-- Especialidad -->
                     <div class="col-md-6">
                         <label class="form-label text-light">Especialidad</label>
-                        <asp:DropDownList ID="ddlEspecialidad" runat="server"
-                            CssClass="form-select dropdown-dark">
+                        <asp:DropDownList ID="ddlEspecialidad" runat="server" CssClass="form-select dropdown-dark">
                             <asp:ListItem Text="Seleccionar especialidad" Value="" />
                         </asp:DropDownList>
                     </div>
 
-                    <!-- Profesional -->
+                    <!-- Médico -->
                     <div class="col-md-6">
                         <label class="form-label text-light">Profesional o Médico</label>
-                        <asp:DropDownList ID="ddlProfesional" runat="server"
-                            CssClass="form-select dropdown-dark">
+                        <asp:DropDownList ID="ddlProfesional" runat="server" CssClass="form-select dropdown-dark">
                             <asp:ListItem Text="Seleccionar profesional" Value="" />
                         </asp:DropDownList>
                     </div>
@@ -516,42 +522,25 @@
                     <!-- Fecha -->
                     <div class="col-md-6">
                         <label class="form-label text-light">Fecha</label>
-
-                        <div class="calendar-container-dark">
-                            <asp:Calendar ID="calTurno" runat="server"
-                                CssClass="calendar-dark"
-                                DayNameFormat="Shortest"
-                                NextPrevFormat="FullMonth"
-                                BorderStyle="None"
-                                OnSelectionChanged="calTurno_SelectionChanged" />
-                        </div>
+                        <asp:TextBox ID="txtFechaTurno" runat="server"
+                                     CssClass="form-control"
+                                     TextMode="Date"></asp:TextBox>
                     </div>
 
-                    <!-- Horarios -->
+                    <!-- Horario -->
                     <div class="col-md-6">
                         <label class="form-label text-light">Hora</label>
-
-                        <div class="d-grid gap-2">
-                            <asp:Repeater ID="repHoras" runat="server">
-                                <ItemTemplate>
-                                    <button type="button"
-                                        class="hora-btn"
-                                        data-hora='<%# Eval("Hora") %>'>
-                                        <%# Eval("Hora") %>
-                                    </button>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </div>
-
-                        <asp:HiddenField ID="hfHoraSeleccionada" runat="server" />
+                        <asp:DropDownList ID="ddlHora" runat="server" CssClass="form-select dropdown-dark">
+                            <asp:ListItem Text="Seleccionar hora" Value="" />
+                        </asp:DropDownList>
                     </div>
 
-                    <!-- Comentarios -->
+                    <!-- Observaciones -->
                     <div class="col-12">
-                        <label class="form-label text-light">Comentarios</label>
-                        <asp:TextBox ID="txtComentarios" TextMode="MultiLine" Rows="3" runat="server"
-                            CssClass="form-control comments-dark"
-                            placeholder="Añada notas adicionales aquí..."></asp:TextBox>
+                        <label class="form-label text-light">Observaciones</label>
+                        <asp:TextBox ID="txtObservaciones" TextMode="MultiLine" Rows="3" runat="server"
+                                     CssClass="form-control comments-dark"
+                                     placeholder="Añada notas adicionales aquí..."></asp:TextBox>
                     </div>
 
                 </div>
@@ -564,18 +553,13 @@
                 </button>
 
                 <asp:Button ID="btnAgendarTurno" runat="server" Text="Agendar Turno"
-                    CssClass="btn btn-primary btn-turno" />
+                    CssClass="btn btn-primary btn-turno" OnClick="btnAgendarTurno_Click" />
+
             </div>
 
         </div>
     </div>
 </div>
-
-
-
-
-
-
 
 
 
@@ -973,21 +957,16 @@
 
 
     <%--JS para seleccionar horario--%>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".hora-btn").forEach(btn => {
-                btn.addEventListener("click", function () {
-
-                    document.querySelectorAll(".hora-btn").forEach(b => b.classList.remove("active"));
-
-                    this.classList.add("active");
-
-                    let hora = this.getAttribute("data-hora");
-                    document.getElementById('<%= hfHoraSeleccionada.ClientID %>').value = hora;
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const ddl = document.getElementById('<%= ddlHora.ClientID %>');
+                ddl.addEventListener("change", function () {
+                    console.log("Hora seleccionada:", ddl.value);
                 });
             });
-        });
-    </script>
+        </script>
+
+
 
 
 

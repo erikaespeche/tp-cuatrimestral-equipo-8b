@@ -11,6 +11,59 @@ namespace negocio
 {
     public class TurnoNegocio
     {
+        public List<TurnoAgendaDTO> ListarPorPaciente(int idPaciente)
+        {
+            List<TurnoAgendaDTO> lista = new List<TurnoAgendaDTO>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT  
+                T.IdTurno,
+                T.Fecha,
+                T.Estado,
+                P.IdPaciente,
+                P.Nombres + ' ' + P.Apellidos AS Paciente,
+                P.DniPaciente AS DNI,
+                P.ObraSocial,
+                M.Nombre + ' ' + M.Apellido AS Medico,
+                E.Nombre AS Especialidad
+            FROM TURNO T
+            INNER JOIN PACIENTES P ON P.IdPaciente = T.IdPaciente
+            INNER JOIN MEDICO M ON M.IdMedico = T.IdMedico
+            INNER JOIN ESPECIALIDAD E ON E.IdEspecialidad = T.IdEspecialidad
+            WHERE P.IdPaciente = @idPaciente
+            ORDER BY T.Fecha DESC
+        ");
+                datos.setearParametro("@idPaciente", idPaciente);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    TurnoAgendaDTO aux = new TurnoAgendaDTO
+                    {
+                        IdTurno = (int)datos.Lector["IdTurno"],
+                        Fecha = (DateTime)datos.Lector["Fecha"],
+                        Estado = datos.Lector["Estado"].ToString(),
+                        Paciente = datos.Lector["Paciente"].ToString(),
+                        DNI = datos.Lector["DNI"].ToString(),
+                        ObraSocial = datos.Lector["ObraSocial"].ToString(),
+                        Medico = datos.Lector["Medico"].ToString(),
+                        Especialidad = datos.Lector["Especialidad"].ToString(),
+                        IdPaciente = (int)datos.Lector["IdPaciente"]
+                    };
+                    lista.Add(aux);
+                }
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return lista;
+        }
+
         public List<TurnoAgendaDTO> ListarAgendaPorFecha(DateTime fecha)
         {
             List<TurnoAgendaDTO> lista = new List<TurnoAgendaDTO>();
@@ -211,6 +264,79 @@ namespace negocio
             return lista;
         }
 
+        public void Agregar(Turno turno)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            INSERT INTO TURNO 
+                (IdPaciente, IdEspecialidad, IdMedico, Fecha, Estado, Observaciones)
+            VALUES 
+                (@IdPaciente, @IdEspecialidad, @IdMedico, @Fecha, @Estado, @Observaciones)
+        ");
+
+                datos.setearParametro("@IdPaciente", turno.IdPaciente);
+                datos.setearParametro("@IdEspecialidad", turno.IdEspecialidad);
+                datos.setearParametro("@IdMedico", turno.IdMedico);
+                datos.setearParametro("@Fecha", turno.Fecha); // DateTime completo
+                datos.setearParametro("@Estado", "Pendiente"); // Estado inicial
+                datos.setearParametro("@Observaciones", turno.Observaciones ?? "");
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar turno: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+        public List<Hora> HorasDisponibles(int idMedico, DateTime fecha)
+        {
+            List<Hora> lista = new List<Hora>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT Hora
+            FROM HORARIO
+            WHERE IdMedico = @idMedico
+              AND Hora NOT IN (
+                  SELECT CONVERT(time, T.Fecha)
+                  FROM TURNO T
+                  WHERE T.IdMedico = @idMedico
+                    AND CONVERT(date, T.Fecha) = @fecha
+              )
+            ORDER BY Hora
+        ");
+                datos.setearParametro("@idMedico", idMedico);
+                datos.setearParametro("@fecha", fecha);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    lista.Add(new Hora { HoraStr = datos.Lector["Hora"].ToString() });
+                }
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return lista;
+        }
+
+        public class Hora
+        {
+            public string HoraStr { get; set; }
+        }
 
     }
 }

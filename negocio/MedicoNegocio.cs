@@ -154,8 +154,60 @@ namespace negocio
 
             return lista;
         }
+        public List<Medico> ListarPorEspecialidad(int idEspecialidad)
+        {
+            List<Medico> listaFiltrada = new List<Medico>();
+
+            foreach (var medico in Listar()) 
+            {
+                if (medico.Especialidades.Any(e => e.IdEspecialidad == idEspecialidad))
+                {
+                    listaFiltrada.Add(medico);
+                }
+            }
+
+            return listaFiltrada;
+        }
 
 
+        public Medico BuscarPorId(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Medico medico = null;
 
+            try
+            {
+                datos.setearConsulta(@"SELECT IdMedico, Nombre, Apellido, Dni, Telefono, Email, IdTurnoTrabajo 
+                               FROM MEDICO 
+                               WHERE IdMedico = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    medico = new Medico
+                    {
+                        IdMedico = (int)datos.Lector["IdMedico"],
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Apellido = datos.Lector["Apellido"].ToString(),
+                        Dni = datos.Lector["Dni"].ToString(),
+                        Telefono = datos.Lector["Telefono"] != DBNull.Value ? datos.Lector["Telefono"].ToString() : "",
+                        Email = datos.Lector["Email"] != DBNull.Value ? datos.Lector["Email"].ToString() : "",
+                        IdTurnoTrabajo = datos.Lector["IdTurnoTrabajo"] != DBNull.Value ? (int)datos.Lector["IdTurnoTrabajo"] : 0,
+                        Especialidades = ObtenerEspecialidades((int)datos.Lector["IdMedico"])
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar médico por ID: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return medico;
+        }
     }
 }

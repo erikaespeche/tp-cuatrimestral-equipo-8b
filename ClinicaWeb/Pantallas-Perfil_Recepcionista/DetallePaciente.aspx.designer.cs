@@ -168,6 +168,15 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.Button btnAbrirTurno;
 
         /// <summary>
+        /// Control rptCitas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptCitas;
+
+        /// <summary>
         /// Control txtNombreEdit.
         /// </summary>
         /// <remarks>
@@ -564,40 +573,31 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.DropDownList ddlProfesional;
 
         /// <summary>
-        /// Control calTurno.
+        /// Control txtFechaTurno.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar calTurno;
+        protected global::System.Web.UI.WebControls.TextBox txtFechaTurno;
 
         /// <summary>
-        /// Control repHoras.
+        /// Control ddlHora.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater repHoras;
+        protected global::System.Web.UI.WebControls.DropDownList ddlHora;
 
         /// <summary>
-        /// Control hfHoraSeleccionada.
+        /// Control txtObservaciones.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfHoraSeleccionada;
-
-        /// <summary>
-        /// Control txtComentarios.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtComentarios;
+        protected global::System.Web.UI.WebControls.TextBox txtObservaciones;
 
         /// <summary>
         /// Control btnAgendarTurno.
