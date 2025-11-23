@@ -169,7 +169,7 @@ namespace negocio
                 T.IdTurno,
                 T.Fecha,
                 T.Estado,
-
+                P.IdPaciente,
                 P.Nombres + ' ' + P.Apellidos AS Paciente,
                 P.DniPaciente AS DNI,
                 P.ObraSocial,
@@ -198,6 +198,7 @@ namespace negocio
                     aux.ObraSocial = datos.Lector["ObraSocial"].ToString();
                     aux.Medico = datos.Lector["Medico"].ToString();
                     aux.Especialidad = datos.Lector["Especialidad"].ToString();
+                    aux.IdPaciente = (int)datos.Lector["IdPaciente"];
 
                     lista.Add(aux);
                 }

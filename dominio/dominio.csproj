@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Especialidad.cs" />
+    <Compile Include="HistoriaClinica.cs" />
     <Compile Include="Medico.cs" />
     <Compile Include="Notificacion.cs" />
     <Compile Include="Paciente.cs" />

@@ -117,8 +117,6 @@
         <!-- Tabs (solo maqueta) -->
         <ul class="nav nav-tabs mb-3">
             <li class="nav-item"><a class="nav-link active" href="#">Citas</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Historia Clínica</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Etiquetas</a></li>
         </ul>
 
         <!-- Maqueta de turnos -->

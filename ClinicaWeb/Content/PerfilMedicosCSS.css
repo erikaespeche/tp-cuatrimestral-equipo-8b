@@ -653,18 +653,32 @@ body {
             background: #1d78d5;
         }
 
-    #pantalla-paciente-sala .btn-atendido {
+    #pantalla-paciente-sala .btn-atender {
         background: #2ecc71;
         color: white;
     }
 
-        #pantalla-paciente-sala .btn-atendido:hover {
+        #pantalla-paciente-sala .btn-atender:hover {
             background: #26a65b;
         }
 
+    #pantalla-paciente-sala .btn-finalizar {
+        background: #ff0000;
+        color: white;
+    }
 
+        #pantalla-paciente-sala .btn-finalizar:hover {
+            background: #cc0000;
+        }
 
+    #pantalla-paciente-sala .btn-cargarhistoriaclinica {
+        background: #ff8000;
+        color: white;
+    }
 
+        #pantalla-paciente-sala .btn-cargarhistoriaclinica:hover {
+            background: #D35400;
+        }
 
 
 
@@ -899,5 +913,209 @@ body {
 
     #pantalla-citas-medicos .tabla-citas .table {
         font-size: 13px;
+    }
+}
+
+/* ---------------------------------------- CARGAR HISTORIA CLINICA (TAILWIND ADAPTADO) ------------------------------------------ */
+
+/* -----------------------------
+   CARGAR HISTORIA CLINICA
+----------------------------- */
+
+#pantalla-cargar-historia {
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+    padding: 2rem; 
+    margin: 4rem auto; 
+    max-width: 1500px;
+}
+
+
+    /* Contenedor principal */
+    #pantalla-cargar-historia .hc-container {
+        max-width: 1100px; 
+        margin: 2rem auto;
+        background-color: #101a23; 
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    /* Título principal */
+    #pantalla-cargar-historia .hc-titulo {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    /* Secciones */
+    #pantalla-cargar-historia .seccion {
+        background-color: #182634;
+        border: 1px solid #314d68;
+        border-radius: 10px;
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+        #pantalla-cargar-historia .seccion h3 {
+            font-size: 1.125rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+    /* BLOQUE DATOS DEL PACIENTE */
+    #pantalla-cargar-historia .fila-f1 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    #pantalla-cargar-historia .fila-f2 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    #pantalla-cargar-historia .fila-f3,
+    #pantalla-cargar-historia .fila-f4 {
+        display: grid;
+        grid-template-columns: 1fr;
+        margin-bottom: 0.75rem;
+    }
+
+        #pantalla-cargar-historia .fila-f1 label,
+        #pantalla-cargar-historia .fila-f2 label,
+        #pantalla-cargar-historia .fila-f3 label,
+        #pantalla-cargar-historia .fila-f4 label {
+            color: #90adcb;
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+    #pantalla-cargar-historia .dato-valor {
+        color: #ffffff;
+        font-weight: 600;
+        display: block;
+    }
+
+    /* BLOQUES CONSULTA */
+    #pantalla-cargar-historia .consulta-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    #pantalla-cargar-historia .input-textarea {
+        width: 100%;
+        min-height: 120px;
+        border: 1px solid #314d68;
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        resize: vertical;
+        font-size: 0.9375rem;
+        color: #ffffff;
+        background-color: #182634;
+        transition: border 0.15s;
+    }
+
+        #pantalla-cargar-historia .input-textarea:focus {
+            outline: none;
+            border: 1px solid #0d7ff2;
+            box-shadow: 0 0 0 2px rgba(13,127,242,0.25);
+        }
+
+    /* ARCHIVOS ADJUNTOS */
+    #pantalla-cargar-historia .file-drop {
+        border: 2px dashed #314d68;
+        padding: 1.25rem;
+        text-align: center;
+        border-radius: 0.625rem;
+        cursor: pointer;
+        transition: 0.18s;
+        background-color: #182634;
+    }
+
+        #pantalla-cargar-historia .file-drop:hover {
+            border-color: #0d7ff2;
+            background-color: #182634;
+        }
+
+    #pantalla-cargar-historia .lista-archivos li {
+        font-size: 0.875rem;
+        margin-bottom: 0.375rem;
+        color: #ffffff;
+    }
+
+    /* BOTONES */
+    #pantalla-cargar-historia .botones {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        margin-top: 1rem;
+    }
+
+    #pantalla-cargar-historia .btn-cancelar {
+        background-color: #ef4444;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.15s;
+    }
+
+        #pantalla-cargar-historia .btn-cancelar:hover {
+            background-color: #dc2626;
+        }
+
+    #pantalla-cargar-historia .btn-guardar {
+        background-color: #0d7ff2;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.15s;
+    }
+
+        #pantalla-cargar-historia .btn-guardar:hover {
+            background-color: #0a64c8;
+        }
+
+    /* ICONO LAPIZ */
+    #pantalla-cargar-historia .lapiz {
+        cursor: pointer;
+        font-size: 1rem;
+        color: #0d7ff2;
+        transition: 0.18s ease-in-out;
+    }
+
+        #pantalla-cargar-historia .lapiz:hover {
+            color: #0a64c8;
+            transform: scale(1.06);
+        }
+
+    #pantalla-cargar-historia input[type="file"] {
+        display: none;
+    }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    #pantalla-cargar-historia .fila-f1,
+    #pantalla-cargar-historia .fila-f2,
+    #pantalla-cargar-historia .fila-f3,
+    #pantalla-cargar-historia .fila-f4,
+    #pantalla-cargar-historia .consulta-grid {
+        grid-template-columns: 1fr;
     }
 }

@@ -10,7 +10,7 @@ namespace ClinicaWeb.DTO
         public int IdTurno { get; set; }
         public DateTime Fecha { get; set; }
 
-      
+        public int IdPaciente { get; set; }
         public string Hora => Fecha.ToString("HH:mm");
 
         public string Paciente { get; set; }
