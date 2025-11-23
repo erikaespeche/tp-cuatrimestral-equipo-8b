@@ -3,6 +3,8 @@
 
 
 
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <%-- Para que se ejcute el Modal de Exito o Error el formulario tiene que estar dentro de "asp:UpdatePanel" y ContentTemplate quedando los Modales de Exito o Error afuera --%>
   <asp:UpdatePanel ID="updForm" runat="server" UpdateMode="Conditional">
@@ -103,12 +105,16 @@
                                     <td><%# Eval("Rol.NombreRol") %></td>
 
                                     <td>
+                                        <asp:LinkButton ID="btnEditar" runat="server"
+                                            CommandName="Editar"
+                                            CommandArgument='<%# Eval("IdUsuario") %>'
+                                            CssClass="btn btn-outline-warning btn-sm me-1">
+                                            <i class="bi bi-pencil"></i>
+                                        </asp:LinkButton>
                                         <%--<button class="btn btn-outline-info btn-sm me-1" commandname="Ver" commandargument='<%# Eval("IdUsuario") %>'>
                                             <i class="bi bi-eye"></i>
                                         </button>--%>
-                                        <button class="btn btn-outline-warning btn-sm me-1" commandname="Editar" commandargument='<%# Eval("IdUsuario") %>'>
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
+                                        
                                         <asp:LinkButton ID="btnEliminar" runat="server"
                                             CommandName="Eliminar"
                                             CommandArgument='<%# Eval("IdUsuario") %>'
@@ -330,8 +336,10 @@
                     Text="Guardar"
                     CssClass="btn btn-primary"
                     ValidationGroup="AgregarUsuario"
+                    CausesValidation="true"
                     UseSubmitBehavior="false"
                     OnClick="btnGuardarCambios_Click" />
+
             </div>
 
         </div>
@@ -339,11 +347,21 @@
 </div>
 
 
-
-
   </ContentTemplate>
+
+      <Triggers>
+          <asp:AsyncPostBackTrigger ControlID="repUsuarios" EventName="ItemCommand" />
+          <asp:AsyncPostBackTrigger ControlID="btnGuardarCambios" EventName="Click" />
+          <asp:AsyncPostBackTrigger ControlID="btnConfirmarEliminar" EventName="Click" />
+          <asp:AsyncPostBackTrigger ControlID="btnBuscar" EventName="Click" />
+      </Triggers>
 </asp:UpdatePanel>
 
+
+
+    <!-- ========================================== -->
+    <!-- ✅ IMPORTANTE: Estos modales FUERA del UpdatePanel -->
+    <!-- ========================================== -->
 
     <!-- ===================== -->
     <!--     MODAL ÉXITO       -->
@@ -354,12 +372,14 @@
                 <h4 class="mb-3">Usuario registrado correctamente</h4>
                 
                 <div class="text-end">
-                    <%-- CAMBIO 2: Cambiamos el mensaje del modal de éxito. El OnClientClick está bien para recargar. --%>
+
                     <asp:Button ID="btnAceptarExito" runat="server"
                         CssClass="btn btn-light"
                         Text="Aceptar"
                         OnClientClick="location.reload(); return false;" />
+
                 </div>
+                
             </div>
         </div>
     </div>
@@ -370,7 +390,7 @@
     <div class="modal fade" id="modalError" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content bg-danger text-white p-4 rounded">
-                <%-- CAMBIO 3: Cambiamos el mensaje del modal de error. --%>
+                
                 <h4 class="mb-3">Error al registrar el usuario</h4>
 
                 <div id="modalErrorBody" class="mb-3"></div>
@@ -379,7 +399,8 @@
                     <asp:Button ID="btnAceptarError" runat="server"
                         CssClass="btn btn-light"
                         Text="Aceptar"
-                        OnClientClick="location.reload(); return false;" />
+                        
+                        OnClientClick="setTimeout(function(){ location.reload(); }, 500); return false;"/>
                 </div>
             </div>
         </div>
@@ -417,26 +438,19 @@
 
     <%-- CAMBIO 4: Script para la funcionalidad de los modales. --%>
     <script>
-        function ejecutarGuardado() {
-            // Ejecuta la validación del grupo 'AgregarUsuario'
-            if (typeof (Page_ClientValidate) === 'function') {
-                Page_ClientValidate('AgregarUsuario');
-
-                // Si la validación del cliente falla, Page_IsValid es false y retornamos false.
-                if (!Page_IsValid) {
-                    // El modal permanece abierto automáticamente porque el postback se cancela.
-                    return false;
-                }
-            }
-            // Si la validación es correcta, permite el postback para el guardado en C#
-            return true;
-        }
-
+       
         // Función para mostrar un modal específico (éxito o error)
         function mostrarModal(idModal) {
             var modal = new bootstrap.Modal(document.getElementById(idModal));
             modal.show();
         }
+
+        function abrirModalExito() {
+            var modal = new bootstrap.Modal(document.getElementById('modalExito'));
+            modal.show();
+        }
+        
+
 
         // Función para reabrir el modal de agregar usuario si hubo un error de validación del servidor
         function reabrirModalAgregarUsuario() {
@@ -497,7 +511,7 @@
 
 
 
-        //
+        //RECARGA
         document.addEventListener("DOMContentLoaded", function () {
 
             // Cada vez que se cierra un modal, eliminamos el backdrop para evitar pantalla oscura
@@ -510,6 +524,10 @@
 
         });
 
+
     </script>
+
+
+
 
 </asp:Content>

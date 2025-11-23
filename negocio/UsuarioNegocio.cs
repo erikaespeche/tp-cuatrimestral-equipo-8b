@@ -84,15 +84,15 @@ namespace negocio
             try
             {
                 datos.setearConsulta(@"
-            INSERT INTO USUARIOS (DniUsuario, Nombres, Apellidos, NombreUsuario, Contrasena, Email, IdRol) 
-            VALUES (@dni, @nombres, @apellidos, @user, @pass, @mail, @rol);
-            SELECT CAST(SCOPE_IDENTITY() AS INT);");
+        INSERT INTO USUARIOS (DniUsuario, Nombres, Apellidos, NombreUsuario, Contrasena, Email, IdRol) 
+        VALUES (@dni, @nombres, @apellidos, @usuario, @contrasena, @mail, @rol);
+        SELECT CAST(SCOPE_IDENTITY() AS INT);");
 
                 datos.setearParametro("@dni", nuevoUsuario.DniUsuario);
                 datos.setearParametro("@nombres", nuevoUsuario.Nombres);
                 datos.setearParametro("@apellidos", nuevoUsuario.Apellidos);
-                datos.setearParametro("@user", nuevoUsuario.NombreUsuario);
-                datos.setearParametro("@pass", nuevoUsuario.Contrasena);
+                datos.setearParametro("@usuario", nuevoUsuario.NombreUsuario);
+                datos.setearParametro("@contrasena", nuevoUsuario.Contrasena);
                 datos.setearParametro("@mail", nuevoUsuario.Email);
                 datos.setearParametro("@rol", nuevoUsuario.IdRol);
 
@@ -104,8 +104,8 @@ namespace negocio
                 // Errores por violación de UNIQUE (duplicados)
                 if (ex.Number == 2627 || ex.Number == 2601)
                 {
-                    if (ex.Message.Contains("UQ_Usuario_DNI"))
-                        throw new Exception("El DNI ingresado ya está registrado para otro usuario.");
+                    if (ex.Message.Contains("UQ_Usuario_NombreUsuario"))
+                        throw new Exception("El nombre de usuario ya está en uso, elija otro.");
 
                     throw new Exception("Ya existe un registro con valores únicos duplicados.");
                 }

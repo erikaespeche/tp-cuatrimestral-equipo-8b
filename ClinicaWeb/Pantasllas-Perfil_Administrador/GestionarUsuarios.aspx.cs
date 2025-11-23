@@ -2,6 +2,8 @@
 using negocio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -47,11 +49,22 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                 "var m = new bootstrap.Modal(document.getElementById('modalAgregarUsuario')); m.show();",
                 true
             );
+
+            ScriptManager.RegisterStartupScript(
+               this,
+                GetType(),
+               "cerrarModalAgregar",
+                @"var modalAdd = bootstrap.Modal.getInstance(document.getElementById('modalAgregarUsuario'));
+                if(modalAdd) modalAdd.hide();",
+               true
+             );
+
         }
 
         // ------------------------------------------------------
         // GUARDAR USUARIO (INSERT)
         // ------------------------------------------------------
+
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
             if (!Page.IsValid)
@@ -77,27 +90,41 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                 UsuarioNegocio negocio = new UsuarioNegocio();
                 negocio.Agregar(nuevo);
 
-                // 🔥 IMPORTANTE: refresco la tabla
+                // ✅ PRIMERO: Refresco la tabla
                 CargarUsuarios();
 
-                ScriptManager.RegisterStartupScript(
-                    this, GetType(), "exito",
-                    "mostrarModal('modalExito');",
-                    true
-                );
+                // ✅ SEGUNDO: Limpio los campos del modal
+                LimpiarCamposModal();
+
+                // ✅ TERCERO: Actualizo el UpdatePanel para que se vean los cambios
+                updForm.Update();
+
+                // ✅ CUARTO: Muestro el modal de éxito DESPUÉS de actualizar
+
+
+
+                // ===============================
+                // MOSTRAR MODAL DE ÉXITO
+                // ===============================
+                // ⬅️ ABRIR MODAL DE ÉXITO DESPUÉS DE GUARDAR
+                ScriptManager.RegisterStartupScript(this, GetType(),
+                    "abrirExito", "abrirModalExito();", true);
+
+
             }
             catch (Exception ex)
             {
-                string msg = ex.Message.Replace("'", "\\'");
+                string msg = ex.Message.Replace("'", "\\'").Replace("\r", "").Replace("\n", " ");
+
                 ScriptManager.RegisterStartupScript(
-                    this, GetType(), "error",
+                    this, GetType(), "error_" + DateTime.Now.Ticks,
                     $"document.getElementById('modalErrorBody').innerHTML = '{msg}'; mostrarModal('modalError');",
                     true
                 );
 
                 ScriptManager.RegisterStartupScript(
-                    this, GetType(), "reabrirAdd",
-                    "reabrirModalAgregarUsuario();",
+                    this, GetType(), "reabrirAdd_" + DateTime.Now.Ticks,
+                    "setTimeout(function() { reabrirModalAgregarUsuario(); }, 200);",
                     true
                 );
             }
@@ -228,6 +255,28 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                     true);
             }
         }
+
+
+
+
+
+        protected void btnAceptarExito_Click(object sender, EventArgs e)
+        {
+            
+                Response.Redirect("GestionarUsuarios.aspx");
+            
+        }
+
+
+
+
+        protected void btnAceptarError_Click(object sender, EventArgs e)
+        {
+            // Cierra el modal. Bootstrap ya lo maneja.
+            Response.Redirect("GestionarUsuarios.aspx");
+        }
+
+
 
 
     }

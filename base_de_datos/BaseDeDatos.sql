@@ -119,22 +119,23 @@ CREATE TABLE [dbo].[USUARIOS](
     DniUsuario INT NOT NULL,
     Nombres VARCHAR(50) NOT NULL,
     Apellidos VARCHAR(50) NOT NULL,
-	NombreUsuario VARCHAR(50) NOT NULL,
+    NombreUsuario VARCHAR(50) NOT NULL,
     Contrasena VARCHAR(200) NOT NULL,
     Email VARCHAR(100) NOT NULL,
     IdRol INT NOT NULL,  -- FK a ROL
 
     CONSTRAINT PK_USUARIO PRIMARY KEY (IdUsuario),
 
-    -- Unique constraints 
-    CONSTRAINT UQ_Usuario_DNI UNIQUE (DniUsuario),
-    CONSTRAINT UQ_Usuario_Email UNIQUE (Email),
+    -- Único solo para NombreUsuario
+    CONSTRAINT UQ_Usuario_NombreUsuario UNIQUE (NombreUsuario),
 
     -- Foreign Key
     CONSTRAINT FK_Usuario_Rol FOREIGN KEY (IdRol)
         REFERENCES ROL(IdRol)
 );
 GO
+
+
 
 ------------
 -- INSERT --
@@ -143,4 +144,4 @@ INSERT INTO ROL (NombreRol)
 VALUES ('Administrador'), ('Medico'), ('Recepcionista');
 
 
-DROP TABLE USUARIO
+DROP TABLE ROL
