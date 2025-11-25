@@ -46,18 +46,58 @@ namespace Clinic.Pantallas_Perfil_Medico
         {
             if (!IsPostBack)
             {
-                // Inicializar calendario al 12/06/2024 como en el boceto
-                Calendar1.VisibleDate = new DateTime(2024, 6, 1);
-                Calendar1.SelectedDate = new DateTime(2024, 6, 12);
+                DateTime hoy = DateTime.Today;
 
-                // Datos de ejemplo (puedes reemplazar por datos reales desde DB)
-                SeedData();
+                Calendar1.VisibleDate = hoy;
+                Calendar1.SelectedDate = hoy;
 
-                // Bind inicial
-                BindForDate(Calendar1.SelectedDate, SearchText.Text);
+                
+                CargarCitas(hoy, SearchText.Text);
             }
         }
 
+
+        private void CargarCitas(DateTime fecha, string search)
+        {
+            TurnoNegocio negocio = new TurnoNegocio();
+
+            
+            var citasBD = negocio.ListarAgendaPorFecha(fecha);
+
+           
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                string s = search.Trim().ToLowerInvariant();
+                citasBD = citasBD.Where(c =>
+                    (!string.IsNullOrEmpty(c.Paciente) && c.Paciente.ToLowerInvariant().Contains(s)) ||
+                    (!string.IsNullOrEmpty(c.DNI) && c.DNI.ToLowerInvariant().Replace(".", "").Contains(s.Replace(".", "")))
+                ).ToList();
+            }
+
+            var listaParaRepeater = citasBD.Select(c => new
+            {
+                Id = c.IdTurno,
+                Fecha = c.Fecha,
+                Hora = c.Fecha.ToString("HH:mm"), 
+                Nombre = string.IsNullOrWhiteSpace(c.Paciente) ? "—" : c.Paciente.Split(' ')[0],
+                Apellido = string.IsNullOrWhiteSpace(c.Paciente) ? "—" : string.Join(" ", c.Paciente.Split(' ').Skip(1)),
+                DNI = string.IsNullOrWhiteSpace(c.DNI) ? "—" : c.DNI,
+                ObraSocial = string.IsNullOrWhiteSpace(c.ObraSocial) ? "—" : c.ObraSocial
+            }).ToList();
+
+            CitasRepeater.DataSource = listaParaRepeater;
+            CitasRepeater.DataBind();
+
+            TotalCountLabel.Text = citasBD.Count.ToString();
+            AvailableCountLabel.Text = citasBD.Count(c => c.Estado.ToLower() != "reservado").ToString();
+           
+            SelectedDateLabel.Text = fecha.ToString("dd/MM/yyyy");
+        }
+
+
+        
+
+      
         private void SeedData()
         {
             if (_citasBase != null && _citasBase.Count > 0) return;
@@ -116,7 +156,7 @@ namespace Clinic.Pantallas_Perfil_Medico
 
         protected void Calendar1_SelectionChanged(object sender, EventArgs e)
         {
-            BindForDate(Calendar1.SelectedDate, SearchText.Text);
+            CargarCitas(Calendar1.SelectedDate, SearchText.Text);
         }
 
         protected void PrevMonthBtn_Click(object sender, EventArgs e)
@@ -133,7 +173,7 @@ namespace Clinic.Pantallas_Perfil_Medico
 
         protected void SearchBtn_Click(object sender, EventArgs e)
         {
-            BindForDate(Calendar1.SelectedDate, SearchText.Text);
+            CargarCitas(Calendar1.SelectedDate, SearchText.Text); ;
         }
 
         private void BindForDate(DateTime fecha, string search)
