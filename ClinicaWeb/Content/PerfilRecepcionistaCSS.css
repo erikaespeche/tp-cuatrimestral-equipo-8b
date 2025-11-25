@@ -324,6 +324,33 @@ body {
 }
 
 
+/* Aplica SOLO dentro de DetallePaciente */
+#pantalla-detallepaciente .modal-content {
+    background-color: #1B2636 !important; 
+    color: #fff !important; 
+}
+
+#pantalla-detallepaciente .modal-header,
+#pantalla-detallepaciente .modal-footer {
+    border-color: #444 !important;
+}
+
+#pantalla-detallepaciente .modal-title {
+    color: #fff !important; 
+}
+
+#pantalla-detallepaciente #btnEnviarRecordatorio {
+    background-color: #1B2636 !important;
+    border: none !important;
+}
+
+#pantalla-detallepaciente .btn-secondary {
+    background-color: #BB2D3B !important;
+    border: none !important;
+}
+
+
+
 /*---------------------------- PERFIL RECEPCIONISTA (PANTALLA: AGREGAR NUEVO PACIENTE)---------------------------- */
 
 

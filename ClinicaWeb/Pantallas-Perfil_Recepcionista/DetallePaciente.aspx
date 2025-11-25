@@ -135,6 +135,7 @@
             <table class="custom-table align-middle w-100">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>FECHA</th>
                         <th>HORA</th>
                         <th>MÉDICO</th>
@@ -145,9 +146,10 @@
                 </thead>
 
                 <tbody>
-                    <asp:Repeater ID="rptCitas" runat="server">
+                    <asp:Repeater ID="rptCitas" runat="server" OnItemCommand="rptCitas_ItemCommand">
                         <ItemTemplate>
                             <tr>
+                                <td><%# Eval("IdTurno") %></td>
                                 <td><%# Eval("Fecha") %></td>
                                 <td><%# Eval("Hora") %></td>
                                 <td><%# Eval("Medico") %></td>
@@ -158,9 +160,26 @@
                                 </td>
                                 <td><%# Eval("Observaciones") %></td>
                                 <td>
-                                    <button class="btn btn-primary btn-sm me-1">Enviar Recordatorio</button>
-                                    <button class="btn btn-warning btn-sm me-1 text-dark">Reprogramar</button>
-                                    <button class="btn btn-danger btn-sm">Cancelar</button>
+                                    <!-- BOTÓN RECORDATORIO -->
+
+                                    <asp:Button ID="btnRecordatorio" runat="server" Text="Enviar recordatorio"
+                                        CssClass="btn btn-primary"
+                                        CommandName="Recordatorio"
+                                        CommandArgument='<%# Eval("IdTurno") %>' />
+
+
+                                    <!-- BOTÓN REPROGRAMAR -->
+                                    <asp:Button ID="btnReprogramar" runat="server" Text="Reprogramar"
+                                        CssClass="btn btn-warning"/>
+
+
+                                    <!-- BOTÓN CANCELAR -->
+                                    <asp:Button ID="btnCancelar" runat="server" Text="Cancelar Turno"
+                                        CssClass="btn btn-danger"
+                                        CommandName="Cancelar"
+                                        CommandArgument='<%# Eval("IdTurno") %>' />
+
+
                                 </td>
                             </tr>
                         </ItemTemplate>
@@ -171,6 +190,9 @@
         </div>
 
     </div>
+
+
+
 
     <!-- =========================================== -->
     <!-- MODAL EDITAR PACIENTE -->
@@ -419,11 +441,80 @@
         </div>
     </div>
 
+<asp:UpdatePanel ID="upRecordatorio" runat="server" UpdateMode="Conditional">
+    <ContentTemplate>
+
+        <!-- =========================================== -->
+        <!-- MODAL RECORDATORIO -->
+        <!-- =========================================== -->
+    <div class="modal fade" id="modalRecordatorio" runat="server" ClientIDMode="Static" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Enviar Recordatorio</h5>
+          </div>
+          <div class="modal-body">
+            <asp:Label ID="lblMensajeRecordatorio" runat="server" />
+          </div>
+          <div class="modal-footer">
+            <asp:Button ID="btnEnviarRecordatorio" runat="server"
+                Text="Enviar" CssClass="btn btn-success"
+                OnClick="btnEnviarRecordatorio_Click"
+                OnClientClick="var m = bootstrap.Modal.getInstance(document.getElementById('modalRecordatorio')); if(m){ m.hide(); }" />
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- =========================================== -->
+        <!-- MODAL ENVIAR MAIL -->
+        <!-- =========================================== -->
+    <div class="modal fade" id="modalResultadoRecordatorio" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enviar Recordatorio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <asp:Label ID="lblResultadoRecordatorio" runat="server" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
+<!-- =========================================== -->
+<!-- MODAL CANCELAR -->
+<!-- =========================================== -->  
+
+        <div class="modal fade" id="modalCancelar" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Cancelar Turno</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                ¿Seguro que quiere cancelar este turno?
+              </div>
+              <div class="modal-footer">
+                <asp:Button ID="btnConfirmarCancelar" runat="server" Text="Cancelar el turno"
+                    CssClass="btn btn-secondary"
+                    OnClick="btnConfirmarCancelar_Click"
+                    OnClientClick="$('#modalCancelar').modal('hide');" />
+              </div>
+            </div>
+          </div>
+        </div>
 
 
-
+    </ContentTemplate>
+</asp:UpdatePanel>
 
 </div> <!-- ⬅️ cierre del div raiz -->
   </ContentTemplate>
@@ -485,8 +576,6 @@
             </div>
         </div>
     </div>
-
-
 
 <!-- =============================== -->
 <!--      MODAL AGREGAR TURNO        -->
