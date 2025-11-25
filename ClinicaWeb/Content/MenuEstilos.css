@@ -59,19 +59,33 @@
             color: #fff;
         }
 
+
+
+
 /* ============================
-   BOTÓN SALIR (Usuario)
+   BOTÓN SALIR (Usuario) - Versión mejorada
 ============================= */
 #form1 .user-actions .btn-logout {
-    background-color: #BB2D3B; /* Rojo institucional */
+    background: linear-gradient(135deg, #d9534f, #c9302c);
     color: #fff;
     border: none;
-    padding: 6px 14px;
+    padding: 8px 18px;
     font-weight: 600;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    transition: all 0.25s ease;
 }
 
-    .user-actions .btn-logout:hover {
-        background-color: #a52834; /* Rojo más oscuro al hover */
+    #form1 .user-actions .btn-logout:hover {
+        background: linear-gradient(135deg, #c9302c, #ac2925);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(255, 80, 80, 0.35);
     }
+
+    #form1 .user-actions .btn-logout i {
+        font-size: 1rem;
+    }
+

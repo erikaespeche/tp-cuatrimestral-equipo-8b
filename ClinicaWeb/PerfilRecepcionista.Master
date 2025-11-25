@@ -17,7 +17,7 @@
 
     <!-- Estilo CSS Personalizado -->
     <link href="~/Content/PerfilRecepcionistaCSS.css" rel="stylesheet" />
-    <link href="~/content/menuestilos.css" rel="stylesheet" />
+    <link href="~/content/MenuEstilos.css" rel="stylesheet" />
 
 </head>
 
@@ -79,10 +79,21 @@
                 </div>
 
                 <!-- Usuario -->
-                <div class="user-actions d-flex align-items-center gap-3">
+               <%-- <div class="user-actions d-flex align-items-center gap-3">
                     <i class="bi bi-person-circle fs-4"></i>
-                    <button class="btn btn-logout">Salir</button>
-                </div>
+                    <asp:Button ID="btnSalir" runat="server" Text="Salir" CssClass="btn btn-logout" OnClick="btnSalir_Click" />
+                </div>--%>
+    <div class="user-actions d-flex align-items-center gap-3">
+        <i class="bi bi-person-circle fs-4"></i>
+
+        <asp:Button
+            ID="btnSalir"
+            runat="server"
+            Text="Salir"
+            CssClass="btn btn-outline-danger"
+            OnClick="btnSalir_Click" />
+    </div>
+
 
             </div>
         </nav>
