@@ -13,5 +13,14 @@ namespace Clinic
         {
 
         }
+
+        protected void btnSalir_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("/Pantallas-Inicio_Menu/Login.aspx");
+        }
     }
+
+
 }

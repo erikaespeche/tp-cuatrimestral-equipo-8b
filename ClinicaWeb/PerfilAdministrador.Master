@@ -11,16 +11,16 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    
 
-    
-     <!-- Bootstrap Iconos -->
+
+
+    <!-- Bootstrap Iconos -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
 
     <!-- FULLCALENDAR CSS -->
-   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet" />
 
     <!-- Estilo CSS Personalizado -->
     <link href="~/Content/PerfilMedicosCSS.css" rel="stylesheet" />
@@ -28,7 +28,7 @@
     <link href="~/Content/PerfilAdministradorCSS.css" rel="stylesheet" />
 
 
-     <!-- ⭐ AGREGAR ESTO ⭐ -->
+    <!-- ⭐ AGREGAR ESTO ⭐ -->
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
 </head>
 
@@ -37,7 +37,7 @@
 
 
 
-    <body>
+<body>
     <form id="form1" runat="server">
 
         <!-- ScriptManager -->
@@ -109,7 +109,12 @@
                 <!-- Usuario -->
                 <div class="user-actions d-flex align-items-center gap-3">
                     <i class="bi bi-person-circle fs-4"></i>
-                    <button class="btn btn-logout">Salir</button>
+                    <asp:Button
+                        ID="btnSalir"
+                        runat="server"
+                        Text="Salir"
+                        CssClass="btn btn-outline-danger"
+                        OnClick="btnSalir_Click" />
                 </div>
 
             </div>
