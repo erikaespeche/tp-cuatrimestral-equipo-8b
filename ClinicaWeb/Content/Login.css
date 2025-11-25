@@ -543,3 +543,28 @@ body {
 }
 
 
+/* Contenedor del input */
+.password-wrapper {
+    position: relative;
+}
+
+    /* Icono del ojo */
+    .password-wrapper .toggle-pass {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: #94a3b8; /* gris clarito */
+        transition: color 0.25s ease;
+    }
+
+        .password-wrapper .toggle-pass:hover {
+            color: #fff;
+        }
+
+/* Para que el input tenga padding y no se superponga */
+.input-pass {
+    padding-right: 40px !important;
+}
