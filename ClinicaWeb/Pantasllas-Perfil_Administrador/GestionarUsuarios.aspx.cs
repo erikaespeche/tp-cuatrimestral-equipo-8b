@@ -11,16 +11,16 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 {
     public partial class GestionarUsuarios : System.Web.UI.Page
     {
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
-           
+
             if (!IsPostBack)
             {
                 CargarUsuarios();
 
-                
+
             }
 
             // Marca campos inválidos con borde rojo
@@ -78,12 +78,12 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             {
                 Usuario nuevo = new Usuario()
                 {
-                    DniUsuario = int.Parse(txtDniEdit.Text),
-                    Nombres = txtNombreEdit.Text.Trim(),
-                    Apellidos = txtApellidoEdit.Text.Trim(),
-                    NombreUsuario = txtNombreUsuario.Text.Trim(),
+                    DniUsuario = int.Parse(txtDniAgregar.Text),
+                    Nombres = txtNombreAgregar.Text.Trim(),
+                    Apellidos = txtApellidoAgregar.Text.Trim(),
+                    NombreUsuario = txtNombreUsuarioAgregar.Text.Trim(),
                     Contrasena = txtContrasena.Text.Trim(),
-                    Email = txtMailEdit.Text.Trim(),
+                    Email = txtMailAgregar.Text.Trim(),
                     IdRol = int.Parse(ddlRol2.SelectedValue)
                 };
 
@@ -138,16 +138,13 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             UsuarioNegocio negocio = new UsuarioNegocio();
             List<Usuario> lista = negocio.Listar();
 
-            // PROBAR SI TRAE DATOS
-            Response.Write($"<script>console.log('Usuarios encontrados: {lista.Count}');</script>");
-
             repUsuarios.DataSource = lista;
             repUsuarios.DataBind();
         }
 
 
 
-        
+
 
 
         // ===============================
@@ -190,13 +187,13 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         // ------------------------------------------------------
         private void LimpiarCamposModal()
         {
-            txtNombreEdit.Text = "";
-            txtApellidoEdit.Text = "";
-            txtDniEdit.Text = "";
-            txtNombreUsuario.Text = "";
+            txtNombreAgregar.Text = "";
+            txtApellidoAgregar.Text = "";
+            txtDniAgregar.Text = "";
+            txtNombreUsuarioAgregar.Text = "";
             txtContrasena.Text = "";
             txtConfirmarContrasena.Text = "";
-            txtMailEdit.Text = "";
+            txtMailAgregar.Text = "";
             ddlRol2.SelectedIndex = 0;
         }
 
@@ -209,7 +206,31 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 
             if (e.CommandName == "Editar")
             {
-                Response.Redirect("EditarUsuario.aspx?id=" + id);
+                UsuarioNegocio negocio = new UsuarioNegocio();
+                Usuario u = negocio.ObtenerPorId(id);
+
+                // Guardar ID
+                hfIdEditar.Value = u.IdUsuario.ToString();
+
+                // Cargar datos
+                txtNombreEdit.Text = u.Nombres;
+                txtApellidoEdit.Text = u.Apellidos;
+                txtDniEdit.Text = u.DniUsuario.ToString();
+                txtUsuarioEdit.Text = u.NombreUsuario;
+                txtEmailEdit.Text = u.Email;
+
+                // Cargar roles dinámicamente
+                ddlRolEdit.Items.Clear();
+                ddlRolEdit.Items.Add(new ListItem("-- Seleccione --", ""));
+                ddlRolEdit.Items.Add(new ListItem("Administrador", "1"));
+                ddlRolEdit.Items.Add(new ListItem("Médico", "2"));
+                ddlRolEdit.Items.Add(new ListItem("Recepcionista", "3"));
+                ddlRolEdit.SelectedValue = u.IdRol.ToString();
+
+                // Abrimos el modal
+                ScriptManager.RegisterStartupScript(this, GetType(), "abrirEditar",
+                    "var m = new bootstrap.Modal(document.getElementById('modalEditarUsuario')); m.show();",
+                    true);
             }
 
             if (e.CommandName == "Eliminar")
@@ -246,7 +267,9 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                 CargarUsuarios();
 
                 ScriptManager.RegisterStartupScript(this, GetType(), "exitoEliminar",
-                    "mostrarModal('modalExito');", true);
+    @"var modalConfirm = bootstrap.Modal.getInstance(document.getElementById('modalConfirmarEliminar'));
+      if(modalConfirm) modalConfirm.hide();
+      mostrarModal('modalExitoEliminar');", true);
             }
             catch (Exception ex)
             {
@@ -262,9 +285,9 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 
         protected void btnAceptarExito_Click(object sender, EventArgs e)
         {
-            
-                Response.Redirect("GestionarUsuarios.aspx");
-            
+
+            Response.Redirect("GestionarUsuarios.aspx");
+
         }
 
 
@@ -272,12 +295,52 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 
         protected void btnAceptarError_Click(object sender, EventArgs e)
         {
-            // Cierra el modal. Bootstrap ya lo maneja.
+            
             Response.Redirect("GestionarUsuarios.aspx");
         }
 
 
+        protected void btnGuardarCambiosEdit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Usuario u = new Usuario();
+                u.IdUsuario = int.Parse(hfIdEditar.Value);
+                u.Nombres = txtNombreEdit.Text.Trim();
+                u.Apellidos = txtApellidoEdit.Text.Trim();
+                u.DniUsuario = int.Parse(txtDniEdit.Text.Trim());
+                u.NombreUsuario = txtUsuarioEdit.Text.Trim();
+                u.Email = txtEmailEdit.Text.Trim();
+                u.IdRol = int.Parse(ddlRolEdit.SelectedValue);
 
+                UsuarioNegocio negocio = new UsuarioNegocio();
+                negocio.Modificar(u);  
 
+             
+                CargarUsuarios();
+                updForm.Update();
+
+                
+                ScriptManager.RegisterStartupScript(
+                    this,
+                    this.GetType(),
+                    "abrirExitoEdit",
+                    "var m = new bootstrap.Modal(document.getElementById('modalExitoEdit')); m.show();",
+                    true
+                );
+            }
+            catch (Exception ex)
+            {
+               
+                string msg = ex.Message.Replace("'", "\\'");
+                ScriptManager.RegisterStartupScript(
+                    this,
+                    this.GetType(),
+                    "errorEdit",
+                    $"document.getElementById('modalErrorBody').innerText = '{msg}'; var m = new bootstrap.Modal(document.getElementById('modalError')); m.show();",
+                    true
+                );
+            }
+        }
     }
 }

@@ -130,25 +130,26 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta(@"
-                    UPDATE USUARIOS SET 
-                        DniUsuario = @dni,
-                        Nombres = @nombres,
-                        Apellidos = @apellidos,
-                        NombreUsuario = @user,
-                        Contrasena = @pass,
-                        Email = @mail,
-                        IdRol = @rol
-                    WHERE IdUsuario = @id");
+                string consulta = "UPDATE USUARIOS SET DniUsuario=@dni, Nombres=@nombres, Apellidos=@apellidos, NombreUsuario=@user, Email=@mail, IdRol=@rol";
+
+                // Solo actualizar contraseña si viene con valor
+                if (!string.IsNullOrEmpty(usuario.Contrasena))
+                    consulta += ", Contrasena=@pass";
+
+                consulta += " WHERE IdUsuario=@id";
+
+                datos.setearConsulta(consulta);
 
                 datos.setearParametro("@id", usuario.IdUsuario);
                 datos.setearParametro("@dni", usuario.DniUsuario);
                 datos.setearParametro("@nombres", usuario.Nombres);
                 datos.setearParametro("@apellidos", usuario.Apellidos);
                 datos.setearParametro("@user", usuario.NombreUsuario);
-                datos.setearParametro("@pass", usuario.Contrasena);
                 datos.setearParametro("@mail", usuario.Email);
                 datos.setearParametro("@rol", usuario.IdRol);
+
+                if (!string.IsNullOrEmpty(usuario.Contrasena))
+                    datos.setearParametro("@pass", usuario.Contrasena);
 
                 datos.ejecutarAccion();
             }

@@ -96,13 +96,13 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.Repeater repUsuarios;
 
         /// <summary>
-        /// Control txtNombreEdit.
+        /// Control txtNombreAgregar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombreEdit;
+        protected global::System.Web.UI.WebControls.TextBox txtNombreAgregar;
 
         /// <summary>
         /// Control valNombreReq.
@@ -123,13 +123,13 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.RegularExpressionValidator valNombreRegex;
 
         /// <summary>
-        /// Control txtApellidoEdit.
+        /// Control txtApellidoAgregar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtApellidoEdit;
+        protected global::System.Web.UI.WebControls.TextBox txtApellidoAgregar;
 
         /// <summary>
         /// Control valApellidoReq.
@@ -150,13 +150,13 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.RegularExpressionValidator valApellidoRegex;
 
         /// <summary>
-        /// Control txtDniEdit.
+        /// Control txtDniAgregar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDniEdit;
+        protected global::System.Web.UI.WebControls.TextBox txtDniAgregar;
 
         /// <summary>
         /// Control valDniReq.
@@ -177,13 +177,13 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.RegularExpressionValidator valDniRegex;
 
         /// <summary>
-        /// Control txtNombreUsuario.
+        /// Control txtNombreUsuarioAgregar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombreUsuario;
+        protected global::System.Web.UI.WebControls.TextBox txtNombreUsuarioAgregar;
 
         /// <summary>
         /// Control valNumObraRegex.
@@ -249,13 +249,13 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.CompareValidator valPassCompare;
 
         /// <summary>
-        /// Control txtMailEdit.
+        /// Control txtMailAgregar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMailEdit;
+        protected global::System.Web.UI.WebControls.TextBox txtMailAgregar;
 
         /// <summary>
         /// Control valMailReq.
@@ -303,6 +303,96 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.Button btnGuardarCambios;
 
         /// <summary>
+        /// Control hfIdEditar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfIdEditar;
+
+        /// <summary>
+        /// Control txtNombreEdit.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNombreEdit;
+
+        /// <summary>
+        /// Control txtApellidoEdit.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtApellidoEdit;
+
+        /// <summary>
+        /// Control txtDniEdit.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDniEdit;
+
+        /// <summary>
+        /// Control txtUsuarioEdit.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtUsuarioEdit;
+
+        /// <summary>
+        /// Control txtEmailEdit.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEmailEdit;
+
+        /// <summary>
+        /// Control ddlRolEdit.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlRolEdit;
+
+        /// <summary>
+        /// Control btnGuardarCambiosEdit.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnGuardarCambiosEdit;
+
+        /// <summary>
+        /// Control hfIdAEliminar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfIdAEliminar;
+
+        /// <summary>
+        /// Control btnAceptarExitoEdit.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarExitoEdit;
+
+        /// <summary>
         /// Control btnAceptarExito.
         /// </summary>
         /// <remarks>
@@ -321,13 +411,13 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.Button btnAceptarError;
 
         /// <summary>
-        /// Control hfIdAEliminar.
+        /// Control btnAceptarExitoEliminar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfIdAEliminar;
+        protected global::System.Web.UI.WebControls.Button btnAceptarExitoEliminar;
 
         /// <summary>
         /// Control btnConfirmarEliminar.

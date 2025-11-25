@@ -157,14 +157,14 @@
                     <!-- Nombre -->
                     <div class="col-md-6">
                         <label class="form-label">Nombre*</label>
-                        <asp:TextBox ID="txtNombreEdit" runat="server"
+                        <asp:TextBox ID="txtNombreAgregar" runat="server"
                             CssClass="form-control"
                             Style="background-color: #21364B; border: 1px solid gray; color: white;" />
                         <asp:RequiredFieldValidator ID="valNombreReq" runat="server"
-                            ControlToValidate="txtNombreEdit" ErrorMessage="El nombre es obligatorio."
+                            ControlToValidate="txtNombreAgregar" ErrorMessage="El nombre es obligatorio."
                             CssClass="text-danger" ValidationGroup="AgregarUsuario" />
                         <asp:RegularExpressionValidator ID="valNombreRegex" runat="server"
-                            ControlToValidate="txtNombreEdit"
+                            ControlToValidate="txtNombreAgregar"
                             ValidationExpression="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
                             ErrorMessage="Ingrese un nombre válido (solo letras)."
                             CssClass="text-danger" ValidationGroup="AgregarUsuario" />
@@ -173,14 +173,14 @@
                     <!-- Apellido -->
                     <div class="col-md-6">
                         <label class="form-label">Apellido*</label>
-                        <asp:TextBox ID="txtApellidoEdit" runat="server"
+                        <asp:TextBox ID="txtApellidoAgregar" runat="server"
                             CssClass="form-control"
                             Style="background-color: #21364B; border: 1px solid gray; color: white;" />
                         <asp:RequiredFieldValidator ID="valApellidoReq" runat="server"
-                            ControlToValidate="txtApellidoEdit" ErrorMessage="El apellido es obligatorio."
+                            ControlToValidate="txtApellidoAgregar" ErrorMessage="El apellido es obligatorio."
                             CssClass="text-danger" ValidationGroup="AgregarUsuario" />
                         <asp:RegularExpressionValidator ID="valApellidoRegex" runat="server"
-                            ControlToValidate="txtApellidoEdit"
+                            ControlToValidate="txtApellidoAgregar"
                             ValidationExpression="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
                             ErrorMessage="Ingrese un apellido válido (solo letras)."
                             CssClass="text-danger" ValidationGroup="AgregarUsuario" />
@@ -189,17 +189,17 @@
                     <!-- DNI -->
                     <div class="col-md-6">
                         <label class="form-label">DNI*</label>
-                        <asp:TextBox ID="txtDniEdit" runat="server"
+                        <asp:TextBox ID="txtDniAgregar" runat="server"
                             MaxLength="8"
                             CssClass="form-control"
                             Style="background-color: #21364B; border: 1px solid gray; color: white;" />
 
                         <asp:RequiredFieldValidator ID="valDniReq" runat="server"
-                            ControlToValidate="txtDniEdit"
+                            ControlToValidate="txtDniAgregar"
                             ErrorMessage="El DNI es obligatorio."
                             CssClass="text-danger" ValidationGroup="AgregarUsuario" />
                         <asp:RegularExpressionValidator ID="valDniRegex" runat="server"
-                            ControlToValidate="txtDniEdit"
+                            ControlToValidate="txtDniAgregar"
                             ValidationExpression="^[0-9]{7,8}$"
                             ErrorMessage="Ingrese un DNI válido (7 a 8 dígitos numéricos)."
                             CssClass="text-danger" ValidationGroup="AgregarUsuario" />
@@ -208,11 +208,11 @@
                     <!-- Nombre de Usuario -->
                     <div class="col-md-6">
                         <label class="form-label">*Nombre de Usuario</label>
-                        <asp:TextBox ID="txtNombreUsuario" runat="server"
+                        <asp:TextBox ID="txtNombreUsuarioAgregar" runat="server"
                             CssClass="form-control"
                             Style="background-color: #21364B; border: 1px solid gray; color: white;" />
                         <asp:RegularExpressionValidator ID="valNumObraRegex" runat="server"
-                            ControlToValidate="txtNombreUsuario"
+                            ControlToValidate="txtNombreUsuarioAgregar"
                             ValidationExpression="^[A-Za-z0-9\-\/]+$"
                             ErrorMessage="Ingrese un usuario válido (letras, números, '-' o '/')."
                             CssClass="text-danger" ValidationGroup="AgregarUsuario" />
@@ -279,15 +279,15 @@
                     <!-- Mail -->
                     <div class="col-md-6">
                         <label class="form-label">Mail*</label>
-                        <asp:TextBox ID="txtMailEdit" runat="server"
+                        <asp:TextBox ID="txtMailAgregar" runat="server"
                             CssClass="form-control"
                             Style="background-color: #21364B; border: 1px solid gray; color: white;" />
                         <asp:RequiredFieldValidator ID="valMailReq" runat="server"
-                            ControlToValidate="txtMailEdit"
+                            ControlToValidate="txtMailAgregar"
                             ErrorMessage="El mail es obligatorio."
                             CssClass="text-danger" ValidationGroup="AgregarUsuario" />
                         <asp:RegularExpressionValidator ID="valMailRegex" runat="server"
-                            ControlToValidate="txtMailEdit"
+                            ControlToValidate="txtMailAgregar"
                             ValidationExpression="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
                             ErrorMessage="Formato de mail inválido."
                             CssClass="text-danger" ValidationGroup="AgregarUsuario" />
@@ -345,8 +345,64 @@
         </div>
     </div>
 </div>
+        <!-- MODAL EDITAR USUARIO -->
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="ventana-editar-paciente modal-content bg-dark text-light p-3">
+            
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Usuario</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
 
+            <div class="modal-body">
 
+                <!-- ID OCULTO -->
+                <asp:HiddenField ID="hfIdEditar" runat="server" />
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Nombres</label>
+                        <asp:TextBox ID="txtNombreEdit" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Apellidos</label>
+                        <asp:TextBox ID="txtApellidoEdit" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">DNI</label>
+                       <asp:TextBox ID="txtDniEdit" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Usuario</label>
+                        <asp:TextBox ID="txtUsuarioEdit" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Email</label>
+                        <asp:TextBox ID="txtEmailEdit" runat="server" CssClass="form-control" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Rol</label>
+                        <asp:DropDownList ID="ddlRolEdit" runat="server" CssClass="form-select" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <asp:Button ID="btnGuardarCambiosEdit" runat="server"
+                    CssClass="btn btn-primary"
+                    Text="Guardar cambios"
+                    OnClick="btnGuardarCambiosEdit_Click" />
+            </div>
+        </div>
+    </div>
+</div>
+          <asp:HiddenField ID="hfIdAEliminar" runat="server" />
   </ContentTemplate>
 
       <Triggers>
@@ -357,7 +413,19 @@
       </Triggers>
 </asp:UpdatePanel>
 
-
+   <div class="modal fade" id="modalExitoEdit" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-success text-white p-4 rounded">
+            <h4 class="mb-3">Usuario modificado correctamente</h4>
+            <div class="text-end">
+                <asp:Button ID="btnAceptarExitoEdit" runat="server"
+                    CssClass="btn btn-light"
+                    Text="Aceptar"
+                    OnClientClick="location.reload(); return false;" />
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- ========================================== -->
     <!-- ✅ IMPORTANTE: Estos modales FUERA del UpdatePanel -->
@@ -406,6 +474,19 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalExitoEliminar" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-success text-white p-4 rounded">
+            <h4 class="mb-3">Usuario eliminado correctamente</h4>
+            <div class="text-end">
+                <asp:Button ID="btnAceptarExitoEliminar" runat="server"
+                    CssClass="btn btn-light"
+                    Text="Aceptar"
+                    OnClientClick="location.reload(); return false;" />
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- ===================== -->
     <!--  MODAL CONFIRMAR ELIMINAR  -->
@@ -417,7 +498,7 @@
                 <h4 class="mb-3">¿Eliminar usuario?</h4>
                 <p>Esta acción no se puede deshacer.</p>
 
-                <asp:HiddenField ID="hfIdAEliminar" runat="server" />
+              
 
                 <div class="text-end">
                     <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">
@@ -523,6 +604,9 @@
             });
 
         });
+
+
+      
 
 
     </script>
