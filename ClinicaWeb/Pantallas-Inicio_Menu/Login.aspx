@@ -11,7 +11,7 @@
 </head>
 
 <body class="login-page">
-    <form runat="server">
+    <form id="form1" runat="server">
         <div class="login-card">
             <i class="bi bi-hospital icon-hospital"></i>
             <h3>Gestion de turnos</h3>
