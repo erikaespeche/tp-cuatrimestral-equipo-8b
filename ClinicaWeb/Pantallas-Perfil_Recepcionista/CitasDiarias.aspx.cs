@@ -14,18 +14,22 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            DateTime fecha = DateTime.Today;
+
             if (!IsPostBack)
             {
-                cargarAgenda(DateTime.Today);
                 CargarFiltros();    
             }
 
             
             if (!string.IsNullOrEmpty(Request["fecha"]))
             {
-                DateTime f = DateTime.Parse(Request["fecha"]);
-                cargarAgenda(f);
+
+                fecha = DateTime.Parse(Request["fecha"]);
+
             }
+            cargarAgenda(fecha);
+            lblFechaSeleccionada.Text = fecha.ToString("dd/MM/yyyy");
         }
 
         private void cargarAgenda(DateTime fecha)

@@ -17,7 +17,7 @@
 
             
             <h3 class="titulo-citas-dia mb-1">Citas del Día</h3>
-            <span class="subfecha" id="fechaSeleccionada"></span>
+            <asp:Label ID="lblFechaSeleccionada" runat="server" CssClass="subfecha"></asp:Label>
 
             <h5 class="descripcion-title mb-4">Gestiona y haz seguimiento de las citas programadas.
             </h5>
@@ -167,7 +167,6 @@
 
                 
                 onChange: function (selectedDates, dateStr) {
-                    document.getElementById("fechaSeleccionada").innerHTML = dateStr;
 
                     const form = document.forms[0];
                     const hidden = document.createElement("input");
@@ -180,10 +179,6 @@
             });
 
            
-            const hoy = new Date().toLocaleDateString("es-ES",
-                { day: "numeric", month: "long", year: "numeric" });
-
-            document.getElementById("fechaSeleccionada").innerHTML = hoy;
         });
     </script>
 
