@@ -6,14 +6,17 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Clinic.Pantallas_Perfil_Recepcionista
 {
     public partial class DetallePaciente : System.Web.UI.Page
     {
+        private TurnoNegocio turnoNegocio = new TurnoNegocio();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -88,19 +91,6 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             ddlEspecialidad.DataBind();
 
             ddlEspecialidad.Items.Insert(0, new ListItem("Seleccionar especialidad", "0"));
-        }
-
-        private void CargarMedicos(int idEspecialidad)
-        {
-            MedicoNegocio medNeg = new MedicoNegocio();
-            var lista = medNeg.Listar();
-
-            ddlProfesional.DataSource = lista;
-            ddlProfesional.DataTextField = "NombreCompleto"; 
-            ddlProfesional.DataValueField = "IdMedico";
-            ddlProfesional.DataBind();
-
-            ddlProfesional.Items.Insert(0, new ListItem("Seleccionar profesional", "0"));
         }
 
         private void CargarMedicos()
@@ -342,25 +332,17 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected void ddlEspecialidad_SelectedIndexChanged(object sender, EventArgs e)
         {
             int idEsp = int.Parse(ddlEspecialidad.SelectedValue);
-
             MedicoNegocio medNeg = new MedicoNegocio();
 
-            if (idEsp == 0)
-            {
-                CargarMedicos();
-            }
-            else
-            {
-                var lista = medNeg.ListarPorEspecialidad(idEsp);
+            var medicos = idEsp > 0 ? medNeg.ListarPorEspecialidad(idEsp) : medNeg.Listar();
 
-                ddlProfesional.DataSource = lista;
-                ddlProfesional.DataTextField = "NombreCompleto";
-                ddlProfesional.DataValueField = "IdMedico";
-                ddlProfesional.DataBind();
-
-                ddlProfesional.Items.Insert(0, new ListItem("Seleccionar profesional", "0"));
-            }
+            ddlProfesional.DataSource = medicos;
+            ddlProfesional.DataTextField = "NombreCompleto";
+            ddlProfesional.DataValueField = "IdMedico";
+            ddlProfesional.DataBind();
+            ddlProfesional.Items.Insert(0, new ListItem("Seleccionar profesional", "0"));
         }
+
 
         protected void ddlProfesional_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -379,7 +361,105 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             }
         }
 
+        // =======================================================
+        // ===============   BOTONES DE ACCIÓN  ==================
+        // =======================================================
 
+
+        protected void rptCitas_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "Recordatorio")
+            {
+                int idTurno = Convert.ToInt32(e.CommandArgument);
+                ViewState["IdTurnoRecordatorio"] = idTurno;
+
+                TurnoNegocio turnoNeg = new TurnoNegocio();
+                var turno = turnoNeg.ListarAgendaTodasLasFechas()
+                                     .FirstOrDefault(t => t.IdTurno == idTurno);
+
+                if (turno != null)
+                {
+                    lblMensajeRecordatorio.Text =
+                        $"¿Querés enviar un recordatorio del turno del {turno.Fecha:dd/MM/yyyy HH:mm} con Dr./Dra. {turno.Medico} (Especialidad: {turno.Especialidad}) al mail {lblMail.Text}?";
+
+                    ScriptManager.RegisterStartupScript(
+                        this,
+                        GetType(),
+                        "abrirModalRecordatorio",
+                        "var m = new bootstrap.Modal(document.getElementById('modalRecordatorio')); m.show();",
+                        true
+                    );
+                }
+            }
+
+            if (e.CommandName == "Cancelar")
+            {
+                int idTurno = Convert.ToInt32(e.CommandArgument);
+                ViewState["IdTurnoAccion"] = idTurno;
+
+                ScriptManager.RegisterStartupScript(
+                    this, 
+                    GetType(), 
+                    "modalCan",
+                    "var modal = new bootstrap.Modal(document.getElementById('modalCancelar')); modal.show();", 
+                    true);
+            }
+
+        }
+
+
+        protected void btnEnviarRecordatorio_Click(object sender, EventArgs e)
+        {
+            if (ViewState["IdTurnoRecordatorio"] == null) return;
+
+            int idTurno = (int)ViewState["IdTurnoRecordatorio"];
+            TurnoNegocio turnoNeg = new TurnoNegocio();
+            var turno = turnoNeg.ListarAgendaTodasLasFechas()
+                                .FirstOrDefault(t => t.IdTurno == idTurno);
+
+            if (turno == null) return;
+
+            string cuerpo = $@"<h1>Estimado/a, {lblNombre.Text} {lblApellido.Text}</h1>
+                                <h2>Le recordamos su próximo turno en nuestra clínica:</h2>
+                                <p>Fecha: {turno.Fecha:dd/MM/yyyy HH:mm}<br>
+                                Especialidad: {turno.Especialidad}<br>
+                                Profesional: {turno.Medico}<br>
+                                <br>
+                                Por favor, llegue con 10 minutos de antelación.<br>
+                                <br>
+                                Saludos cordiales, <br>
+                                Clinica.</p>";
+
+            try
+            {
+                EmailService emailService = new EmailService();
+                emailService.armarCorreo(lblMail.Text, "Recordatorio de su turno en la clínica", cuerpo);
+                emailService.enviarEmail();
+
+                lblResultadoRecordatorio.Text = "Recordatorio enviado correctamente al correo: " + lblMail.Text;
+            }
+            catch (Exception ex)
+            {
+                lblResultadoRecordatorio.Text = "No se pudo enviar el recordatorio. Error: " + ex.Message;
+            }
+
+            // Abrir modal de resultado
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "abrirModalResultado",
+                "$('#modalResultadoRecordatorio').modal('show');", true);
+        }
+
+
+        protected void btnConfirmarCancelar_Click(object sender, EventArgs e)
+        {
+            int idTurno = (int)ViewState["IdTurnoAccion"];
+            turnoNegocio.EliminarTurno(idTurno);
+            CargarCitasPaciente();
+
+
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
+                "$('#modalCancelar').modal('hide');", true);
+        }
 
     }
+
 }

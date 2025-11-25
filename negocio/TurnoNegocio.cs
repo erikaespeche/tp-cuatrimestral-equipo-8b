@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ClinicaWeb.DTO;
+using dominio;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using dominio;
-using ClinicaWeb.DTO;
 
 
 namespace negocio
@@ -343,5 +344,52 @@ namespace negocio
             public string HoraStr { get; set; }
         }
 
+        public void EliminarTurno(int idTurno)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("DELETE FROM TURNO WHERE IdTurno = @id");
+                datos.setearParametro("@id", idTurno);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al eliminar el turno: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void Modificar(Turno turno)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta(@"UPDATE Turnos SET 
+             IdMedico = @IdMedico, 
+             IdEspecialidad = @IdEspecialidad, 
+             Fecha = @Fecha,
+             Observaciones = @Observaciones
+             WHERE IdTurno = @IdTurno");
+                datos.setearParametro("@IdMedico", turno.IdMedico);
+                datos.setearParametro("@IdEspecialidad", turno.IdEspecialidad);
+                datos.setearParametro("@Fecha", turno.Fecha);
+                datos.setearParametro("@Observaciones", turno.Observaciones);
+                datos.setearParametro("@IdTurno", turno.IdTurno);
+
+                datos.ejecutarAccion(); // <- actualizar en DB, no leer
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar el turno: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
