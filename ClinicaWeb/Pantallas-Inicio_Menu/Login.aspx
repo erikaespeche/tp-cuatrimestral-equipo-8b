@@ -43,30 +43,71 @@
                 CssClass="btn btn-primary btn-login" OnClick="btnLogin_Click" />
 
 
-            <a href="#" class="footer-text forgot-link">¿Olvidaste tu contraseña?</a>
+            <a href="#" class="footer-text forgot-link" data-bs-toggle="modal" data-bs-target="#modalRecuperar">¿Olvidaste tu contraseña?
+            </a>
 
         </div>
+
+        <div class="modal fade" id="modalRecuperar" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="ventana-editar-paciente modal-content bg-dark text-light p-4"
+                    style="background-color: #21364B; border: 1px solid gray; color: white;">
+
+                    
+                    <div class="modal-header border-0">
+                        <h4 class="modal-title">Recuperar contraseña</h4>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                   
+                    <div class="modal-body">
+
+                        <label class="form-label">Ingresá tu email</label>
+
+                        <asp:TextBox ID="txtRecuperarEmail" runat="server"
+                            CssClass="form-control mb-3"
+                            Style="background-color: #21364B; border: 1px solid gray; color: white;"
+                            placeholder="ejemplo@correo.com">
+                        </asp:TextBox>
+
+                        <asp:Label ID="lblRecuperarError" runat="server"
+                            CssClass="text-danger d-block mb-3">
+                        </asp:Label>
+
+                        <div class="text-end">
+                            <asp:Button ID="btnEnviarRecupero" runat="server"
+                                CssClass="btn btn-primary"
+                                Text="Enviar"
+                                OnClick="btnEnviarRecupero_Click" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </form>
 
 
 
     <%-- JS --%>
     <script>
-    function togglePassword(id, icon) {
-        const input = document.getElementById(id);
+        function togglePassword(id, icon) {
+            const input = document.getElementById(id);
 
-        if (input.type === "password") {
-            input.type = "text";
-            icon.classList.remove("bi-eye-fill");
-            icon.classList.add("bi-eye-slash-fill");
-        } else {
-            input.type = "password";
-            icon.classList.remove("bi-eye-slash-fill");
-            icon.classList.add("bi-eye-fill");
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("bi-eye-fill");
+                icon.classList.add("bi-eye-slash-fill");
+            } else {
+                input.type = "password";
+                icon.classList.remove("bi-eye-slash-fill");
+                icon.classList.add("bi-eye-fill");
+            }
         }
-    }
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
 </body>

@@ -26,7 +26,7 @@ namespace negocio
         public void armarCorreo(string emailDestino, string asunto, string cuerpo)
         {
             email = new MailMessage();
-            email.From = new MailAddress("noresponder@programacion.com");
+            email.From = new MailAddress("maiianaiir@gmail.com", "No Responder - Clinic"); 
             email.To.Add(emailDestino);
             email.Subject = asunto;
             email.IsBodyHtml=true;

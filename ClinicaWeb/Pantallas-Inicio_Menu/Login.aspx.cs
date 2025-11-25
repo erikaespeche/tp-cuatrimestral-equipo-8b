@@ -26,7 +26,7 @@ namespace Clinic
             {
                 Session["usuario"] = logueado;
 
-                // REDIRECCIÓN SEGÚN ROL
+                
                 switch (logueado.Rol.NombreRol.ToUpper())
                 {
                     case "MEDICO":
@@ -51,5 +51,57 @@ namespace Clinic
                 lblError.Text = "Usuario o contraseña incorrectos.";
             }
         }
+
+        protected void btnEnviarRecupero_Click(object sender, EventArgs e)
+        {
+            string mail = txtRecuperarEmail.Text.Trim();
+
+            
+            if (string.IsNullOrEmpty(mail))
+            {
+                lblRecuperarError.Text = "Ingrese un email válido.";
+                lblRecuperarError.CssClass = "text-warning d-block mb-3";
+                return;
+            }
+
+            UsuarioNegocio negocio = new UsuarioNegocio();
+            Usuario encontrado = negocio.GetByEmail(mail);
+
+            if (encontrado == null)
+            {
+                lblRecuperarError.Text = "No existe un usuario con ese email.";
+                lblRecuperarError.CssClass = "text-warning d-block mb-3";
+                return;
+            }
+
+            try
+            {
+                
+                EmailService emailService = new EmailService();
+
+                string asunto = "Recuperación de contraseña - Clínica";
+                string cuerpo = $@"
+            <h3>Recuperación de contraseña</h3>
+            <p>Hola <b>{encontrado.Nombres}</b>,</p>
+            <p>Recibimos una solicitud para recuperar tu contraseña.</p>
+            <p><b>Tu contraseña actual es:</b> {encontrado.Contrasena}</p>
+            <br>
+            <p>Si vos no solicitaste esto, ignorá este mensaje.</p>
+            <p>Clínica - Sistema de Gestión de Turnos</p>
+        ";
+
+                emailService.armarCorreo(mail, asunto, cuerpo);
+                emailService.enviarEmail();
+
+                lblRecuperarError.Text = "Te enviamos un correo con tu contraseña.";
+                lblRecuperarError.CssClass = "text-success d-block mb-3";
+            }
+            catch (Exception ex)
+            {
+                lblRecuperarError.Text = "Error al enviar correo: " + ex.Message;
+                lblRecuperarError.CssClass = "text-danger d-block mb-3";
+            }
+        }
+
     }
 }

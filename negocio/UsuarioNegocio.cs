@@ -298,5 +298,86 @@ namespace negocio
             }
         }
 
+
+        public Usuario GetByEmail(string email)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT 
+                U.IdUsuario,
+                U.DniUsuario,
+                U.Nombres,
+                U.Apellidos,
+                U.NombreUsuario,
+                U.Contrasena,
+                U.Email,
+                U.IdRol,
+                R.NombreRol
+            FROM USUARIOS U
+            INNER JOIN ROL R ON R.IdRol = U.IdRol
+            WHERE U.Email = @Email
+        ");
+
+                datos.setearParametro("@Email", email);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    Usuario u = new Usuario();
+                    u.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    u.DniUsuario = (int)datos.Lector["DniUsuario"];
+                    u.Nombres = datos.Lector["Nombres"].ToString();
+                    u.Apellidos = datos.Lector["Apellidos"].ToString();
+                    u.NombreUsuario = datos.Lector["NombreUsuario"].ToString();
+                    u.Contrasena = datos.Lector["Contrasena"].ToString();
+                    u.Email = datos.Lector["Email"].ToString();
+                    u.IdRol = (int)datos.Lector["IdRol"];
+
+                    u.Rol = new Rol()
+                    {
+                        IdRol = u.IdRol,
+                        NombreRol = datos.Lector["NombreRol"].ToString()
+                    };
+
+                    return u;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar usuario por email: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+        public void ActualizarPassword(int idUsuario, string nuevaPassword)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("UPDATE Usuarios SET Password = @pass WHERE Id = @id");
+                datos.setearParametro("@pass", nuevaPassword);
+                datos.setearParametro("@id", idUsuario);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
