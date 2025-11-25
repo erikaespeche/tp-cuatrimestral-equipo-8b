@@ -14,5 +14,13 @@ namespace Clinic
         {
             // Código opcional al cargar la Master Page
         }
+
+
+        //BOTON SALIR
+        protected void btnSalir_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/Login.aspx");
+        }
+
     }
 }
