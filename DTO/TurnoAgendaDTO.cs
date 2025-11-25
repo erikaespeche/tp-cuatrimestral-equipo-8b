@@ -21,5 +21,7 @@ namespace ClinicaWeb.DTO
         public string Especialidad { get; set; }
 
         public string Estado { get; set; }
+        public string Observaciones { get; set; }
+
     }
 }

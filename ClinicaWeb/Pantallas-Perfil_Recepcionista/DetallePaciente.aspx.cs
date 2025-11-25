@@ -35,8 +35,9 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                     // Si no hay DNI, redirigir a la lista de pacientes
                     Response.Redirect("ListarPaciente.aspx?error=SinDNI");
                 }
-                CargarMedicos();
+                
                 CargarEspecialidades();
+                CargarMedicos();
                 CargarHorasDisponibles();
                 CargarCitasPaciente();
             }
@@ -89,13 +90,26 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             ddlEspecialidad.Items.Insert(0, new ListItem("Seleccionar especialidad", "0"));
         }
 
-        private void CargarMedicos()
+        private void CargarMedicos(int idEspecialidad)
         {
             MedicoNegocio medNeg = new MedicoNegocio();
             var lista = medNeg.Listar();
 
             ddlProfesional.DataSource = lista;
             ddlProfesional.DataTextField = "NombreCompleto"; 
+            ddlProfesional.DataValueField = "IdMedico";
+            ddlProfesional.DataBind();
+
+            ddlProfesional.Items.Insert(0, new ListItem("Seleccionar profesional", "0"));
+        }
+
+        private void CargarMedicos()
+        {
+            MedicoNegocio medNeg = new MedicoNegocio();
+            var lista = medNeg.Listar();
+
+            ddlProfesional.DataSource = lista;
+            ddlProfesional.DataTextField = "NombreCompleto";
             ddlProfesional.DataValueField = "IdMedico";
             ddlProfesional.DataBind();
 
@@ -324,6 +338,48 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         {
             // Guardamos la fecha seleccionada en el HiddenField
         }
+
+        protected void ddlEspecialidad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int idEsp = int.Parse(ddlEspecialidad.SelectedValue);
+
+            MedicoNegocio medNeg = new MedicoNegocio();
+
+            if (idEsp == 0)
+            {
+                CargarMedicos();
+            }
+            else
+            {
+                var lista = medNeg.ListarPorEspecialidad(idEsp);
+
+                ddlProfesional.DataSource = lista;
+                ddlProfesional.DataTextField = "NombreCompleto";
+                ddlProfesional.DataValueField = "IdMedico";
+                ddlProfesional.DataBind();
+
+                ddlProfesional.Items.Insert(0, new ListItem("Seleccionar profesional", "0"));
+            }
+        }
+
+        protected void ddlProfesional_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlProfesional.SelectedValue == "0")
+                return;
+
+            int idMedico = int.Parse(ddlProfesional.SelectedValue);
+
+            MedicoNegocio medNeg = new MedicoNegocio();
+            Medico medico = medNeg.BuscarPorId(idMedico);
+
+            if (medico != null && medico.Especialidades.Count > 0)
+            {
+                ddlEspecialidad.SelectedValue = medico.Especialidades[0].IdEspecialidad.ToString();
+
+            }
+        }
+
+
 
     }
 }

@@ -23,6 +23,7 @@ namespace negocio
                 T.IdTurno,
                 T.Fecha,
                 T.Estado,
+                T.Observaciones,
                 P.IdPaciente,
                 P.Nombres + ' ' + P.Apellidos AS Paciente,
                 P.DniPaciente AS DNI,
@@ -46,6 +47,7 @@ namespace negocio
                         IdTurno = (int)datos.Lector["IdTurno"],
                         Fecha = (DateTime)datos.Lector["Fecha"],
                         Estado = datos.Lector["Estado"].ToString(),
+                        Observaciones = datos.Lector["Observaciones"].ToString(),
                         Paciente = datos.Lector["Paciente"].ToString(),
                         DNI = datos.Lector["DNI"].ToString(),
                         ObraSocial = datos.Lector["ObraSocial"].ToString(),
@@ -76,7 +78,7 @@ namespace negocio
                 T.IdTurno,
                 T.Fecha,
                 T.Estado,
-
+                T.Observaciones,
                 -- PACIENTE
                 P.Nombres + ' ' + P.Apellidos AS Paciente,
                 P.DniPaciente AS DNI,
@@ -107,6 +109,7 @@ namespace negocio
                     aux.IdTurno = (int)datos.Lector["IdTurno"];
                     aux.Fecha = (DateTime)datos.Lector["Fecha"];
                     aux.Estado = datos.Lector["Estado"].ToString();
+                    aux.Observaciones = datos.Lector["Observaciones"].ToString();
 
                     aux.Paciente = datos.Lector["Paciente"].ToString();
                     aux.DNI = datos.Lector["DNI"].ToString();
@@ -222,6 +225,7 @@ namespace negocio
                 T.IdTurno,
                 T.Fecha,
                 T.Estado,
+                T.Observaciones,
                 P.IdPaciente,
                 P.Nombres + ' ' + P.Apellidos AS Paciente,
                 P.DniPaciente AS DNI,
@@ -246,6 +250,7 @@ namespace negocio
                     aux.IdTurno = (int)datos.Lector["IdTurno"];
                     aux.Fecha = (DateTime)datos.Lector["Fecha"];
                     aux.Estado = datos.Lector["Estado"].ToString();
+                    aux.Observaciones = datos.Lector["Observaciones"].ToString();
                     aux.Paciente = datos.Lector["Paciente"].ToString();
                     aux.DNI = datos.Lector["DNI"].ToString();
                     aux.ObraSocial = datos.Lector["ObraSocial"].ToString();

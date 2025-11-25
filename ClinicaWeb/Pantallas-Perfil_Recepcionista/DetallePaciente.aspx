@@ -138,8 +138,8 @@
                         <th>FECHA</th>
                         <th>HORA</th>
                         <th>MÉDICO</th>
-                        <th>TRATAMIENTO</th>
                         <th>ESTADO</th>
+                        <th>OBSERVACIONES</th>
                         <th>ACCIONES</th>
                     </tr>
                 </thead>
@@ -156,6 +156,7 @@
                                         <%# Eval("Estado") %>
                                     </span>
                                 </td>
+                                <td><%# Eval("Observaciones") %></td>
                                 <td>
                                     <button class="btn btn-primary btn-sm me-1">Enviar Recordatorio</button>
                                     <button class="btn btn-warning btn-sm me-1 text-dark">Reprogramar</button>
@@ -501,12 +502,15 @@
             </div>
 
             <div class="modal-body">
-                <div class="row g-4">
+                
+            <asp:UpdatePanel ID="updTurno" runat="server" UpdateMode="Conditional">
+                <ContentTemplate>
+                    <div class="row g-4">
 
                     <!-- Especialidad -->
                     <div class="col-md-6">
                         <label class="form-label text-light">Especialidad</label>
-                        <asp:DropDownList ID="ddlEspecialidad" runat="server" CssClass="form-select dropdown-dark">
+                        <asp:DropDownList ID="ddlEspecialidad" runat="server" CssClass="form-select dropdown-dark" AutoPostBack="true" OnSelectedIndexChanged="ddlEspecialidad_SelectedIndexChanged">
                             <asp:ListItem Text="Seleccionar especialidad" Value="" />
                         </asp:DropDownList>
                     </div>
@@ -514,7 +518,7 @@
                     <!-- Médico -->
                     <div class="col-md-6">
                         <label class="form-label text-light">Profesional o Médico</label>
-                        <asp:DropDownList ID="ddlProfesional" runat="server" CssClass="form-select dropdown-dark">
+                        <asp:DropDownList ID="ddlProfesional" runat="server" CssClass="form-select dropdown-dark" AutoPostBack="true" OnSelectedIndexChanged="ddlProfesional_SelectedIndexChanged">
                             <asp:ListItem Text="Seleccionar profesional" Value="" />
                         </asp:DropDownList>
                     </div>
@@ -544,6 +548,8 @@
                     </div>
 
                 </div>
+        </ContentTemplate>
+</asp:UpdatePanel>
             </div>
 
             <!-- FOOTER -->
