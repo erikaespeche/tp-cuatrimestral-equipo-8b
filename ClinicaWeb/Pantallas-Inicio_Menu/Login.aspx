@@ -37,11 +37,14 @@
 
 
 
-    <asp:Label ID="lblError" runat="server" ForeColor="Red" CssClass="d-block text-center mb-3"></asp:Label>
+            <asp:Label ID="lblError" runat="server" ForeColor="Red" CssClass="d-block text-center mb-3"></asp:Label>
 
-            <asp:Button ID="btnLogin" runat="server" Text="Ingresar" CssClass="btn btn-primary w-100" OnClick="btnLogin_Click" />
+            <asp:Button ID="btnLogin" runat="server" Text="Iniciar Sesión"
+                CssClass="btn btn-primary btn-login" OnClick="btnLogin_Click" />
 
-            <p class="footer-text">© 2025 Hospital Clinico - Sistema de Turnos</p>
+
+            <a href="#" class="footer-text forgot-link">¿Olvidaste tu contraseña?</a>
+
         </div>
     </form>
 

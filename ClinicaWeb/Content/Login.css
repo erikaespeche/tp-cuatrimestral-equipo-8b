@@ -568,3 +568,29 @@ body {
 .input-pass {
     padding-right: 40px !important;
 }
+
+/*Boton INICIAR SESION*/
+.btn-login {
+    /*width: 70% !important;*/ /* Ajustá el tamaño que quieras */
+    margin: 0 auto;
+    display: block;
+}
+.login-card .btn-primary:hover {
+    background-color: #1d4ed8;
+    transform: none !important; /* Evita el movimiento */
+}
+
+
+/*OLVIDASTE TU CONTRASEÑA*/
+.forgot-link {
+    display: block;
+    margin-top: 18px;
+    color: #60a5fa;
+    cursor: pointer;
+    transition: color 0.25s ease;
+    text-decoration: none;
+}
+
+    .forgot-link:hover {
+        color: #93c5fd;
+    }
