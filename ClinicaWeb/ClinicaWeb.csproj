@@ -120,11 +120,12 @@
     <Content Include="Content\MenuEstilos.css" />
     <Content Include="Content\PerfilAdministradorCSS.css" />
     <Content Include="Content\PerfilMedicosCSS.css" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\Login.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Login.aspx" />
+    <Content Include="Pantallas-Inicio_Menu\CambiarContrasenaRecepcionista.aspx" />
+    <Content Include="Pantallas-Inicio_Menu\Login.aspx" />
     <Content Include="Pantallas-Perfil_Medico\Calendario.aspx" />
     <Content Include="Pantallas-Perfil_Medico\CargarHistoriaClinica.aspx" />
     <Content Include="Pantallas-Perfil_Medico\DetallePaciente.aspx" />
@@ -236,11 +237,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Login.aspx.cs">
+    <Compile Include="Pantallas-Inicio_Menu\CambiarContrasenaRecepcionista.aspx.cs">
+      <DependentUpon>CambiarContrasenaRecepcionista.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Inicio_Menu\CambiarContrasenaRecepcionista.aspx.designer.cs">
+      <DependentUpon>CambiarContrasenaRecepcionista.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Inicio_Menu\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Login.aspx.designer.cs">
+    <Compile Include="Pantallas-Inicio_Menu\Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pantallas-Perfil_Medico\Calendario.aspx.cs">

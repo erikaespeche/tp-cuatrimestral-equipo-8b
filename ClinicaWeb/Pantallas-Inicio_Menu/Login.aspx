@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-    <link href="Content/site.css" rel="stylesheet" />
+    <link href="/Content/Login.css" rel="stylesheet" />
 </head>
 
 <body class="login-page">
@@ -24,6 +24,7 @@
             <div class="mb-3 text-start">
                 <label for="txtPassword" class="form-label">Contraseña</label>
                 <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" CssClass="form-control" placeholder="Ingrese su contraseña"></asp:TextBox>
+                
             </div>
 
             <asp:Label ID="lblError" runat="server" ForeColor="Red" CssClass="d-block text-center mb-3"></asp:Label>

@@ -19,7 +19,7 @@ namespace Clinic
         //BOTON SALIR
         protected void btnSalir_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/Login.aspx");
+            Response.Redirect("/Pantallas-Inicio_Menu/Login.aspx");
         }
 
     }

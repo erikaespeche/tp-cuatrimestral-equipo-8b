@@ -434,3 +434,112 @@ footer {
 }
 
 
+/* ==============================
+   LOGIN PAGE – ESTILO OSCURO
+============================== */
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, #0b0f1a, #0a0e19, #070b13);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    color: #fff;
+}
+
+/* Fondo animado sutil */
+.login-page {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #0d0f16 0%, #0a0d14 100%);
+}
+
+/* ===============================
+   TARJETA DEL LOGIN
+=============================== */
+.login-card {
+    background: rgba(20, 25, 35, 0.85);
+    backdrop-filter: blur(8px);
+    width: 420px;
+    padding: 45px 38px;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Icono */
+.icon-hospital {
+    font-size: 3.2rem;
+    color: #3b82f6; /* Azul brillante */
+    margin-bottom: 12px;
+}
+
+/* Título */
+.login-card h3 {
+    color: #ffffff;
+    margin-bottom: 25px;
+    font-size: 1.9rem;
+    font-weight: 600;
+}
+
+/* ===============================
+   INPUTS
+=============================== */
+.login-card .form-label {
+    text-align: left;
+    width: 100%;
+    color: #cbd5e1;
+    font-weight: 500;
+}
+
+.login-card .form-control {
+    width: 100%;
+    background-color: #111827;
+    border-radius: 10px;
+    border: 1px solid #374151;
+    padding: 12px;
+    color: #e5e7eb;
+    margin-bottom: 15px;
+    transition: border 0.25s ease;
+}
+
+    .login-card .form-control:focus {
+        border-color: #3b82f6;
+        outline: none;
+        background-color: #1f2937;
+    }
+
+/* ===============================
+   BOTÓN
+=============================== */
+.login-card .btn-primary {
+    background-color: #2563eb;
+    border: none;
+    padding: 12px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+    .login-card .btn-primary:hover {
+        background-color: #1d4ed8;
+        transform: translateY(-2px);
+    }
+
+/* Texto del pie */
+.footer-text {
+    margin-top: 25px;
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+
+.form-control::placeholder {
+    color: #1D2229 !important;
+}
+
+

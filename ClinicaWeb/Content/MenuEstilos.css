@@ -89,3 +89,151 @@
         font-size: 1rem;
     }
 
+
+
+
+#form1 .icono-usuario{
+    font-size: 22px !important;
+}
+
+
+
+
+/* ============================
+   Ícono usuario: iluminar en azul al pasar el mouse
+============================= */
+
+
+
+#form1 .icono-usuario:hover {
+    color: #0d6efd !important;
+}
+
+#form1 .navbar-nav .nav-link:hover {
+    color: #0d6efd !important;
+}
+
+
+
+
+
+
+
+/*-----------------------------------------------PANTALLA PERFIL RECEPCIONISTA - CAMBIAR CONTRASEÑA-------------------------------------------------------*/
+/* PAGINA: Cambiar Contraseña */
+
+#pantalla-perfilRecepcionista-cambiar-contrasena .cambiar-pass-container {
+    max-width: 650px;
+    margin: 120px auto 40px auto;
+    color: #fff;
+}
+
+#pantalla-perfilRecepcionista-cambiar-contrasena .titulo-cambiar {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0;
+    color: #e0e0e0;
+    margin-top: 90px !important;
+}
+
+#pantalla-perfilRecepcionista-cambiar-contrasena h2{
+    margin-top: 90px !important;
+}
+
+#pantalla-perfilRecepcionista-cambiar-contrasena .subtitulo-cambiar {
+    color: #a8a8a8;
+    margin-bottom: 25px;
+}
+
+#pantalla-perfilRecepcionista-cambiar-contrasena .formulario-cambiar {
+    background: #1E293B;
+    border: 1px solid #2b2d36;
+}
+
+#pantalla-perfilRecepcionista-cambiar-contrasena .input-dark {
+    background-color: #0F172A!important;
+    color: #fff;
+    border: 1px solid #3a3c47;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+    #pantalla-perfilRecepcionista-cambiar-contrasena .input-dark:focus {
+        background-color: #32333d;
+        color: #fff;
+        border-color: #0d6efd;
+        box-shadow: none;
+    }
+
+#pantalla-perfilRecepcionista-cambiar-contrasena .btn-guardar {
+    padding: 10px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+}
+
+#pantalla-perfilRecepcionista-cambiar-contrasena .mensaje-resultado {
+    font-size: 1rem;
+    display: block;
+    text-align: center;
+}
+
+    #pantalla-perfilRecepcionista-cambiar-contrasena .mensaje-resultado.ok {
+        color: #4cd964;
+    }
+
+    #pantalla-perfilRecepcionista-cambiar-contrasena .mensaje-resultado.error {
+        color: #ff5e57;
+    }
+
+
+/* OJITO DE CONTRASEÑA */
+#pantalla-perfilRecepcionista-cambiar-contrasena .toggle-pass {
+    background-color: #0F172A;
+    color: #fff;
+    border: 1px solid #3a3c47;
+    cursor: pointer;
+}
+
+    #pantalla-perfilRecepcionista-cambiar-contrasena .toggle-pass:hover {
+        background-color: #0F172b;
+    }
+
+/* BOTÓN GUARDAR (AZUL) */
+#pantalla-perfilRecepcionista-cambiar-contrasena .btn-guardar-azul {
+    background-color: #0d6efd;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+}
+
+    #pantalla-perfilRecepcionista-cambiar-contrasena .btn-guardar-azul:hover {
+        background-color: #0b5ed7;
+    }
+
+/* BOTÓN CANCELAR (ROJO) */
+#pantalla-perfilRecepcionista-cambiar-contrasena .btn-cancelar {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+}
+
+    #pantalla-perfilRecepcionista-cambiar-contrasena .btn-cancelar:hover {
+        background-color: #bb2d3b;
+    }
+
+/* INPUTS OSCUROS */
+#pantalla-perfilRecepcionista-cambiar-contrasena .input-dark {
+    background-color: #2b2d36;
+    color: #fff;
+    border: 1px solid #3a3c47;
+}
+
+    #pantalla-perfilRecepcionista-cambiar-contrasena .input-dark:focus {
+        background-color: #32333d;
+        border-color: #0d6efd;
+        color: #fff;
+        box-shadow: none;
+    }
