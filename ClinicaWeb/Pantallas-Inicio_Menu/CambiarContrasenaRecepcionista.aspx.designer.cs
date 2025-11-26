@@ -15,6 +15,15 @@ namespace Clinic.Pantallas_Inicio_Menu
     {
 
         /// <summary>
+        /// Control updForm.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updForm;
+
+        /// <summary>
         /// Control txtActual.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,15 @@ namespace Clinic.Pantallas_Inicio_Menu
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtActual;
+
+        /// <summary>
+        /// Control lblErrorActual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorActual;
 
         /// <summary>
         /// Control txtNueva.
@@ -33,6 +51,15 @@ namespace Clinic.Pantallas_Inicio_Menu
         protected global::System.Web.UI.WebControls.TextBox txtNueva;
 
         /// <summary>
+        /// Control lblErrorNueva.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorNueva;
+
+        /// <summary>
         /// Control txtRepetir.
         /// </summary>
         /// <remarks>
@@ -40,6 +67,15 @@ namespace Clinic.Pantallas_Inicio_Menu
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtRepetir;
+
+        /// <summary>
+        /// Control lblErrorRepetir.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorRepetir;
 
         /// <summary>
         /// Control btnCancelar.
@@ -60,12 +96,21 @@ namespace Clinic.Pantallas_Inicio_Menu
         protected global::System.Web.UI.WebControls.Button btnGuardar;
 
         /// <summary>
-        /// Control lblMensaje.
+        /// Control btnAceptarExito.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMensaje;
+        protected global::System.Web.UI.WebControls.Button btnAceptarExito;
+
+        /// <summary>
+        /// Control btnAceptarError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarError;
     }
 }
