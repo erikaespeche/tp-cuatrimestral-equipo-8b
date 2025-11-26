@@ -15,6 +15,13 @@
     <div class="container cambiar-pass-container" style="width:50%; margin-top:40px">
 
         <h2 class="titulo-cambiar" style="margin-top:40px; width:50%">Cambiar Contraseña</h2>
+        <%--<h2 class="text-center mb-4" style="margin-top:40px; width:50%">Cambiar Contraseña
+            <br />
+            <small class="text-primary">
+                <asp:Label ID="lblUsuarioTitulo" runat="server"></asp:Label>
+            </small>
+        </h2>--%>
+
         <p class="subtitulo-cambiar">Ingrese su contraseña actual y la nueva contraseña para actualizar sus datos.</p>
 
         <div class="formulario-cambiar shadow-lg p-4 rounded-4">

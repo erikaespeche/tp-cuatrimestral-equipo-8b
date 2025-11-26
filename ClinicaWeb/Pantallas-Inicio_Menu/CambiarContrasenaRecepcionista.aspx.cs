@@ -15,14 +15,15 @@ namespace Clinic.Pantallas_Inicio_Menu
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (!IsPostBack)
-            //{
-            //    // Validación: si no hay usuario logueado, redirige
-            //    if (Session["Usuario"] == null)
-            //    {
-            //        Response.Redirect("/Pantallas-Inicio_Menu/Login.aspx");
-            //    }
-            //}
+        //    if (!IsPostBack)
+        //    {
+        //        Usuario u = (Usuario)Session["Usuario"];
+
+        //        if (u != null)
+        //        {
+        //            lblUsuarioTitulo.Text = u.Nombres + " " + u.Apellidos + " (" + u.Rol.NombreRol + ")";
+        //        }
+        //    }
         }
 
 
