@@ -99,9 +99,20 @@
                                             <i class="bi bi-eye"></i>
                                         </button>
 
-                                        <button class="btn btn-outline-warning btn-sm me-1">
+                                        <!-- Editar -->
+                                        <button type="button" class="btn btn-outline-warning btn-sm me-1" 
+                                                data-bs-toggle="modal" data-bs-target="#modalEditar"
+                                                onclick='<%# "cargarDatosEditar(" + Eval("IdMedico") + ", \"" 
+                                                             + Eval("Nombre") + "\", \"" 
+                                                             + Eval("Apellido") + "\", \"" 
+                                                             + Eval("Dni") + "\", \"" 
+                                                             + Eval("Telefono") + "\", \"" 
+                                                             + Eval("Email") + "\", \"" 
+                                                             + string.Join(", ", ((dominio.Medico)Container.DataItem).Especialidades.Select(esp => esp.Nombre)) + "\")" %>'>
                                             <i class="bi bi-pencil"></i>
                                         </button>
+
+
                                         <button class="btn btn-outline-danger btn-sm">
                                             <i class="bi bi-trash"></i>
                                         </button>
@@ -116,6 +127,7 @@
         </div>
 
     </div>
+
     <!-- Modal Ver -->
     <div class="modal fade" id="modalVer" tabindex="-1" aria-labelledby="modalVerLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -167,6 +179,72 @@
     </div>
  </div>
 
+    <!-- Modal Editar -->
+    <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-turno-dark">
+
+          <!-- Header -->
+          <div class="modal-header d-flex align-items-center gap-3 pb-3 mb-3 border-bottom border-secondary">
+            <div class="d-flex align-items-center justify-content-center"
+                 style="width:64px; height:64px; border-radius:50%; background-color: rgba(255,193,7,0.15);">
+                <span class="material-symbols-outlined d-flex align-items-center justify-content-center"
+                      style="font-size:40px; color:#FFC107; line-height:1; transform: translate(1px, -6px);">
+                    edit
+                </span>
+            </div>
+
+            <div>
+                <h5 class="modal-title fw-bold mb-0" id="modalEditarLabel">Editar Profesional</h5>
+            </div>
+
+            <!-- Botón cerrar -->
+            <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col-6">
+                <label>Nombre</label>
+                <input type="text" id="editNombre" runat="server" class="form-control bg-dark text-light border-secondary">
+              </div>
+              <div class="col-6">
+                <label>Apellido</label>
+                <input type="text" id="editApellido" runat="server" class="form-control bg-dark text-light border-secondary">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-6">
+                <label>DNI</label>
+                <input type="text" id="editDni" runat="server" class="form-control bg-dark text-light border-secondary">
+              </div>
+              <div class="col-6">
+                <label>Teléfono</label>
+                <input type="text" id="editTelefono" runat="server" class="form-control bg-dark text-light border-secondary">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-6">
+                <label>Email</label>
+                <input type="text" id="editEmail" runat="server" class="form-control bg-dark text-light border-secondary">
+              </div>
+              <div class="col-6">
+                <label>Especialidades</label>
+                <input type="text" id="editEspecialidades" runat="server" class="form-control bg-dark text-light border-secondary">
+              </div>
+            </div>
+            <input type="hidden" id="editIdMedico" runat="server">
+          </div>
+
+          <div class="modal-footer border-secondary d-flex justify-content-end">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <asp:Button ID="btnGuardarCambios" runat="server" CssClass="btn btn-primary" Text="Guardar cambios" OnClick="btnGuardarCambios_Click" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
 
     <script>
@@ -217,6 +295,73 @@
 
             `;
         }
+
+        function cargarDatosModalEditar(nombre, apellido, dni, telefono, email, especialidades = "") {
+            document.getElementById("modalNombreCompletoEditar").innerText = `Dr. / Dra. ${nombre} ${apellido}`;
+
+            const contenedor = document.getElementById('contenedorDatosEditar');
+            contenedor.innerHTML = `
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control bg-dark text-light border-secondary" id="inputNombre" value="${nombre}">
+                </div>
+                <div class="col-6">
+                    <label>Apellido</label>
+                    <input type="text" class="form-control bg-dark text-light border-secondary" id="inputApellido" value="${apellido}">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label>DNI</label>
+                    <input type="text" class="form-control bg-dark text-light border-secondary" id="inputDni" value="${dni}">
+                </div>
+                <div class="col-6">
+                    <label>Teléfono</label>
+                    <input type="text" class="form-control bg-dark text-light border-secondary" id="inputTelefono" value="${telefono}">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label>Email</label>
+                    <input type="email" class="form-control bg-dark text-light border-secondary" id="inputEmail" value="${email}">
+                </div>
+                <div class="col-6">
+                    <label>Especialidades</label>
+                    <input type="text" class="form-control bg-dark text-light border-secondary" id="inputEspecialidades" value="${especialidades}">
+                </div>
+            </div>
+    `;
+        }
+
+        function guardarCambios() {
+            const nombre = document.getElementById("inputNombre").value;
+            const apellido = document.getElementById("inputApellido").value;
+            const dni = document.getElementById("inputDni").value;
+            const telefono = document.getElementById("inputTelefono").value;
+            const email = document.getElementById("inputEmail").value;
+            const especialidades = document.getElementById("inputEspecialidades").value;
+
+            console.log({ nombre, apellido, dni, telefono, email, especialidades });
+
+            // Cerrar modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalEditar'));
+            modal.hide();
+        }
+
+        function cargarDatosEditar(id, nombre, apellido, dni, telefono, email, especialidades) {
+            document.getElementById('<%= editIdMedico.ClientID %>').value = id;
+            document.getElementById('<%= editNombre.ClientID %>').value = nombre;
+            document.getElementById('<%= editApellido.ClientID %>').value = apellido;
+            document.getElementById('<%= editDni.ClientID %>').value = dni;
+            document.getElementById('<%= editTelefono.ClientID %>').value = telefono;
+            document.getElementById('<%= editEmail.ClientID %>').value = email;
+            document.getElementById('<%= editEspecialidades.ClientID %>').value = especialidades;
+        }
+
+
     </script>
 
 

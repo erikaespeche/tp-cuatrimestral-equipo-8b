@@ -1,10 +1,11 @@
-﻿using System;
+﻿using dominio;
+using negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using negocio;
 
 
 namespace Clinic.Pantallas_Perfil_Recepcionista
@@ -75,5 +76,35 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
             return s.Trim();
         }
+
+        protected void btnGuardarCambios_Click(object sender, EventArgs e)
+        {
+            int id = int.Parse(editIdMedico.Value); 
+            string nombre = editNombre.Value;
+            string apellido = editApellido.Value;
+            string dni = editDni.Value;
+            string telefono = editTelefono.Value;
+            string email = editEmail.Value;
+            string especialidades = editEspecialidades.Value;
+
+            // Buscar el médico
+            Medico medico = negocio.BuscarPorId(id); 
+
+            if (medico != null)
+            {
+                medico.Nombre = nombre;
+                medico.Apellido = apellido;
+                medico.Dni = dni;
+                medico.Telefono = telefono;
+                medico.Email = email;
+
+                negocio.Modificar(medico);
+
+                // Recargar repeater
+                CargarProfesionales();
+            }
+
+        }
     }
-}
+
+ }
