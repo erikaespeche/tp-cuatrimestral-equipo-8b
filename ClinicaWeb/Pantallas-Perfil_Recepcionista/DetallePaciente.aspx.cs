@@ -38,7 +38,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                     // Si no hay DNI, redirigir a la lista de pacientes
                     Response.Redirect("ListarPaciente.aspx?error=SinDNI");
                 }
-                
+
                 CargarEspecialidades();
                 CargarMedicos();
                 CargarHorasDisponibles();
@@ -86,8 +86,8 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             var lista = espNeg.Listar();
 
             ddlEspecialidad.DataSource = lista;
-            ddlEspecialidad.DataTextField = "Nombre";       
-            ddlEspecialidad.DataValueField = "IdEspecialidad"; 
+            ddlEspecialidad.DataTextField = "Nombre";
+            ddlEspecialidad.DataValueField = "IdEspecialidad";
             ddlEspecialidad.DataBind();
 
             ddlEspecialidad.Items.Insert(0, new ListItem("Seleccionar especialidad", "0"));
@@ -120,16 +120,21 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
         private void CargarCitasPaciente()
         {
-            // Obtenés el Id del paciente desde el ViewState
             if (ViewState["IdPaciente"] == null)
                 return;
 
             int idPaciente = (int)ViewState["IdPaciente"];
 
-            TurnoNegocio turnoNeg = new TurnoNegocio();
-            var listaTurnos = turnoNeg.ListarPorPaciente(idPaciente); 
+          
+            var listaTurnos = turnoNegocio.ListarPorPaciente(idPaciente);
 
-            rptCitas.DataSource = listaTurnos;
+            // Filtrar: solo turnos activos o reprogramados y futuros
+            var turnosVisibles = listaTurnos
+                .Where(t => t.Estado != "Cancelado" && t.Fecha >= DateTime.Now)
+                .OrderBy(t => t.Fecha)
+                .ToList();
+
+            rptCitas.DataSource = turnosVisibles;
             rptCitas.DataBind();
         }
 
@@ -268,7 +273,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                     IdPaciente = (int)ViewState["IdPaciente"],
                     IdEspecialidad = int.Parse(ddlEspecialidad.SelectedValue),
                     IdMedico = int.Parse(ddlProfesional.SelectedValue),
-                    Fecha = fechaCompleta, 
+                    Fecha = fechaCompleta,
                     Observaciones = txtObservaciones.Text
                 };
 
@@ -398,12 +403,37 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 ViewState["IdTurnoAccion"] = idTurno;
 
                 ScriptManager.RegisterStartupScript(
-                    this, 
-                    GetType(), 
+                    this,
+                    GetType(),
                     "modalCan",
-                    "var modal = new bootstrap.Modal(document.getElementById('modalCancelar')); modal.show();", 
+                    "var modal = new bootstrap.Modal(document.getElementById('modalCancelar')); modal.show();",
                     true);
             }
+
+
+            if (e.CommandName == "Reprogramar")
+            {
+                int idTurno = Convert.ToInt32(e.CommandArgument);
+                ViewState["IdTurnoReprogramar"] = idTurno;
+
+                TurnoNegocio turnoNeg = new TurnoNegocio();
+                var turno = turnoNeg.ListarAgendaTodasLasFechas()
+                                    .FirstOrDefault(t => t.IdTurno == idTurno);
+
+                if (turno != null)
+                {
+                    txtFechaNuevoTurno.Text = turno.Fecha.ToString("yyyy-MM-dd");
+                    ddlHoraNuevoTurno.SelectedValue = turno.Fecha.ToString("HH:mm");
+                }
+
+                ScriptManager.RegisterStartupScript(
+                    this, GetType(),
+                    "modalReprogramar",
+                    "var m = new bootstrap.Modal(document.getElementById('modalReprogramar')); m.show();",
+                    true
+                );
+            }
+
 
         }
 
@@ -459,6 +489,76 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
                 "$('#modalCancelar').modal('hide');", true);
         }
+
+
+        protected void btnConfirmarReprogramacion_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (ViewState["IdTurnoReprogramar"] == null)
+                {
+                    
+                    ScriptManager.RegisterStartupScript(this, GetType(), "noTurnoSel",
+                        "var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = 'No se encontró el turno a reprogramar.';", true);
+                    return;
+                }
+
+                int idTurno = (int)ViewState["IdTurnoReprogramar"];
+
+                
+                if (string.IsNullOrEmpty(txtFechaNuevoTurno.Text) || string.IsNullOrEmpty(ddlHoraNuevoTurno.SelectedValue))
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "faltanCampos",
+                        "var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = 'Complete fecha y hora antes de guardar.';", true);
+                    return;
+                }
+
+                if (!DateTime.TryParse(txtFechaNuevoTurno.Text, out DateTime fecha))
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "fechaInvalida",
+                        "var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = 'Fecha inválida.';", true);
+                    return;
+                }
+
+                if (!TimeSpan.TryParse(ddlHoraNuevoTurno.SelectedValue, out TimeSpan hora))
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "horaInvalida",
+                        "var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = 'Hora inválida.';", true);
+                    return;
+                }
+
+                DateTime nuevaFechaHora = fecha.Date + hora;
+
+               
+                TurnoNegocio turnoNeg = new TurnoNegocio();
+
+                
+                turnoNeg.ModificarFechaHora(idTurno, nuevaFechaHora);
+
+               
+                CargarCitasPaciente();
+
+               
+                string script = @"
+            var m = bootstrap.Modal.getInstance(document.getElementById('modalReprogramar'));
+            if(m){ m.hide(); }
+            var m2 = new bootstrap.Modal(document.getElementById('modalExito'));
+            m2.show();
+        ";
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "reprogOK", script, true);
+            }
+            catch (Exception ex)
+            {
+                string msg = "Error al reprogramar: " + ex.Message;
+                msg = msg.Replace("'", "\\'").Replace("\r", "").Replace("\n", " ");
+                ScriptManager.RegisterStartupScript(this, GetType(), "reprogErr",
+                    $"var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = '{msg}';", true);
+            }
+        }
+
+
+
 
     }
 

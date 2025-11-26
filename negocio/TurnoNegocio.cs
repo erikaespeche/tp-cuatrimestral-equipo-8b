@@ -410,5 +410,34 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void ModificarFechaHora(int idTurno, DateTime nuevaFecha)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(
+                    "UPDATE TURNO SET Fecha = @fecha, Estado = @estado WHERE IdTurno = @id"
+                );
+
+                datos.setearParametro("@fecha", nuevaFecha);
+                datos.setearParametro("@estado", "Reprogramado");
+                datos.setearParametro("@id", idTurno);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al reprogramar turno: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+
     }
 }
