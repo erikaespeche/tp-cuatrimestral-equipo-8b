@@ -362,6 +362,25 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        public void CancelarTurno(int idTurno)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE TURNO SET Estado = @estado WHERE IdTurno = @id");
+                datos.setearParametro("@estado", "Cancelado");
+                datos.setearParametro("@id", idTurno);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al cancelar el turno: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
         public void Modificar(Turno turno)
         {

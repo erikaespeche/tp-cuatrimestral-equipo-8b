@@ -148,11 +148,23 @@ body {
 /* ============================
    BADGES DE ESTADO
 ============================= */
+.badge-confirmado,
+.badge-pendiente,
+.badge-cancelado {
+    display: inline-block;
+    color: #fff;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    width: 120px; 
+    text-align: center;
+}
+
 .badge-confirmado {
     background-color: #28a74585; /* Verde */
     font-weight: 600;
     padding: 6px 12px;
     border-radius: 6px;
+    width: 120px;
 }
 
 .badge-pendiente {
@@ -161,6 +173,7 @@ body {
     font-weight: 600;
     padding: 6px 12px;
     border-radius: 6px;
+    width: 120px;
 }
 
 .badge-cancelado {
@@ -168,6 +181,7 @@ body {
     font-weight: 600;
     padding: 6px 12px;
     border-radius: 6px;
+    width: 120px;
 }
 
 /* ============================

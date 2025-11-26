@@ -452,7 +452,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected void btnConfirmarCancelar_Click(object sender, EventArgs e)
         {
             int idTurno = (int)ViewState["IdTurnoAccion"];
-            turnoNegocio.EliminarTurno(idTurno);
+            turnoNegocio.CancelarTurno(idTurno);
             CargarCitasPaciente();
 
 
