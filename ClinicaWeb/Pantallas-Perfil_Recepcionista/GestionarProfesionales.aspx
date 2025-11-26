@@ -86,9 +86,19 @@
                                     </td>
 
                                     <td>
-                                        <button type="button" class="btn btn-outline-info btn-sm me-1" data-bs-toggle="modal" data-bs-target="#modalVer">
+                                        <button type="button" class="btn btn-outline-info btn-sm me-1"
+                                            data-bs-toggle="modal" data-bs-target="#modalVer"
+                                            onclick='<%# "cargarDatosModal(\"" 
+                                                + Eval("Nombre") + "\", \"" 
+                                                + Eval("Apellido") + "\", \"" 
+                                                + Eval("Dni") + "\", \"" 
+                                                + Eval("Telefono") + "\", \"" 
+                                                + Eval("Email") + "\", \"" 
+                                                + string.Join(", ", ((dominio.Medico)Container.DataItem).Especialidades.Select(esp => esp.Nombre).ToArray()) 
+                                                + "\")" %>'>
                                             <i class="bi bi-eye"></i>
                                         </button>
+
                                         <button class="btn btn-outline-warning btn-sm me-1">
                                             <i class="bi bi-pencil"></i>
                                         </button>
@@ -106,22 +116,109 @@
         </div>
 
     </div>
-        <!-- Modal Ver -->
+    <!-- Modal Ver -->
     <div class="modal fade" id="modalVer" tabindex="-1" aria-labelledby="modalVerLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content bg-dark text-light">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalVerLabel">Ver Profesional</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-turno-dark">
+
+          <!-- Título -->
+          <div class="modal-header border-secondary">
+            <h5 class="modal-title fw-bold" id="modalVerLabel"> 
+                <span class="material-symbols-outlined"
+                      style="font-size: 26px; color:#007BFF; line-height:1; transform: translateY(4px);">
+                    person
+                </span>
+                Detalles del Profesional</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
           </div>
+
           <div class="modal-body">
-            Prueba Modal..
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          </div>
+
+            <!-- header -->
+            <div class="d-flex align-items-center gap-3 pb-3 mb-3 border-bottom border-secondary">
+
+              <!-- Logo + Nombre -->
+              <div class="d-flex align-items-center justify-content-center"
+                   style="width:64px; height:64px; border-radius:50%; background-color: rgba(0,123,255,0.15);">
+                <span class="material-symbols-outlined d-flex align-items-center justify-content-center"
+                      style="font-size:40px; color:#007BFF; line-height:1; transform: translate(1px, -6px);">
+                  person
+                </span>
+              </div>
+
+              <div>
+                <p id="modalNombreCompleto" class="mb-1 fw-bold fs-5"></p>
+              </div>
+
+            </div>
+             
+            <!-- contenedor de datos -->
+            <div id="contenedorDatos" class="px-2"></div>
+
+            <!-- FOOTER --> 
+            <div class="modal-footer border-secondary d-flex justify-content-end">
+                <span id="modalEspecialidades" class="d-none"></span>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+
+
         </div>
       </div>
     </div>
+ </div>
+
+
+
+    <script>
+        function cargarDatosModal(nombre, apellido, dni, telefono, email, especialidades = "Sin especificar") {
+
+            document.getElementById("modalNombreCompleto").innerText = `Dr. / Dra. ${nombre} ${apellido}`;
+            document.getElementById("modalEspecialidades").innerText = especialidades;
+
+            const contenedor = document.getElementById('contenedorDatos');
+            contenedor.innerHTML = `
+        
+                <!-- Fila 1 -->
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <span>Nombre</span>
+                        <p class="mb-1 fw-bold">${nombre}</p>
+                    </div>
+                    <div class="col-6">
+                        <span>Apellido</span>
+                        <p class="mb-1 fw-bold">${apellido}</p>
+                    </div>
+                </div>
+
+                <!-- Fila 2 -->
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <span>DNI</span>
+                        <p class="mb-1 fw-bold">${dni}</p>
+                    </div>
+                    <div class="col-6">
+                        <span>Teléfono</span>
+                        <p class="mb-1 fw-bold">${telefono}</p>
+                    </div>
+                </div>
+
+                <!-- Fila 3 -->
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <span>Email</span>
+                        <p class="mb-1 fw-bold">${email}</p>
+                    </div>
+                    <div class="col-6">
+                        <span>Especialidad</span>
+                        <p class="mb-1 fw-bold">${especialidades}</p>
+                    </div>
+                </div>
+
+
+            `;
+        }
+    </script>
+
+
 
 </asp:Content>

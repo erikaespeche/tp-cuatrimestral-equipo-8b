@@ -337,6 +337,11 @@ body {
     padding: 10px 25px;
 }
 
+.modal-footer-blanco {
+    color: #fff;
+    border-top: 1px solid #ccc; 
+}
+
 
 /* Aplica SOLO dentro de DetallePaciente */
 #pantalla-detallepaciente .modal-content {
