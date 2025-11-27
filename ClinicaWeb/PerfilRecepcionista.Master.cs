@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,7 +13,16 @@ namespace Clinic
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Código opcional al cargar la Master Page
+            if (!IsPostBack)
+            {
+                Usuario user = (Usuario)Session["Usuario"];
+
+                if (user != null)
+                {
+                    lblUsuarioNavbar.Text = user.Nombres + " " + user.Apellidos;
+                    lblRolNavbar.Text = user.Rol.NombreRol;
+                }
+            }
         }
 
 

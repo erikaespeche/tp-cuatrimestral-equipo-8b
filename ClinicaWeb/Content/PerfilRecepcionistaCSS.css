@@ -160,7 +160,7 @@ body {
 }
 
 .badge-confirmado {
-    background-color: #28a74585; /* Verde */
+    background-color: #28a74585 !important; /* Verde */
     font-weight: 600;
     padding: 6px 12px;
     border-radius: 6px;
@@ -168,7 +168,7 @@ body {
 }
 
 .badge-pendiente {
-    background-color: #ffc1078f; /* Amarillo */
+    background-color: #ffc1078f !important; /* Amarillo */
     color: #000;
     font-weight: 600;
     padding: 6px 12px;
@@ -177,7 +177,7 @@ body {
 }
 
 .badge-cancelado {
-    background-color: #dc35459e; /* Rojo */
+    background-color: #dc35459e !important; /* Rojo */
     font-weight: 600;
     padding: 6px 12px;
     border-radius: 6px;
@@ -1229,4 +1229,20 @@ body {
 
 #pantalla-agregarProfesional .fila-4 {
     padding-top: 3px !important;
+}
+
+
+.custom-table td .badge-confirmado,
+.custom-table td .badge-pendiente,
+.custom-table td .badge-cancelado {
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    min-width: 120px !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    font-size: 0.90rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    border: none !important;
 }

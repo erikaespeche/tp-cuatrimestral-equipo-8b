@@ -15,18 +15,31 @@ namespace Clinic.Pantallas_Inicio_Menu
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (!IsPostBack)
-            //{
-            //    // Validación: si no hay usuario logueado, redirige
-            //    if (Session["Usuario"] == null)
-            //    {
-            //        Response.Redirect("/Pantallas-Inicio_Menu/Login.aspx");
-            //    }
-            //}
+        //    if (!IsPostBack)
+        //    {
+        //        Usuario u = (Usuario)Session["Usuario"];
+
+        //        if (u != null)
+        //        {
+        //            lblUsuarioTitulo.Text = u.Nombres + " " + u.Apellidos + " (" + u.Rol.NombreRol + ")";
+        //        }
+        //    }
         }
+
+
+
+
+
+
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
+            bool hayErrores = false;
+
+            lblErrorActual.Text = "";
+            lblErrorNueva.Text = "";
+            lblErrorRepetir.Text = "";
+
             string actual = txtActual.Text.Trim();
             string nueva = txtNueva.Text.Trim();
             string repetir = txtRepetir.Text.Trim();
@@ -34,47 +47,69 @@ namespace Clinic.Pantallas_Inicio_Menu
             Usuario usuario = (Usuario)Session["Usuario"];
             UsuarioNegocio negocio = new UsuarioNegocio();
 
-            // 1. Validar coincidencia
-            if (nueva != repetir)
+            if (string.IsNullOrEmpty(actual) || string.IsNullOrEmpty(nueva) || string.IsNullOrEmpty(repetir))
             {
-                lblMensaje.Text = "Las contraseñas nuevas no coinciden.";
-                lblMensaje.CssClass = "mensaje-resultado error";
-                return;
+                lblErrorActual.Text = "Debe completar todos los campos.";
+                hayErrores = true;
             }
 
-            // 2. Validar contraseña actual
+            if (nueva != repetir)
+            {
+                lblErrorRepetir.Text = "Las contraseñas nuevas no coinciden.";
+                hayErrores = true;
+            }
+
             if (usuario.Contrasena != actual)
             {
-                lblMensaje.Text = "La contraseña actual es incorrecta.";
-                lblMensaje.CssClass = "mensaje-resultado error";
-                return;
+                lblErrorActual.Text = "La contraseña actual es incorrecta.";
+                hayErrores = true;
             }
+
+            // SI HAY ERRORES → NO REGISTRAR NINGÚN SCRIPT
+            if (hayErrores) return;
 
             try
             {
-                // 3. Actualizar contraseña
                 usuario.Contrasena = nueva;
-
                 negocio.Modificar(usuario);
 
-                // 4. Actualizar sesión
                 Session["Usuario"] = usuario;
 
-                lblMensaje.Text = "Contraseña actualizada correctamente.";
-                lblMensaje.CssClass = "mensaje-resultado ok";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "mostrarExito",
+                    "var modal = new bootstrap.Modal(document.getElementById('modalExito')); modal.show();",
+                    true);
             }
-            catch (Exception ex)
+            catch
             {
-                lblMensaje.Text = "Hubo un error al cambiar la contraseña: " + ex.Message;
-                lblMensaje.CssClass = "mensaje-resultado error";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "mostrarError",
+                    "var modal = new bootstrap.Modal(document.getElementById('modalError')); modal.show();",
+                    true);
             }
         }
 
 
-       
+
+
+
+
+
+
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Response.Redirect("/Pantallas-Perfil_Recepcionista/ListarPaciente.aspx"); // o a donde quieras volver
+        }
+
+
+        //BOTON MODAL EXITO "ACEPTAR"
+        protected void btnAceptarExito_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Pantallas-Perfil_Recepcionista/ListarPaciente.aspx");
+        }
+
+        //BOTON MODAL ERROR "ACEPTAR"
+        protected void btnAceptarError_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Pantallas-Perfil_Recepcionista/ListarPaciente.aspx");
         }
 
 
