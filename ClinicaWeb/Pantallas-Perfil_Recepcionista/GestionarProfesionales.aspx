@@ -86,6 +86,7 @@
                                     </td>
 
                                     <td>
+                                        <!-- Ver -->
                                         <button type="button" class="btn btn-outline-info btn-sm me-1"
                                             data-bs-toggle="modal" data-bs-target="#modalVer"
                                             onclick='<%# "cargarDatosModal(\"" 
@@ -112,10 +113,16 @@
                                             <i class="bi bi-pencil"></i>
                                         </button>
 
-
-                                        <button class="btn btn-outline-danger btn-sm">
+                                        <!-- Eliminar -->
+                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                data-bs-toggle="modal" data-bs-target="#modalEliminar"
+                                                onclick='<%# "cargarDatosEliminar(" + Eval("IdMedico") + ", \"" 
+                                                         + Eval("Nombre") + "\", \"" 
+                                                         + Eval("Apellido") + "\")" %>'>
                                             <i class="bi bi-trash"></i>
                                         </button>
+
+
                                     </td>
                                 </tr>
                             </ItemTemplate>
@@ -244,6 +251,53 @@
       </div>
     </div>
 
+<!-- Modal Eliminar -->
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content modal-turno-dark">
+
+      <!-- Header tipo tarjeta -->
+      <div class="modal-header d-flex align-items-center gap-3 pb-3 mb-3 border-bottom border-secondary">
+        <!-- Logo circular rojo -->
+        <div class="d-flex align-items-center justify-content-center"
+             style="width:64px; height:64px; border-radius:50%; background-color: rgba(220,53,69,0.15);">
+            <span class="material-symbols-outlined d-flex align-items-center justify-content-center"
+                  style="font-size:40px; color:#DC3545; line-height:1; transform: translate(1px, -6px);">
+                delete
+            </span>
+        </div>
+
+        <!-- Título fijo -->
+        <div>
+            <h5 class="modal-title fw-bold mb-0" id="modalEliminarLabel">Eliminar Profesional</h5>
+        </div>
+
+        <!-- Botón cerrar -->
+        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Cuerpo del modal -->
+      <div class="modal-body">
+        <p id="mensajeEliminar" class="fw-bold">¿Está seguro que desea eliminar al profesional?</p>
+
+        <!-- Datos del profesional -->
+        <div id="datosEliminarProfesional" class="px-2">
+          <!-- Aquí se cargará dinámicamente el nombre y apellido -->
+        </div>
+
+        <p class="mt-3 text-danger">Todos los datos asociados a este profesional serán eliminados.</p>
+        <input type="hidden" id="eliminarIdMedico" runat="server" />
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer border-secondary d-flex justify-content-end">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <asp:Button ID="btnConfirmarEliminar" runat="server" CssClass="btn btn-danger" Text="Confirmar Eliminación" OnClick="btnConfirmarEliminar_Click" />
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
 
@@ -359,6 +413,12 @@
             document.getElementById('<%= editTelefono.ClientID %>').value = telefono;
             document.getElementById('<%= editEmail.ClientID %>').value = email;
             document.getElementById('<%= editEspecialidades.ClientID %>').value = especialidades;
+        }
+
+
+        function cargarDatosEliminar(id, nombre, apellido) {
+            document.getElementById('<%= eliminarIdMedico.ClientID %>').value = id;
+            document.getElementById('mensajeEliminar').innerText = `¿Está seguro que desea eliminar al profesional ${nombre} ${apellido}?`;
         }
 
 

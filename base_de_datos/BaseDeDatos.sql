@@ -163,6 +163,12 @@ CREATE TABLE AgendaMedico (
     CONSTRAINT FK_AgendaMedico_Turno FOREIGN KEY (IdTurno) REFERENCES TURNO(IdTurno)
 );
 
+------
+-- AGREGO CAMPO ESTADO EN LA TABLA "MEDICO"
+----
+
+ALTER TABLE MEDICO
+ADD Estado VARCHAR(10) NOT NULL DEFAULT 'Activo';
 
 ------------
 -- INSERT --
