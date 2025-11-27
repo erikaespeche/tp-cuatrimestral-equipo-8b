@@ -184,13 +184,30 @@ body {
     color: #b0b8c1;
     font-size: 0.9rem;
     margin-bottom: 0;
+    margin-left: 10px;
 }
 
 /* Valores de campos */
 .value-text {
     color: #fff;
     font-weight: 600;
+    margin-left: 10px;
 }
+.seccion-titulo {
+    padding-left: 10px; 
+}
+
+.tabla-consultas td {
+    padding-left: 50px; 
+    padding-right: 50px;
+}
+
+    .tabla-consultas td .btn {
+        margin-left: 5px;
+    }
+
+
+
 
 /* ============================
    BOTÓN EDITAR

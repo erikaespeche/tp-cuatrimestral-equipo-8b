@@ -9,6 +9,7 @@
 <div id="pantalla-cargar-historia" class="hc-container">
 
     <h2 class="hc-titulo">Crear Historia Clínica</h2>
+    <asp:HiddenField ID="hfIdPaciente" runat="server" />
 
     <!-- ===========================
          DATOS DEL PACIENTE (SOLO LECTURA)

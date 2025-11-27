@@ -136,7 +136,7 @@ CREATE TABLE [dbo].[USUARIOS](
 GO
 
 CREATE TABLE HistoriaClinica (
-    IdHistoriaClinica INT IDENTITY(1,1) PRIMARY KEY,
+    IdHistoriaClinica INT IDENTITY PRIMARY KEY,
     IdPaciente INT NOT NULL,
     IdMedico INT NOT NULL,
     FechaConsulta DATETIME NOT NULL,
@@ -144,12 +144,19 @@ CREATE TABLE HistoriaClinica (
     Diagnostico NVARCHAR(MAX),
     Tratamientos NVARCHAR(MAX),
     ProximosPasos NVARCHAR(MAX),
-    ArchivosAdjuntos NVARCHAR(MAX) NULL,
-    Estado VARCHAR(20) NOT NULL DEFAULT 'En Espera',
+    ArchivosAdjuntos NVARCHAR(MAX),
 
-    FOREIGN KEY (IdPaciente) REFERENCES PACIENTES(IdPaciente),
-    FOREIGN KEY (IdMedico) REFERENCES MEDICO(IdMedico)
+    GrupoFactorSanguineo NVARCHAR(10),
+    Peso DECIMAL(5,2),
+    Altura DECIMAL(5,2),
+    Alergias NVARCHAR(200),
+    EnfermedadesCronicas NVARCHAR(200),
+    Patologias NVARCHAR(200),
+
+    FOREIGN KEY (IdPaciente) REFERENCES Pacientes(IdPaciente),
+    FOREIGN KEY (IdMedico) REFERENCES Medico(IdMedico)
 );
+GO
 
 CREATE TABLE AgendaMedico (
     IdAgenda INT IDENTITY(1,1) PRIMARY KEY,

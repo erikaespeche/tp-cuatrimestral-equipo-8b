@@ -85,7 +85,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <asp:Repeater ID="CitasRepeater" runat="server">
+                                <asp:Repeater ID="CitasRepeater" runat="server" OnItemCommand="CitasRepeater_ItemCommand">
                                     <ItemTemplate>
                                         <tr>
                                             <td><%# Eval("Hora") %></td>
@@ -98,7 +98,7 @@
                                                 <asp:Button runat="server" Text="Ver Historia Clínica"
                                                     CssClass='btn btn-success btn-ver'
                                                     CommandName="ver"
-                                                    CommandArgument='<%# Eval("Id") %>' />
+                                                    CommandArgument='<%# Eval("DNI") %>' />
                                             </td>
                                         </tr>
                                     </ItemTemplate>

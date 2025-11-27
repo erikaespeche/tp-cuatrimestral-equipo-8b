@@ -81,6 +81,7 @@ namespace negocio
                 T.Estado,
                 T.Observaciones,
                 -- PACIENTE
+                P.IdPaciente,
                 P.Nombres + ' ' + P.Apellidos AS Paciente,
                 P.DniPaciente AS DNI,
                 P.ObraSocial,
@@ -112,6 +113,7 @@ namespace negocio
                     aux.Estado = datos.Lector["Estado"].ToString();
                     aux.Observaciones = datos.Lector["Observaciones"].ToString();
 
+                    aux.IdPaciente = (int)datos.Lector["IdPaciente"];
                     aux.Paciente = datos.Lector["Paciente"].ToString();
                     aux.DNI = datos.Lector["DNI"].ToString();
                     aux.ObraSocial = datos.Lector["ObraSocial"].ToString();

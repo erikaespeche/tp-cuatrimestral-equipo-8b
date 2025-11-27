@@ -11,13 +11,14 @@ namespace Clinic.Pantallas_Perfil_Medico
 {
     public partial class DetallePaciente : System.Web.UI.Page
     {
-
+        private Paciente paciente;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 CargarPaciente();
+
             }
         }
 
@@ -28,23 +29,20 @@ namespace Clinic.Pantallas_Perfil_Medico
 
             if (string.IsNullOrEmpty(dni))
             {
-                // Si no viene DNI → volver a listar
                 Response.Redirect("ListarPaciente.aspx");
                 return;
             }
 
             // 2. Busco el paciente
             PacienteNegocio negocio = new PacienteNegocio();
-            var paciente = negocio.BuscarPorDni(dni); // ← usa tu método real
+            var paciente = negocio.BuscarPorDni(dni); 
 
             if (paciente == null)
             {
-                // Si no existe → volver a listar
                 Response.Redirect("ListarPaciente.aspx");
                 return;
             }
 
-            // 3. Cargo los labels
             lblNombre.Text = paciente.Nombres;
             lblApellido.Text = paciente.Apellidos;
             lblTipoDocumento.Text = paciente.TipoDocumento;
@@ -60,6 +58,8 @@ namespace Clinic.Pantallas_Perfil_Medico
             lblNroObraSocial.Text = paciente.NumeroObraSocial;
             lblCodigoPostal.Text = paciente.CodigoPostal;
             lblSexo.Text = paciente.Sexo.ToString();
+
+            CargarHistoriaClinica(paciente.IdPaciente);
         }
 
 
@@ -152,6 +152,36 @@ namespace Clinic.Pantallas_Perfil_Medico
         //    }
         //}
 
+        private void CargarHistoriaClinica(int idPaciente)
+        {
+            HistoriaClinicaNegocio hcNeg = new HistoriaClinicaNegocio();
+            var listaHC = hcNeg.ListarPorPaciente(idPaciente);
+
+            if (listaHC.Count > 0)
+            {
+                var hc = listaHC[0]; // tomamos la última consulta
+                lblGrupoSanguineo.Text = hc.GrupoFactorSanguineo;
+                lblPeso.Text = hc.Peso + " kg";
+                lblAltura.Text = hc.Altura + " m";
+                lblAlergias.Text = hc.Alergias;
+                lblEnfermedadesCronicas.Text = hc.EnfermedadesCronicas;
+                lblPatologias.Text = hc.Patologias;
+            }
+
+            rptHistoriaClinica.DataSource = listaHC;
+            rptHistoriaClinica.DataBind();
+        }
+
+        protected void rptHistoriaClinica_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "VerConsulta")
+            {
+                int idHistoriaClinica = Convert.ToInt32(e.CommandArgument);
+                // REDIRIGIR A PAG DETALLE -> HACERLA
+                Response.Redirect("DetalleConsulta.aspx?id=" + idHistoriaClinica);
+            }
+        }
+
 
         protected void btnAceptarExito_Click(object sender, EventArgs e)
         {
@@ -169,19 +199,6 @@ namespace Clinic.Pantallas_Perfil_Medico
         {
             // Cierra el modal. Bootstrap ya lo maneja.
         }
-
-
-
-
-
-
-        
-       
-
-
-
-
-
 
 
     }
