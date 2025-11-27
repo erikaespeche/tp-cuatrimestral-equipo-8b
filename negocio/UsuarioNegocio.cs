@@ -84,9 +84,9 @@ namespace negocio
             try
             {
                 datos.setearConsulta(@"
-        INSERT INTO USUARIOS (DniUsuario, Nombres, Apellidos, NombreUsuario, Contrasena, Email, IdRol) 
-        VALUES (@dni, @nombres, @apellidos, @usuario, @contrasena, @mail, @rol);
-        SELECT CAST(SCOPE_IDENTITY() AS INT);");
+                   INSERT INTO USUARIOS (DniUsuario, Nombres, Apellidos, NombreUsuario, Contrasena, Email, IdRol) 
+                   VALUES (@dni, @nombres, @apellidos, @usuario, @contrasena, @mail, @rol);
+                   SELECT CAST(SCOPE_IDENTITY() AS INT);");
 
                 datos.setearParametro("@dni", nuevoUsuario.DniUsuario);
                 datos.setearParametro("@nombres", nuevoUsuario.Nombres);
@@ -247,19 +247,23 @@ namespace negocio
             try
             {
                 datos.setearConsulta(@"
-            SELECT 
-                U.IdUsuario,
-                U.DniUsuario,
-                U.Nombres,
-                U.Apellidos,
-                U.NombreUsuario,
-                U.Contrasena,
-                U.Email,
-                U.IdRol,
-                R.NombreRol
-            FROM USUARIOS U
-            INNER JOIN ROL R ON R.IdRol = U.IdRol
-            WHERE U.NombreUsuario = @user AND U.Contrasena = @pass");
+                  SELECT 
+                      U.IdUsuario,
+                      U.DniUsuario,
+                      U.Nombres,
+                      U.Apellidos,
+                      U.NombreUsuario,
+                      U.Contrasena,
+                      U.Email,
+                      U.IdRol,
+                      R.NombreRol
+                  FROM USUARIOS U
+                  INNER JOIN ROL R ON R.IdRol = U.IdRol
+                  WHERE U.NombreUsuario = @user COLLATE Latin1_General_CS_AS
+                    AND U.Contrasena = @pass COLLATE Latin1_General_CS_AS
+                ");
+
+
 
                 datos.setearParametro("@user", user);
                 datos.setearParametro("@pass", pass);
