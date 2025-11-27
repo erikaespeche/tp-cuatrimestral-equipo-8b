@@ -312,15 +312,6 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.HiddenField hfIdAEliminar;
 
         /// <summary>
-        /// Control btnAceptarExitoEdit.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAceptarExitoEdit;
-
-        /// <summary>
         /// Control hfIdEditar.
         /// </summary>
         /// <remarks>
@@ -339,6 +330,24 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.TextBox txtNombreEdit;
 
         /// <summary>
+        /// Control valNombreEditReq.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valNombreEditReq;
+
+        /// <summary>
+        /// Control valNombreEditRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valNombreEditRegex;
+
+        /// <summary>
         /// Control txtApellidoEdit.
         /// </summary>
         /// <remarks>
@@ -346,6 +355,24 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtApellidoEdit;
+
+        /// <summary>
+        /// Control valApellidoEditReq.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valApellidoEditReq;
+
+        /// <summary>
+        /// Control valApellidoEditRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valApellidoEditRegex;
 
         /// <summary>
         /// Control txtDniEdit.
@@ -357,6 +384,24 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.TextBox txtDniEdit;
 
         /// <summary>
+        /// Control valDniEditReq.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valDniEditReq;
+
+        /// <summary>
+        /// Control valDniEditRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valDniEditRegex;
+
+        /// <summary>
         /// Control txtUsuarioEdit.
         /// </summary>
         /// <remarks>
@@ -364,6 +409,24 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUsuarioEdit;
+
+        /// <summary>
+        /// Control valUsuarioEditReq.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valUsuarioEditReq;
+
+        /// <summary>
+        /// Control valUsuarioEditRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valUsuarioEditRegex;
 
         /// <summary>
         /// Control txtEmailEdit.
@@ -375,6 +438,24 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.TextBox txtEmailEdit;
 
         /// <summary>
+        /// Control valEmailEditReq.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valEmailEditReq;
+
+        /// <summary>
+        /// Control valEmailEditRegex.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator valEmailEditRegex;
+
+        /// <summary>
         /// Control ddlRolEdit.
         /// </summary>
         /// <remarks>
@@ -384,6 +465,15 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.DropDownList ddlRolEdit;
 
         /// <summary>
+        /// Control valRolEditReq.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator valRolEditReq;
+
+        /// <summary>
         /// Control btnGuardarCambiosEdit.
         /// </summary>
         /// <remarks>
@@ -391,15 +481,6 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnGuardarCambiosEdit;
-
-        /// <summary>
-        /// Control btnAceptarExito.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAceptarExito;
 
         /// <summary>
         /// Control modalErrorBody.

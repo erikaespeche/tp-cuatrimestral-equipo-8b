@@ -109,7 +109,7 @@
                                             CommandName="Editar"
                                             CommandArgument='<%# Eval("IdUsuario") %>'
                                             CssClass="btn btn-outline-warning btn-sm me-1">
-                    <i class="bi bi-pencil"></i>
+                                            <i class="bi bi-pencil"></i>
                                         </asp:LinkButton>
 
                                         <%-- 1. CAMBIO AQUÍ: Usamos OnClientClick para llamar a la función JS y no hacemos PostBack inmediato --%>
@@ -118,7 +118,7 @@
                                             CommandArgument='<%# Eval("IdUsuario") %>'
                                             CssClass="btn btn-outline-danger btn-sm"
                                             OnClientClick='<%# "abrirModalConfirmarEliminar(" + Eval("IdUsuario") + "); return false;" %>'>
-                    <i class="bi bi-trash"></i>
+                                            <i class="bi bi-trash"></i>
                                         </asp:LinkButton>
 
                                     </td>
@@ -353,82 +353,145 @@
           <asp:AsyncPostBackTrigger ControlID="btnGuardarCambios" EventName="Click" />
           <asp:AsyncPostBackTrigger ControlID="btnConfirmarEliminar" EventName="Click" />
           <asp:AsyncPostBackTrigger ControlID="btnBuscar" EventName="Click" />
+          <asp:AsyncPostBackTrigger ControlID="repUsuarios" EventName="ItemCommand" /> <%-- <--- AÑADE ESTO --%>
       </Triggers>
 </asp:UpdatePanel>
 
-   <div class="modal fade" id="modalExitoEdit" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content bg-success text-white p-4 rounded">
-            <h4 class="mb-3">Usuario modificado correctamente</h4>
-            <div class="text-end">
-                <asp:Button ID="btnAceptarExitoEdit" runat="server"
-                    CssClass="btn btn-light"
-                    Text="Aceptar"
-                    OnClientClick="location.reload(); return false;" />
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-    <!-- ========================================== -->
+        <!-- ========================================== -->
     <!-- ✅ IMPORTANTE: Estos modales FUERA del UpdatePanel -->
     <!-- ========================================== -->
 
+
+
+
     <!-- MODAL EDITAR USUARIO -->
-    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="ventana-editar-paciente modal-content bg-dark text-light p-3">
+        <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="ventana-editar-paciente modal-content bg-dark text-light p-3">
 
-                <div class="modal-header">
-                    <h5 class="modal-title">Editar Usuario</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Usuario</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
 
-                <div class="modal-body">
+                    <div class="modal-body">
 
-                    <!-- ID OCULTO -->
-                    <asp:HiddenField ID="hfIdEditar" runat="server" />
+                        <asp:HiddenField ID="hfIdEditar" runat="server" />
 
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Nombres</label>
-                            <asp:TextBox ID="txtNombreEdit" runat="server" CssClass="form-control" />
-                        </div>
+                        <div class="row g-3">
 
-                        <div class="col-md-6">
-                            <label class="form-label">Apellidos</label>
-                            <asp:TextBox ID="txtApellidoEdit" runat="server" CssClass="form-control" />
-                        </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nombres*</label>
+                                <asp:TextBox ID="txtNombreEdit" runat="server"
+                                    CssClass="form-control bg-dark text-light border-secondary" />
+                                <asp:RequiredFieldValidator ID="valNombreEditReq" runat="server"
+                                    ControlToValidate="txtNombreEdit" ErrorMessage="El nombre es obligatorio."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                                <asp:RegularExpressionValidator ID="valNombreEditRegex" runat="server"
+                                    ControlToValidate="txtNombreEdit"
+                                    ValidationExpression="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
+                                    ErrorMessage="Ingrese un nombre válido (solo letras)."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                            </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label">DNI</label>
-                            <asp:TextBox ID="txtDniEdit" runat="server" CssClass="form-control" />
-                        </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Apellidos*</label>
+                                <asp:TextBox ID="txtApellidoEdit" runat="server"
+                                    CssClass="form-control bg-dark text-light border-secondary" />
+                                <asp:RequiredFieldValidator ID="valApellidoEditReq" runat="server"
+                                    ControlToValidate="txtApellidoEdit" ErrorMessage="El apellido es obligatorio."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                                <asp:RegularExpressionValidator ID="valApellidoEditRegex" runat="server"
+                                    ControlToValidate="txtApellidoEdit"
+                                    ValidationExpression="^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$"
+                                    ErrorMessage="Ingrese un apellido válido (solo letras)."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                            </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label">Usuario</label>
-                            <asp:TextBox ID="txtUsuarioEdit" runat="server" CssClass="form-control" />
-                        </div>
+                            <div class="col-md-4">
+                                <label class="form-label">DNI*</label>
+                                <asp:TextBox ID="txtDniEdit" runat="server" MaxLength="8"
+                                    CssClass="form-control bg-dark text-light border-secondary" />
+                                <asp:RequiredFieldValidator ID="valDniEditReq" runat="server"
+                                    ControlToValidate="txtDniEdit"
+                                    ErrorMessage="El DNI es obligatorio."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                                <asp:RegularExpressionValidator ID="valDniEditRegex" runat="server"
+                                    ControlToValidate="txtDniEdit"
+                                    ValidationExpression="^[0-9]{7,8}$"
+                                    ErrorMessage="Ingrese un DNI válido (7 a 8 dígitos numéricos)."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                            </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label">Email</label>
-                            <asp:TextBox ID="txtEmailEdit" runat="server" CssClass="form-control" />
-                        </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Nombre de Usuario*</label>
+                                <asp:TextBox ID="txtUsuarioEdit" runat="server"
+                                    CssClass="form-control bg-dark text-light border-secondary" />
+                                <asp:RequiredFieldValidator ID="valUsuarioEditReq" runat="server"
+                                    ControlToValidate="txtUsuarioEdit" ErrorMessage="El usuario es obligatorio."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                                <asp:RegularExpressionValidator ID="valUsuarioEditRegex" runat="server"
+                                    ControlToValidate="txtUsuarioEdit"
+                                    ValidationExpression="^[A-Za-z0-9\-\/]+$"
+                                    ErrorMessage="Ingrese un usuario válido (letras, números, '-' o '/')."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                            </div>
 
-                        <div class="col-md-4">
-                            <label class="form-label">Rol</label>
-                            <asp:DropDownList ID="ddlRolEdit" runat="server" CssClass="form-select" />
+                            <div class="col-md-4">
+                                <label class="form-label">Email*</label>
+                                <asp:TextBox ID="txtEmailEdit" runat="server"
+                                    CssClass="form-control bg-dark text-light border-secondary" />
+                                <asp:RequiredFieldValidator ID="valEmailEditReq" runat="server"
+                                    ControlToValidate="txtEmailEdit"
+                                    ErrorMessage="El mail es obligatorio."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                                <asp:RegularExpressionValidator ID="valEmailEditRegex" runat="server"
+                                    ControlToValidate="txtEmailEdit"
+                                    ValidationExpression="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+                                    ErrorMessage="Formato de mail inválido."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label">Rol*</label>
+                                <asp:DropDownList ID="ddlRolEdit" runat="server"
+                                    CssClass="form-select bg-dark text-light border-secondary">
+                                    <asp:ListItem Value="">-- Seleccione --</asp:ListItem>
+                                    <asp:ListItem Value="1">Administrador</asp:ListItem>
+                                    <asp:ListItem Value="2">Médico</asp:ListItem>
+                                    <asp:ListItem Value="3">Recepcionista</asp:ListItem>
+                                </asp:DropDownList>
+                                <asp:RequiredFieldValidator ID="valRolEditReq" runat="server"
+                                    ControlToValidate="ddlRolEdit"
+                                    InitialValue=""
+                                    ErrorMessage="Seleccione el rol del usuario."
+                                    CssClass="text-danger" ValidationGroup="EditarUsuario" />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="modal-footer">
-                    <asp:Button ID="btnGuardarCambiosEdit" runat="server"
-                        CssClass="btn btn-primary"
-                        Text="Guardar cambios"
-                        OnClick="btnGuardarCambiosEdit_Click" />
+                    <div class="modal-footer">
+                        <asp:Button ID="btnGuardarCambiosEdit" runat="server"
+                            CssClass="btn btn-primary"
+                            Text="Guardar cambios"
+                            ValidationGroup="EditarUsuario"
+                            OnClick="btnGuardarCambiosEdit_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    <!-- ===================== -->
+    <!--     MODAL ÉXITO  EDITAR     -->
+    <!-- ===================== -->
+    <div class="modal fade" id="modalExitoEdit" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-success text-white p-4 rounded">
+                <h4 class="mb-3">Usuario modificado correctamente</h4>
+                <div class="text-end">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -449,10 +512,7 @@
                 
                 <div class="text-end">
 
-                    <asp:Button ID="btnAceptarExito" runat="server"
-                        CssClass="btn btn-light"
-                        Text="Aceptar"
-                        OnClientClick="location.reload(); return false;" />
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Aceptar</button>
 
                 </div>
                 
@@ -482,6 +542,9 @@
         </div>
     </div>
 
+     <!-- ===================== -->
+ <!--      MODAL EXITO ELIMINAR     -->
+ <!-- ===================== -->
     <div class="modal fade" id="modalExitoEliminar" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content bg-success text-white p-4 rounded">
@@ -577,6 +640,52 @@
         }
 
 
+
+
+        // Variable para indicar si el modal debe abrirse
+        var debeAbrirModalEdicion = false;
+
+        // Función que se llama desde C# (al tocar "Editar")
+        function marcarParaAbrirModal() {
+            debeAbrirModalEdicion = true;
+        }
+
+        // 💡 FUNCIÓN CLAVE: Se ejecuta DESPUÉS de cada PostBack de AJAX
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(function (sender, args) {
+            if (debeAbrirModalEdicion) {
+                // El UpdatePanel ya se actualizó, los datos están en el DOM.
+                abrirModalEdicion();
+                debeAbrirModalEdicion = false; // Resetear la bandera
+            }
+        });
+
+        // Función para abrir el modal de edición
+        function abrirModalEdicion() {
+            var modal = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
+            modal.show();
+        }
+
+        // ✅ SOLUCIÓN: Pasa un objeto de opciones vacío {}
+        function mostrarModalExitoEdit() {
+            // Es buena práctica asegurarse de que el objeto bootstrap esté disponible
+            if (typeof bootstrap !== 'undefined') {
+                setTimeout(function () {
+                    var modalElement = document.getElementById('modalExitoEdit');
+
+                    // 💡 Inicializa el modal pasando las opciones, aunque sea vacío
+                    var modal = new bootstrap.Modal(modalElement, {});
+                    modal.show();
+                }, 100);
+            } else {
+                console.error("Bootstrap no está definido. Verifique el orden de carga de los scripts.");
+            }
+        }
+
+        // Función para reabrir el modal de edición en caso de error de validación del servidor
+        function reabrirModalEdicion() {
+            var modal = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
+            modal.show();
+        }
 
 
 

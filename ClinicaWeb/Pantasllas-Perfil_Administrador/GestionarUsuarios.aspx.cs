@@ -11,6 +11,10 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 {
     public partial class GestionarUsuarios : System.Web.UI.Page
     {
+        // ==========================================================
+        // ESTE ES EL LUGAR CORRECTO: Declaración a nivel de Clase
+        // ==========================================================
+        private UsuarioNegocio negocio = new UsuarioNegocio();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -22,6 +26,8 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 
 
             }
+
+
 
             // Marca campos inválidos con borde rojo
             foreach (var validator in Page.Validators)
@@ -203,6 +209,7 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected void repUsuarios_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             int id = int.Parse(e.CommandArgument.ToString());
+            UsuarioNegocio negocio = new UsuarioNegocio();
 
             if (e.CommandName == "Eliminar")
             {
@@ -215,29 +222,106 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             }
             if (e.CommandName == "Editar")
             {
-                UsuarioNegocio negocio = new UsuarioNegocio();
-                Usuario u = negocio.ObtenerPorId(id);
-
-                hfIdEditar.Value = u.IdUsuario.ToString();
-                txtNombreEdit.Text = u.Nombres;
-                txtApellidoEdit.Text = u.Apellidos;
-                txtDniEdit.Text = u.DniUsuario.ToString();
-                txtUsuarioEdit.Text = u.NombreUsuario;
-                txtEmailEdit.Text = u.Email;
-
-                ddlRolEdit.Items.Clear();
-                ddlRolEdit.Items.Add(new ListItem("-- Seleccione --", ""));
-                ddlRolEdit.Items.Add(new ListItem("Administrador", "1"));
-                ddlRolEdit.Items.Add(new ListItem("Médico", "2"));
-                ddlRolEdit.Items.Add(new ListItem("Recepcionista", "3"));
-                ddlRolEdit.SelectedValue = u.IdRol.ToString();
-
-                ScriptManager.RegisterStartupScript(this, GetType(), "abrirEditar",
-                    "var m = new bootstrap.Modal(document.getElementById('modalEditarUsuario')); m.show();",
-                    true);
+                int idUsuario = int.Parse(e.CommandArgument.ToString());
+                CargarDatosUsuarioParaEdicion(idUsuario);
             }
         }
 
+
+        private void CargarDatosUsuarioParaEdicion(int id)
+        {
+            try
+            {
+                
+                // Usamos el método ObtenerPorId de la Capa de Negocio (DAL)
+                Usuario usuario = negocio.ObtenerPorId(id);
+
+                if (usuario != null)
+                {
+                    // 1. Asignar el ID al HiddenField del modal de edición
+                    hfIdEditar.Value = usuario.IdUsuario.ToString();
+
+                    // 2. Precargar los datos en los controles del modal
+                    txtNombreEdit.Text = usuario.Nombres;
+                    txtApellidoEdit.Text = usuario.Apellidos;
+                    txtDniEdit.Text = usuario.DniUsuario.ToString();
+                    txtUsuarioEdit.Text = usuario.NombreUsuario;
+                    txtEmailEdit.Text = usuario.Email;
+
+                    // 3. Seleccionar el Rol
+                    ListItem itemRol = ddlRolEdit.Items.FindByValue(usuario.IdRol.ToString());
+                    if (itemRol != null)
+                    {
+                        ddlRolEdit.ClearSelection();
+                        itemRol.Selected = true;
+                    }
+
+                    // 4. Abrir el modal de edición (usando ScriptManager para ASP.NET AJAX)
+                    // Este script debe coincidir con el nombre de la función JS que agregamos.
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "AbrirModal", "abrirModalEdicion();", true);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores
+                MostrarModalError("Error al obtener los datos del usuario: " + ex.Message);
+            }
+            finally
+            {
+                // Debe actualizar el UpdatePanel para que se ejecute el script y se vea el modal.
+                updForm.Update();
+            }
+        }
+
+
+        protected void btnGuardarCambiosEdit_Click(object sender, EventArgs e)
+        {
+            if (!Page.IsValid)
+            {
+                // Si la validación falla en el servidor, reabrimos el modal
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "ReabrirEdicion", "reabrirModalEdicion();", true);
+                updForm.Update();
+                return;
+            }
+
+            try
+            {
+                // 1. Obtener los datos del modal
+                Usuario usuario = new Usuario
+                {
+                    IdUsuario = int.Parse(hfIdEditar.Value),
+                    Nombres = txtNombreEdit.Text.Trim(),
+                    Apellidos = txtApellidoEdit.Text.Trim(),
+                    DniUsuario = int.Parse(txtDniEdit.Text.Trim()),
+                    NombreUsuario = txtUsuarioEdit.Text.Trim(),
+                    Email = txtEmailEdit.Text.Trim(),
+                    IdRol = int.Parse(ddlRolEdit.SelectedValue),
+                    // No incluimos la contraseña, ya que no se editó en el modal
+                    Contrasena = null
+                };
+
+                // 2. Llamar a la lógica de negocio para modificar
+                negocio.Modificar(usuario);
+
+                // 3. Mostrar Modal de Éxito de Edición
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "MostrarExito", "mostrarModalExitoEdit();", true);
+
+                // Recargar el GridView/Repeater para mostrar los cambios
+                CargarUsuarios();
+            }
+            catch (Exception ex)
+            {
+                // 4. Mostrar Modal de Error y reabrir el modal de edición
+                MostrarModalError("Error al guardar los cambios: " + ex.Message);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "ReabrirEdicion", "reabrirModalEdicion();", true);
+            }
+            finally
+            {
+                // Actualizar el UpdatePanel para mostrar el modal de éxito/error o reabrir el de edición
+                updForm.Update();
+            }
+        }
 
 
 
@@ -295,7 +379,15 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 
 
 
+        // Asumiendo que tienes un método general para mostrar errores
+        private void MostrarModalError(string mensaje)
+        {
+            // Opcional: Asigna el mensaje de error al div dentro del modal de error
+            modalErrorBody.InnerHtml = "<p>" + Server.HtmlEncode(mensaje) + "</p>";
 
+            // Llama a la función JS para mostrar el modal de error
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "MostrarError", "mostrarModal('modalError');", true);
+        }
 
 
         protected void btnAceptarExito_Click(object sender, EventArgs e)
@@ -315,47 +407,6 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         }
 
 
-        protected void btnGuardarCambiosEdit_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Usuario u = new Usuario();
-                u.IdUsuario = int.Parse(hfIdEditar.Value);
-                u.Nombres = txtNombreEdit.Text.Trim();
-                u.Apellidos = txtApellidoEdit.Text.Trim();
-                u.DniUsuario = int.Parse(txtDniEdit.Text.Trim());
-                u.NombreUsuario = txtUsuarioEdit.Text.Trim();
-                u.Email = txtEmailEdit.Text.Trim();
-                u.IdRol = int.Parse(ddlRolEdit.SelectedValue);
-
-                UsuarioNegocio negocio = new UsuarioNegocio();
-                negocio.Modificar(u);  
-
-             
-                CargarUsuarios();
-                updForm.Update();
-
-                
-                ScriptManager.RegisterStartupScript(
-                    this,
-                    this.GetType(),
-                    "abrirExitoEdit",
-                    "var m = new bootstrap.Modal(document.getElementById('modalExitoEdit')); m.show();",
-                    true
-                );
-            }
-            catch (Exception ex)
-            {
-               
-                string msg = ex.Message.Replace("'", "\\'");
-                ScriptManager.RegisterStartupScript(
-                    this,
-                    this.GetType(),
-                    "errorEdit",
-                    $"document.getElementById('modalErrorBody').innerText = '{msg}'; var m = new bootstrap.Modal(document.getElementById('modalError')); m.show();",
-                    true
-                );
-            }
-        }
+        
     }
 }

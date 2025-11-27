@@ -12,9 +12,11 @@ namespace negocio
     public class UsuarioNegocio
     {
         public List<Usuario> Listar()
+
         {
             List<Usuario> lista = new List<Usuario>();
             AccesoDatos datos = new AccesoDatos();
+
 
             try
             {
