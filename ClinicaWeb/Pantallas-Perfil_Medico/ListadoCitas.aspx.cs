@@ -214,15 +214,16 @@ namespace Clinic.Pantallas_Perfil_Medico
         }
 
 
+        protected void CitasRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "ver")
+            {
+                int dni = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect("DetallePaciente.aspx?dni=" + dni);
+            }
 
 
+        }
 
-
-
-
-
-
-
-
-    }
+     }
 }

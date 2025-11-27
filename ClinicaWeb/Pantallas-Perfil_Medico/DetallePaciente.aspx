@@ -134,46 +134,43 @@
             <div class="filas-hc row mb-4">
                 <div class="col-md-4">
                     <p class="label-text">Grupo y Factor Sanguíneo</p>
-                    <p class="value-text">A+</p>
-                    <!-- CAMBIAR POR Label ASP -->
+                    <asp:Label ID="lblGrupoSanguineo" runat="server" CssClass="value-text"></asp:Label>
                 </div>
 
                 <div class="col-md-4">
                     <p class="label-text">Peso</p>
-                    <p class="value-text">80 kg</p>
-                    <!-- CAMBIAR POR ASP -->
+                    <asp:Label ID="lblPeso" runat="server" CssClass="value-text"></asp:Label>
                 </div>
 
                 <div class="col-md-4">
                     <p class="label-text">Altura</p>
-                    <p class="value-text">1.75 m</p>
-                    <!-- CAMBIAR POR ASP -->
+                    <asp:Label ID="lblAltura" runat="server" CssClass="value-text"></asp:Label>
                 </div>
             </div>
 
             <div class="filas-hc row mb-4">
                 <div class="col-md-4">
                     <p class="label-text">Alergias</p>
-                    <p class="value-text">Penicilina</p>
+                    <asp:Label ID="lblAlergias" runat="server" CssClass="value-text"></asp:Label>
                 </div>
 
                 <div class="col-md-4">
                     <p class="label-text">Enfermedades Crónicas</p>
-                    <p class="value-text">Hipertensión</p>
+                    <asp:Label ID="lblEnfermedadesCronicas" runat="server" CssClass="value-text"></asp:Label>
                 </div>
 
                 <div class="col-md-4">
                     <p class="label-text">Patologías</p>
-                    <p class="value-text">Ninguna</p>
+                    <asp:Label ID="lblPatologias" runat="server" CssClass="value-text"></asp:Label>
                 </div>
             </div>
 
             <hr class="divisor">
-
+    <div class="tabla-consultas-container">
             <!-- Consultas -->
             <h5 class="mb-3 seccion-titulo">Consultas</h5>
 
-            <table class="custom-table align-middle w-100">
+            <table class="custom-table tabla-consultas align-middle w-100">
                 <thead>
                     <tr>
                         <th>FECHA</th>
@@ -182,37 +179,25 @@
                         <th></th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    <tr>
-                        <td>10/05/2024</td>
-                        <td>Dr. Carlos García</td>
-                        <td>Cardiología</td>
-                        <td>
-                            <button class="btn btn-success btn-sm px-3">Ver</button>
-                        </td>
-                    </tr>
+                    <asp:Repeater ID="rptHistoriaClinica" runat="server" OnItemCommand="rptHistoriaClinica_ItemCommand">
+                        <ItemTemplate>
+                            <tr>
+                                <td><%# Eval("FechaConsulta", "{0:dd/MM/yyyy}") %></td>
+                                <td><%# Eval("NombreMedico") %></td>
+                                <td>
+                                    <asp:Button ID="btnVerConsulta" runat="server" Text="Ver"
+                                        CommandName="VerConsulta"
+                                        CommandArgument='<%# Eval("IdHistoriaClinica") %>'
+                                        CssClass="btn btn-success btn-sm px-3" />
 
-                    <tr>
-                        <td>15/01/2024</td>
-                        <td>Dr. Ana Martínez</td>
-                        <td>Clínica Médica</td>
-                        <td>
-                            <button class="btn btn-success btn-sm px-3">Ver</button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>02/11/2023</td>
-                        <td>Dr. Luis Fernández</td>
-                        <td>Traumatología</td>
-                        <td>
-                            <button class="btn btn-success btn-sm px-3">Ver</button>
-                        </td>
-                    </tr>
+                                </td>
+                            </tr>
+                        </ItemTemplate>
+                    </asp:Repeater>
                 </tbody>
             </table>
-
+        </div>
         </div>
 
 

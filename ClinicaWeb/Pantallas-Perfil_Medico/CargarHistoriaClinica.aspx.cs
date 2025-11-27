@@ -1,4 +1,5 @@
-﻿using negocio;
+﻿using dominio;
+using negocio;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -13,43 +14,39 @@ namespace ClinicaWeb.Pantallas_Perfil_Medico
         {
             if (!IsPostBack)
             {
-                CargarDatosPaciente();
-            }
-        }
+                string dni = Request.QueryString["dni"];
+                if (string.IsNullOrEmpty(dni)) return;
 
-        private void CargarDatosPaciente()
-        {
-            int idPaciente = int.Parse(Request.QueryString["IdPaciente"] ?? "0");
-            if (idPaciente == 0) return;
+                // 1) Traigo al paciente
+                PacienteNegocio pacienteNeg = new PacienteNegocio();
+                Paciente paciente = pacienteNeg.BuscarPorDni(dni);
 
-            string cadena = System.Configuration.ConfigurationManager.ConnectionStrings["MiConexion"].ConnectionString;
-
-            using (SqlConnection conexion = new SqlConnection(cadena))
-            {
-                conexion.Open();
-                SqlCommand cmd = new SqlCommand(@"
-            SELECT Nombres, Apellidos, DniPaciente, FechaNacimiento, ObraSocial,
-                   GrupoSanguineo, Peso, Altura, EnfermedadesCronicas, Alergias, Patologias
-            FROM PACIENTES
-            WHERE IdPaciente = @IdPaciente", conexion);
-
-                cmd.Parameters.AddWithValue("@IdPaciente", idPaciente);
-
-                SqlDataReader dr = cmd.ExecuteReader();
-                if (dr.Read())
+                if (paciente != null)
                 {
-                    lblNombre.InnerText = dr["Nombres"].ToString() + " " + dr["Apellidos"].ToString();
-                    lblDni.InnerText = dr["DniPaciente"].ToString();
-                    lblFechaNac.InnerText = Convert.ToDateTime(dr["FechaNacimiento"]).ToString("dd/MM/yyyy");
-                    lblGrupo.InnerText = dr["GrupoSanguineo"].ToString();
-                    lblPeso.InnerText = dr["Peso"].ToString();
-                    lblAltura.InnerText = dr["Altura"].ToString();
-                    lblCronicas.InnerText = dr["EnfermedadesCronicas"].ToString();
-                    lblAlergias.InnerText = dr["Alergias"].ToString();
-                    lblPatologias.InnerText = dr["Patologias"].ToString();
+                    lblNombre.InnerText = paciente.Nombres + " " + paciente.Apellidos;
+                    lblDni.InnerText = paciente.DniPaciente.ToString();
+                    lblFechaNac.InnerText = paciente.FechaNacimiento.ToString("dd/MM/yyyy");
+
+                    hfIdPaciente.Value = paciente.IdPaciente.ToString();
+                }
+
+                // 2) Traigo la última historia clínica
+                HistoriaClinicaNegocio hcNeg = new HistoriaClinicaNegocio();
+                var listaHC = hcNeg.ListarPorPaciente(paciente.IdPaciente);
+
+                if (listaHC.Count > 0)
+                {
+                    var hc = listaHC[0]; // la más reciente
+                    lblGrupo.InnerText = hc.GrupoFactorSanguineo;
+                    lblPeso.InnerText = hc.Peso + " kg";
+                    lblAltura.InnerText = hc.Altura + " m";
+                    lblCronicas.InnerText = hc.EnfermedadesCronicas;
+                    lblAlergias.InnerText = hc.Alergias;
+                    lblPatologias.InnerText = hc.Patologias;
                 }
             }
         }
+
 
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -60,53 +57,54 @@ namespace ClinicaWeb.Pantallas_Perfil_Medico
         {
             try
             {
-                int idPaciente = int.Parse(Request.QueryString["IdPaciente"] ?? "0");
+                int idPaciente = int.Parse(hfIdPaciente.Value ?? "0");
                 if (idPaciente == 0)
                 {
                     Response.Write("<script>alert('Paciente no válido');</script>");
                     return;
                 }
 
-                int idMedico = 1; // Aquí podés tomarlo del login del médico
+                int idMedico = 1;
 
-                // ===========================
-                // GUARDAR ARCHIVOS ADJUNTOS
-                // ===========================
-                string archivosConcatenados = null;
-                string rutaBase = Server.MapPath("~/Uploads/HistoriasClinicas/");
-                if (!Directory.Exists(rutaBase))
-                    Directory.CreateDirectory(rutaBase);
+                // 1) Traigo la última historia clínica
+                HistoriaClinicaNegocio hcNeg = new HistoriaClinicaNegocio();
+                var listaHC = hcNeg.ListarPorPaciente(idPaciente);
 
-                if (fileAdjuntos.HasFiles)
+                string observaciones = txtObservaciones.Value;
+                string diagnostico = txtDiagnostico.Value;
+                string tratamientos = txtTratamientos.Value;
+                string proximosPasos = txtProximosPasos.Value;
+
+                if (listaHC.Count > 0)
                 {
-                    List<string> nombresArchivos = new List<string>();
-                    foreach (var file in fileAdjuntos.PostedFiles)
-                    {
-                        string path = Path.Combine(rutaBase, file.FileName);
-                        file.SaveAs(path);
-                        nombresArchivos.Add(file.FileName);
-                    }
-                    archivosConcatenados = string.Join(";", nombresArchivos);
+                    var ultimaHC = listaHC[0];
+
+                    if (string.IsNullOrWhiteSpace(observaciones))
+                        observaciones = ultimaHC.Observaciones;
+
+                    if (string.IsNullOrWhiteSpace(diagnostico))
+                        diagnostico = ultimaHC.Diagnostico;
+
+                    if (string.IsNullOrWhiteSpace(tratamientos))
+                        tratamientos = ultimaHC.Tratamientos;
+
+                    if (string.IsNullOrWhiteSpace(proximosPasos))
+                        proximosPasos = ultimaHC.ProximosPasos;
                 }
 
-                // ===========================
-                // CREAR OBJETO HISTORIA CLÍNICA
-                // ===========================
+                // 2) Guardar nueva historia clínica
                 HistoriaClinica hc = new HistoriaClinica
                 {
                     IdPaciente = idPaciente,
                     IdMedico = idMedico,
                     FechaConsulta = DateTime.Now,
-                    Observaciones = txtObservaciones.Value,
-                    Diagnostico = txtDiagnostico.Value,
-                    Tratamientos = txtTratamientos.Value,
-                    ProximosPasos = txtProximosPasos.Value,
-                    ArchivosAdjuntos = archivosConcatenados
+                    Observaciones = observaciones,
+                    Diagnostico = diagnostico,
+                    Tratamientos = tratamientos,
+                    ProximosPasos = proximosPasos,
+                    ArchivosAdjuntos = GuardarArchivos()
                 };
 
-                // ===========================
-                // GUARDAR EN BASE DE DATOS CON ACCESODATOS
-                // ===========================
                 AccesoDatos datos = new AccesoDatos();
                 try
                 {
@@ -133,12 +131,32 @@ namespace ClinicaWeb.Pantallas_Perfil_Medico
                     datos.cerrarConexion();
                 }
 
-                Response.Redirect("PacientesEnSala.aspx");
+                Response.Redirect("PacienteEnSala.aspx");
             }
             catch (Exception ex)
             {
                 Response.Write($"<script>alert('Error al guardar la historia clínica: {ex.Message}');</script>");
             }
         }
+
+        private string GuardarArchivos()
+        {
+            if (!fileAdjuntos.HasFiles) return null;
+
+            string rutaBase = Server.MapPath("~/Uploads/HistoriasClinicas/");
+            if (!Directory.Exists(rutaBase))
+                Directory.CreateDirectory(rutaBase);
+
+            List<string> nombresArchivos = new List<string>();
+            foreach (var file in fileAdjuntos.PostedFiles)
+            {
+                string path = Path.Combine(rutaBase, file.FileName);
+                file.SaveAs(path);
+                nombresArchivos.Add(file.FileName);
+            }
+
+            return string.Join(";", nombresArchivos);
+        }
+
     }
 }
