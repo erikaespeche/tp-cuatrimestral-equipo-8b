@@ -174,6 +174,20 @@
         </div>
     </div>
 
+    <!-- MODAL DNI EXISTENTE -->
+    <div class="modal fade" id="modalDniExistente" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-warning text-dark p-4 rounded">
+                <h4 class="mb-3">El DNI ingresado ya se encuentra registrado</h4>
+
+                <div class="text-end">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
 

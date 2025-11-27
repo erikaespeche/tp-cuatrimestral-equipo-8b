@@ -24,6 +24,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         //BOTON "REGISTRAR PACIENTE"
         protected void btnRegistrarPaciente_Click(object sender, EventArgs e)
         {
+            
             bool valido = true;
             string mensajeError = "";
 
@@ -36,6 +37,27 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             }
             else
                 MarcarOk(txtNumeroDocumento);
+
+
+            // VALIDAR SI DNI YA EXISTE
+            PacienteNegocio negocioDni = new PacienteNegocio();
+            Paciente existente = negocioDni.BuscarPorDni(txtNumeroDocumento.Value.Trim());
+
+            if (existente != null)
+            {
+                MarcarError(txtNumeroDocumento);
+                // Mostrar modal DNI repetido
+                ScriptManager.RegisterStartupScript(
+                    this,
+                    GetType(),
+                    "modalDniExistente",
+                    "var m = new bootstrap.Modal(document.getElementById('modalDniExistente')); m.show();",
+                    true
+                );
+
+                return; // NO seguir con el guardado
+            }
+
 
             // Nombre
             var resNombre = Validador.ValidarNombre(txtNombre.Value);
@@ -158,24 +180,35 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 MarcarOk(txtCodigoPostal);
 
             // Obra Social
-            if (string.IsNullOrWhiteSpace(txtObraSocial.Value))
-            {
-                MarcarError(txtObraSocial);
-                mensajeError += "Obra Social no puede estar vacía<br>";
-                valido = false;
-            }
-            else
-                MarcarOk(txtObraSocial);
+            //if (string.IsNullOrWhiteSpace(txtObraSocial.Value))
+            //{
+            //    MarcarError(txtObraSocial);
+            //    mensajeError += "Obra Social no puede estar vacía<br>";
+            //    valido = false;
+            //}
+            //else
+            //    MarcarOk(txtObraSocial);
 
-            // Número de Afiliado
-            if (string.IsNullOrWhiteSpace(txtNumeroAfiliado.Value))
-            {
-                MarcarError(txtNumeroAfiliado);
-                mensajeError += "Número de Afiliado no puede estar vacío<br>";
-                valido = false;
-            }
-            else
-                MarcarOk(txtNumeroAfiliado);
+            //// Número de Afiliado
+            //if (string.IsNullOrWhiteSpace(txtNumeroAfiliado.Value))
+            //{
+            //    MarcarError(txtNumeroAfiliado);
+            //    mensajeError += "Número de Afiliado no puede estar vacío<br>";
+            //    valido = false;
+            //}
+            //else
+            //    MarcarOk(txtNumeroAfiliado);
+
+
+            // Obra Social (opcional)
+            MarcarOk(txtObraSocial);
+
+            // Número de Afiliado (opcional)
+            MarcarOk(txtNumeroAfiliado);
+
+
+
+
 
             // Si hay errores de validación, mostrar modal y salir
             if (!valido)
