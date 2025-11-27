@@ -109,17 +109,16 @@
                                             CommandName="Editar"
                                             CommandArgument='<%# Eval("IdUsuario") %>'
                                             CssClass="btn btn-outline-warning btn-sm me-1">
-                                            <i class="bi bi-pencil"></i>
+                    <i class="bi bi-pencil"></i>
                                         </asp:LinkButton>
-                                        <%--<button class="btn btn-outline-info btn-sm me-1" commandname="Ver" commandargument='<%# Eval("IdUsuario") %>'>
-                                            <i class="bi bi-eye"></i>
-                                        </button>--%>
-                                        
+
+                                        <%-- 1. CAMBIO AQUÍ: Usamos OnClientClick para llamar a la función JS y no hacemos PostBack inmediato --%>
                                         <asp:LinkButton ID="btnEliminar" runat="server"
                                             CommandName="Eliminar"
                                             CommandArgument='<%# Eval("IdUsuario") %>'
-                                            CssClass="btn btn-outline-danger btn-sm">
-                                            <i class="bi bi-trash"></i>
+                                            CssClass="btn btn-outline-danger btn-sm"
+                                            OnClientClick='<%# "abrirModalConfirmarEliminar(" + Eval("IdUsuario") + "); return false;" %>'>
+                    <i class="bi bi-trash"></i>
                                         </asp:LinkButton>
 
                                     </td>
@@ -314,7 +313,7 @@
                     </div>
 
                 </div>
-            </div> <!-- FIN MODAL BODY -->
+            </div> 
 
             <!-- Botones -->
             <div class="modal-footer border-0 d-flex justify-content-end">
@@ -344,69 +343,13 @@
 
         </div>
     </div>
-</div>
-        <!-- MODAL EDITAR USUARIO -->
-<div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="ventana-editar-paciente modal-content bg-dark text-light p-3">
-            
-            <div class="modal-header">
-                <h5 class="modal-title">Editar Usuario</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
+</div> <!-- FIN MODAL AGREGAR USUARIO -->
 
-            <div class="modal-body">
-
-                <!-- ID OCULTO -->
-                <asp:HiddenField ID="hfIdEditar" runat="server" />
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label">Nombres</label>
-                        <asp:TextBox ID="txtNombreEdit" runat="server" CssClass="form-control" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Apellidos</label>
-                        <asp:TextBox ID="txtApellidoEdit" runat="server" CssClass="form-control" />
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">DNI</label>
-                       <asp:TextBox ID="txtDniEdit" runat="server" CssClass="form-control" />
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Usuario</label>
-                        <asp:TextBox ID="txtUsuarioEdit" runat="server" CssClass="form-control" />
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Email</label>
-                        <asp:TextBox ID="txtEmailEdit" runat="server" CssClass="form-control" />
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Rol</label>
-                        <asp:DropDownList ID="ddlRolEdit" runat="server" CssClass="form-select" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <asp:Button ID="btnGuardarCambiosEdit" runat="server"
-                    CssClass="btn btn-primary"
-                    Text="Guardar cambios"
-                    OnClick="btnGuardarCambiosEdit_Click" />
-            </div>
-        </div>
-    </div>
-</div>
           <asp:HiddenField ID="hfIdAEliminar" runat="server" />
   </ContentTemplate>
 
       <Triggers>
-          <asp:AsyncPostBackTrigger ControlID="repUsuarios" EventName="ItemCommand" />
+          
           <asp:AsyncPostBackTrigger ControlID="btnGuardarCambios" EventName="Click" />
           <asp:AsyncPostBackTrigger ControlID="btnConfirmarEliminar" EventName="Click" />
           <asp:AsyncPostBackTrigger ControlID="btnBuscar" EventName="Click" />
@@ -427,9 +370,74 @@
     </div>
 </div>
 
+
+
     <!-- ========================================== -->
     <!-- ✅ IMPORTANTE: Estos modales FUERA del UpdatePanel -->
     <!-- ========================================== -->
+
+    <!-- MODAL EDITAR USUARIO -->
+    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="ventana-editar-paciente modal-content bg-dark text-light p-3">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Usuario</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- ID OCULTO -->
+                    <asp:HiddenField ID="hfIdEditar" runat="server" />
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombres</label>
+                            <asp:TextBox ID="txtNombreEdit" runat="server" CssClass="form-control" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Apellidos</label>
+                            <asp:TextBox ID="txtApellidoEdit" runat="server" CssClass="form-control" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">DNI</label>
+                            <asp:TextBox ID="txtDniEdit" runat="server" CssClass="form-control" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Usuario</label>
+                            <asp:TextBox ID="txtUsuarioEdit" runat="server" CssClass="form-control" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Email</label>
+                            <asp:TextBox ID="txtEmailEdit" runat="server" CssClass="form-control" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Rol</label>
+                            <asp:DropDownList ID="ddlRolEdit" runat="server" CssClass="form-select" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <asp:Button ID="btnGuardarCambiosEdit" runat="server"
+                        CssClass="btn btn-primary"
+                        Text="Guardar cambios"
+                        OnClick="btnGuardarCambiosEdit_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 
     <!-- ===================== -->
     <!--     MODAL ÉXITO       -->
@@ -461,7 +469,7 @@
                 
                 <h4 class="mb-3">Error al registrar el usuario</h4>
 
-                <div id="modalErrorBody" class="mb-3"></div>
+                <div id="modalErrorBody" runat="server" class="mb-3"></div>
 
                 <div class="text-end">
                     <asp:Button ID="btnAceptarError" runat="server"
@@ -539,6 +547,34 @@
             modal.show();
         }
 
+        function abrirModalConfirmarEliminar(idUsuario) {
+            // 2. Guardar el IdUsuario en el HiddenField
+            var hf = document.getElementById('<%= hfIdAEliminar.ClientID %>');
+            if (hf) {
+                hf.value = idUsuario;
+            }
+
+            // 3. Mostrar el modal de confirmación
+            var modal = new bootstrap.Modal(document.getElementById('modalConfirmarEliminar'));
+            modal.show();
+        }
+
+        function cerrarModalConfirmacion() {
+            var modal = bootstrap.Modal.getInstance(document.getElementById('modalConfirmarEliminar'));
+            if (modal) {
+                modal.hide();
+            }
+
+            // Eliminar backdrop viejo (importante)
+            document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+        }
+
+        function mostrarModalExitoEliminar() {
+            // Asegúrate de que este script se ejecute después del postback exitoso
+            cerrarModalConfirmacion(); // Cierra el modal de confirmación si aún está abierto
+            var modal = new bootstrap.Modal(document.getElementById('modalExitoEliminar'));
+            modal.show();
+        }
 
 
 

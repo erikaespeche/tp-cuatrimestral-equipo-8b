@@ -303,6 +303,24 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.Button btnGuardarCambios;
 
         /// <summary>
+        /// Control hfIdAEliminar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hfIdAEliminar;
+
+        /// <summary>
+        /// Control btnAceptarExitoEdit.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarExitoEdit;
+
+        /// <summary>
         /// Control hfIdEditar.
         /// </summary>
         /// <remarks>
@@ -375,24 +393,6 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.Button btnGuardarCambiosEdit;
 
         /// <summary>
-        /// Control hfIdAEliminar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfIdAEliminar;
-
-        /// <summary>
-        /// Control btnAceptarExitoEdit.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAceptarExitoEdit;
-
-        /// <summary>
         /// Control btnAceptarExito.
         /// </summary>
         /// <remarks>
@@ -400,6 +400,15 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAceptarExito;
+
+        /// <summary>
+        /// Control modalErrorBody.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl modalErrorBody;
 
         /// <summary>
         /// Control btnAceptarError.

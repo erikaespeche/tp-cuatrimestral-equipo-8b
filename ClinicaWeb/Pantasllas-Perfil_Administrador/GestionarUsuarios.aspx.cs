@@ -204,22 +204,27 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         {
             int id = int.Parse(e.CommandArgument.ToString());
 
+            if (e.CommandName == "Eliminar")
+            {
+                // Guardamos el ID en un HiddenField
+                hfIdAEliminar.Value = e.CommandArgument.ToString();
+
+                // Abrimos el modal desde el servidor
+                ScriptManager.RegisterStartupScript(this, GetType(), "AbrirModalEliminar",
+                    "var myModal = new bootstrap.Modal(document.getElementById('modalConfirmarEliminar')); myModal.show();", true);
+            }
             if (e.CommandName == "Editar")
             {
                 UsuarioNegocio negocio = new UsuarioNegocio();
                 Usuario u = negocio.ObtenerPorId(id);
 
-                // Guardar ID
                 hfIdEditar.Value = u.IdUsuario.ToString();
-
-                // Cargar datos
                 txtNombreEdit.Text = u.Nombres;
                 txtApellidoEdit.Text = u.Apellidos;
                 txtDniEdit.Text = u.DniUsuario.ToString();
                 txtUsuarioEdit.Text = u.NombreUsuario;
                 txtEmailEdit.Text = u.Email;
 
-                // Cargar roles dinámicamente
                 ddlRolEdit.Items.Clear();
                 ddlRolEdit.Items.Add(new ListItem("-- Seleccione --", ""));
                 ddlRolEdit.Items.Add(new ListItem("Administrador", "1"));
@@ -227,22 +232,12 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                 ddlRolEdit.Items.Add(new ListItem("Recepcionista", "3"));
                 ddlRolEdit.SelectedValue = u.IdRol.ToString();
 
-                // Abrimos el modal
                 ScriptManager.RegisterStartupScript(this, GetType(), "abrirEditar",
                     "var m = new bootstrap.Modal(document.getElementById('modalEditarUsuario')); m.show();",
                     true);
             }
-
-            if (e.CommandName == "Eliminar")
-            {
-                // Guardo el ID del usuario a eliminar
-                hfIdAEliminar.Value = e.CommandArgument.ToString();
-
-                // Mostrar modal de confirmación
-                ScriptManager.RegisterStartupScript(this, GetType(), "modalConfirmar",
-                    "var m = new bootstrap.Modal(document.getElementById('modalConfirmarEliminar')); m.show();", true);
-            }
         }
+
 
 
 
@@ -251,33 +246,53 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         // ------------------------------------------------------
         protected void btnConfirmarEliminar_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(hfIdAEliminar.Value, out int id))
+            // Verifica si el ID a eliminar fue guardado en el HiddenField
+            if (int.TryParse(hfIdAEliminar.Value, out int idUsuarioAEliminar))
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "errorEliminar",
-                    "document.getElementById('modalErrorBody').innerText = 'No se recibió un ID válido.'; mostrarModal('modalError');",
-                    true);
-                return;
+                try
+                {
+                    // 1. Instancia la capa de Negocio (asumiendo que tienes una clase llamada UsuarioNegocio)
+                    // Reemplaza 'UsuarioNegocio' con el nombre real de tu clase de negocio.
+                    negocio.UsuarioNegocio negocio = new negocio.UsuarioNegocio();
+
+                    // 2. Llama al método de eliminación.
+                    negocio.Eliminar(idUsuarioAEliminar);
+
+                    // 3. Si la eliminación es exitosa:
+                    //    - Registra un script para mostrar el modal de éxito (definido en JavaScript)
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ExitoEliminar", "mostrarModalExitoEliminar();", true);
+                }
+                catch (Exception ex)
+                {
+                    // 1. Limpia el contenido anterior (importante)
+                    modalErrorBody.Controls.Clear();
+
+                    // 2. Crea el literal con el mensaje de error
+                    Literal litError = new Literal();
+                    litError.Text = $"<p>{ex.Message}</p>";
+
+                    // 3. Agrega el mensaje al div de error
+                    modalErrorBody.Controls.Add(litError);
+
+                    // 4. Muestra el modal de error
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ErrorEliminar", "mostrarModal('modalError');", true);
+                }
+                finally
+                {
+                    // 5. Limpia el HiddenField y fuerza la actualización del UpdatePanel
+                    hfIdAEliminar.Value = string.Empty;
+                    updForm.Update();
+                }
             }
-
-            try
+            else
             {
-                UsuarioNegocio negocio = new UsuarioNegocio();
-                negocio.Eliminar(id);   // <-- AHORA SÍ, CORRECTO
-
-                CargarUsuarios();
-
-                ScriptManager.RegisterStartupScript(this, GetType(), "exitoEliminar",
-    @"var modalConfirm = bootstrap.Modal.getInstance(document.getElementById('modalConfirmarEliminar'));
-      if(modalConfirm) modalConfirm.hide();
-      mostrarModal('modalExitoEliminar');", true);
-            }
-            catch (Exception ex)
-            {
-                ScriptManager.RegisterStartupScript(this, GetType(), "errorEliminar",
-                    $"document.getElementById('modalErrorBody').innerText = '{ex.Message.Replace("'", "")}'; mostrarModal('modalError');",
-                    true);
+                // Esto debería ser un caso raro (ID no se guardó correctamente)
+                // Puedes registrar un script de error genérico aquí si lo deseas.
+                ScriptManager.RegisterStartupScript(this, GetType(), "ErrorID", "alert('Error: No se pudo obtener el ID del usuario a eliminar.');", true);
+                updForm.Update();
             }
         }
+
 
 
 
