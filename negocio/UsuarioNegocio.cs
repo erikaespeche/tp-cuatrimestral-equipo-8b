@@ -72,11 +72,39 @@ namespace negocio
 
 
 
+        public bool ExisteDniDuplicado(int dni, int idUsuarioActual)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // Consulta SQL: Contar cuántos usuarios tienen el DNI dado,
+                // EXCLUYENDO al usuario que estamos editando (IdUsuario != @IdUsuarioActual).
+                datos.setearConsulta("SELECT COUNT(IdUsuario) FROM USUARIOS WHERE DniUsuario = @Dni AND IdUsuario != @IdUsuarioActual");
+
+                datos.setearParametro("@Dni", dni);
+                datos.setearParametro("@IdUsuarioActual", idUsuarioActual);
+
+                // ejecutarAccionScalar() devolverá el resultado de COUNT(*) como un objeto
+                int cantidad = datos.ejecutarAccionScalar();
+
+                // Si la cantidad es mayor que 0, significa que existe otro usuario con ese DNI.
+                return cantidad > 0;
+            }
+            catch (Exception ex)
+            {
+                // En caso de error de conexión, consulta, etc., lanzamos una excepción
+                throw new Exception("Error al verificar la existencia del DNI: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
 
-        // negocio/UsuarioNegocio.cs
 
-        // ... (métodos Listar, Modificar, Eliminar, etc.)
+
 
         public int Agregar(Usuario nuevoUsuario)
         {

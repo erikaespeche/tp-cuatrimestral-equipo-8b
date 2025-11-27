@@ -497,7 +497,21 @@
         </div>
     </div>
 
+        <!-- ===================== -->
+    <!--     MODAL ERROR  EDITAR     -->
+    <!-- ===================== -->
+    <div class="modal fade" id="modalErrorEdit" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-danger text-white p-4 rounded">
+                <h4 class="mb-3">Error al modificar el usuario</h4>
+                <div id="modalErrorEditBody" runat="server" class="mb-3"></div> 
 
+                <div class="text-end">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -681,10 +695,26 @@
             }
         }
 
-        // Función para reabrir el modal de edición en caso de error de validación del servidor
-        function reabrirModalEdicion() {
+        // 🛑 NUEVO: Función para mostrar el modal de error de edición
+        function abrirModalErrorEdit(mensaje) {
+            var modalElement = document.getElementById('modalEditarUsuario'); // Asegúrate que el ID sea correcto
+            var modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+
+        // 🛑 NUEVO: Función para reabrir el modal de edición si hubo un error de validación del servidor
+        function reabrirModalEditarUsuario() {
             var modal = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
             modal.show();
+        }
+
+        // Función para reabrir el modal de edición en caso de error de validación del servidor
+        function reabrirModalEdicion() {
+            // Si el modal ya estaba abierto, solo lo re-mostramos.
+            // Esto es un poco redundante con 'abrirModalEdicion' pero es buena práctica en un entorno AJAX.
+            var modalElement = document.getElementById('modalEditarUsuario');
+            var modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+            modalInstance.show();
         }
 
 

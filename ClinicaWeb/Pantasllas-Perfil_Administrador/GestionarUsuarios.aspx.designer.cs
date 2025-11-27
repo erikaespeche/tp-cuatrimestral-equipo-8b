@@ -483,6 +483,15 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected global::System.Web.UI.WebControls.Button btnGuardarCambiosEdit;
 
         /// <summary>
+        /// Control modalErrorEditBody.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl modalErrorEditBody;
+
+        /// <summary>
         /// Control modalErrorBody.
         /// </summary>
         /// <remarks>

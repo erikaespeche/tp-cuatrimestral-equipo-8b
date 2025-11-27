@@ -18,18 +18,13 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
-
             if (!IsPostBack)
             {
                 CargarUsuarios();
-
-
             }
 
-
-
-            // Marca campos inválidos con borde rojo
+            // Marca campos inválidos con borde rojo (Esto debe funcionar correctamente)
+            // Asegúrate de que el CSS "border-danger" esté definido en tu proyecto.
             foreach (var validator in Page.Validators)
             {
                 if (validator is BaseValidator v && !v.IsValid)
@@ -37,7 +32,11 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                     Control ctrl = FindControl(v.ControlToValidate);
                     if (ctrl is TextBox txt)
                     {
-                        txt.CssClass += " border-danger";
+                        // Se verifica que no se agregue la clase si ya la tiene
+                        if (!txt.CssClass.Contains("border-danger"))
+                        {
+                            txt.CssClass += " border-danger";
+                        }
                     }
                 }
             }
@@ -50,31 +49,22 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         {
             LimpiarCamposModal();
 
+            // ⚠️ CORRECCIÓN: Se elimina el ScriptManager que cerraba el modal inmediatamente.
             ScriptManager.RegisterStartupScript(
                 this, GetType(), "abrirModalAgregar",
                 "var m = new bootstrap.Modal(document.getElementById('modalAgregarUsuario')); m.show();",
                 true
             );
-
-            ScriptManager.RegisterStartupScript(
-               this,
-                GetType(),
-               "cerrarModalAgregar",
-                @"var modalAdd = bootstrap.Modal.getInstance(document.getElementById('modalAgregarUsuario'));
-                if(modalAdd) modalAdd.hide();",
-               true
-             );
-
         }
 
         // ------------------------------------------------------
         // GUARDAR USUARIO (INSERT)
         // ------------------------------------------------------
-
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
             if (!Page.IsValid)
             {
+                // Reabrimos el modal de agregar para que el usuario vea los errores de validación.
                 ScriptManager.RegisterStartupScript(this, GetType(), "reabrir",
                     "reabrirModalAgregarUsuario();", true);
                 return;
@@ -84,6 +74,7 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             {
                 Usuario nuevo = new Usuario()
                 {
+                    // Asumiendo que txtDniAgregar es un número (int.Parse) y la validación previa es correcta.
                     DniUsuario = int.Parse(txtDniAgregar.Text),
                     Nombres = txtNombreAgregar.Text.Trim(),
                     Apellidos = txtApellidoAgregar.Text.Trim(),
@@ -93,8 +84,8 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                     IdRol = int.Parse(ddlRol2.SelectedValue)
                 };
 
-                UsuarioNegocio negocio = new UsuarioNegocio();
-                negocio.Agregar(nuevo);
+                // 🔄 CORRECCIÓN: Se usa la instancia de la clase (this.negocio) en lugar de crear una nueva.
+                this.negocio.Agregar(nuevo);
 
                 // ✅ PRIMERO: Refresco la tabla
                 CargarUsuarios();
@@ -102,37 +93,33 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                 // ✅ SEGUNDO: Limpio los campos del modal
                 LimpiarCamposModal();
 
-                // ✅ TERCERO: Actualizo el UpdatePanel para que se vean los cambios
-                updForm.Update();
-
-                // ✅ CUARTO: Muestro el modal de éxito DESPUÉS de actualizar
-
-
-
-                // ===============================
-                // MOSTRAR MODAL DE ÉXITO
-                // ===============================
-                // ⬅️ ABRIR MODAL DE ÉXITO DESPUÉS DE GUARDAR
+                // ✅ TERCERO: Muestro el modal de éxito (El UpdatePanel se encarga de que se ejecute)
                 ScriptManager.RegisterStartupScript(this, GetType(),
                     "abrirExito", "abrirModalExito();", true);
-
 
             }
             catch (Exception ex)
             {
                 string msg = ex.Message.Replace("'", "\\'").Replace("\r", "").Replace("\n", " ");
 
+                // 1. Mostrar Modal de Error
                 ScriptManager.RegisterStartupScript(
                     this, GetType(), "error_" + DateTime.Now.Ticks,
                     $"document.getElementById('modalErrorBody').innerHTML = '{msg}'; mostrarModal('modalError');",
                     true
                 );
 
+                // 2. Reabrir el modal de agregar para que no pierda los datos (opcional si ya reabrirModalAgregarUsuario() lo hace)
                 ScriptManager.RegisterStartupScript(
                     this, GetType(), "reabrirAdd_" + DateTime.Now.Ticks,
                     "setTimeout(function() { reabrirModalAgregarUsuario(); }, 200);",
                     true
                 );
+            }
+            finally
+            {
+                // ✅ CUARTO: Actualizo el UpdatePanel para que se vean los cambios/errores
+                updForm.Update();
             }
         }
 
@@ -141,27 +128,22 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         // ------------------------------------------------------
         private void CargarUsuarios()
         {
-            UsuarioNegocio negocio = new UsuarioNegocio();
-            List<Usuario> lista = negocio.Listar();
+            // 🔄 CORRECCIÓN: Se usa la instancia de la clase (this.negocio) en lugar de crear una nueva.
+            List<Usuario> lista = this.negocio.Listar();
 
             repUsuarios.DataSource = lista;
             repUsuarios.DataBind();
         }
 
-
-
-
-
-
         // ===============================
-        //     BOTÓN BUSCAR
+        //     BOTÓN BUSCAR
         // ===============================
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             try
             {
-                UsuarioNegocio negocio = new UsuarioNegocio();
-                List<Usuario> lista = negocio.Listar();
+                // 🔄 CORRECCIÓN: Se usa la instancia de la clase (this.negocio) en lugar de crear una nueva.
+                List<Usuario> lista = this.negocio.Listar();
 
                 // FILTROS
                 if (!string.IsNullOrWhiteSpace(txtNombre.Text))
@@ -176,15 +158,17 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                 if (!string.IsNullOrWhiteSpace(TextUsuario.Text))
                     lista = lista.FindAll(u => u.NombreUsuario.ToUpper().Contains(TextUsuario.Text.ToUpper()));
 
+                // Nota: Asumiendo que ddlRol.SelectedValue es el NombreRol o un valor que se compara correctamente.
                 if (!string.IsNullOrWhiteSpace(ddlRol.SelectedValue))
-                    lista = lista.FindAll(u => u.Rol.NombreRol.ToUpper() == ddlRol.SelectedValue.ToUpper());
+                    lista = lista.FindAll(u => u.Rol != null && u.Rol.NombreRol.ToUpper() == ddlRol.SelectedValue.ToUpper());
 
                 repUsuarios.DataSource = lista;
                 repUsuarios.DataBind();
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al filtrar usuarios: " + ex.Message);
+                // En lugar de hacer 'throw new Exception', es mejor mostrar el error al usuario.
+                MostrarModalError("Error al filtrar usuarios: " + ex.Message);
             }
         }
 
@@ -201,6 +185,9 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             txtConfirmarContrasena.Text = "";
             txtMailAgregar.Text = "";
             ddlRol2.SelectedIndex = 0;
+            // Opcional: limpiar los estilos de error.
+            txtNombreAgregar.CssClass = txtNombreAgregar.CssClass.Replace(" border-danger", "").Trim();
+            // ... repetir para los demás TextBox
         }
 
         // ------------------------------------------------------
@@ -209,7 +196,9 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         protected void repUsuarios_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             int id = int.Parse(e.CommandArgument.ToString());
-            UsuarioNegocio negocio = new UsuarioNegocio();
+
+            // 🔄 CORRECCIÓN: Se usa la instancia de la clase (this.negocio)
+            // Ya no es necesario crear una nueva instancia aquí.
 
             if (e.CommandName == "Eliminar")
             {
@@ -232,9 +221,8 @@ namespace Clinic.Pantasllas_Perfil_Administrador
         {
             try
             {
-                
-                // Usamos el método ObtenerPorId de la Capa de Negocio (DAL)
-                Usuario usuario = negocio.ObtenerPorId(id);
+                // Usamos la instancia de la clase (this.negocio)
+                Usuario usuario = this.negocio.ObtenerPorId(id);
 
                 if (usuario != null)
                 {
@@ -256,10 +244,8 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                         itemRol.Selected = true;
                     }
 
-                    // 4. Abrir el modal de edición (usando ScriptManager para ASP.NET AJAX)
-                    // Este script debe coincidir con el nombre de la función JS que agregamos.
+                    // 4. Abrir el modal de edición
                     ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "AbrirModal", "abrirModalEdicion();", true);
-
                 }
             }
             catch (Exception ex)
@@ -277,10 +263,11 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 
         protected void btnGuardarCambiosEdit_Click(object sender, EventArgs e)
         {
+            // --- 0. VALIDACIÓN INICIAL DEL SERVIDOR ---
             if (!Page.IsValid)
             {
-                // Si la validación falla en el servidor, reabrimos el modal
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "ReabrirEdicion", "reabrirModalEdicion();", true);
+                // Si la validación falla (ej. RequiredFieldValidator), reabrimos el modal
+                ScriptManager.RegisterStartupScript(this, GetType(), "ReabrirEdicion", "reabrirModalEdicion();", true);
                 updForm.Update();
                 return;
             }
@@ -293,37 +280,64 @@ namespace Clinic.Pantasllas_Perfil_Administrador
                     IdUsuario = int.Parse(hfIdEditar.Value),
                     Nombres = txtNombreEdit.Text.Trim(),
                     Apellidos = txtApellidoEdit.Text.Trim(),
+                    // Manejar la conversión de DNI a int de forma segura
                     DniUsuario = int.Parse(txtDniEdit.Text.Trim()),
                     NombreUsuario = txtUsuarioEdit.Text.Trim(),
                     Email = txtEmailEdit.Text.Trim(),
                     IdRol = int.Parse(ddlRolEdit.SelectedValue),
-                    // No incluimos la contraseña, ya que no se editó en el modal
-                    Contrasena = null
+                    Contrasena = null // La contraseña no se modifica desde este modal
                 };
 
-                // 2. Llamar a la lógica de negocio para modificar
-                negocio.Modificar(usuario);
+                // 2. VALIDACIÓN DE REGLAS DE NEGOCIO (DNI DUPLICADO)
+                if (this.negocio.ExisteDniDuplicado(usuario.DniUsuario, usuario.IdUsuario))
+                {
+                    // Error específico: DNI duplicado
+                    MostrarModalErrorEdit("El DNI ingresado **ya existe** para otro usuario. Por favor, ingrese uno diferente.");
+                    // Reabrimos el modal de edición para que el usuario corrija
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ReabrirEdicion", "reabrirModalEdicion();", true);
+                    return; // Salir del método
+                }
 
-                // 3. Mostrar Modal de Éxito de Edición
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "MostrarExito", "mostrarModalExitoEdit();", true);
+                // 3. Llamar a la lógica de negocio para modificar
+                this.negocio.Modificar(usuario);
 
-                // Recargar el GridView/Repeater para mostrar los cambios
+                // 4. Mostrar Modal de Éxito de Edición
+                ScriptManager.RegisterStartupScript(this, GetType(), "MostrarExito", "mostrarModalExitoEdit();", true);
+
+                // 5. Recargar el Repeater para mostrar los cambios
                 CargarUsuarios();
+            }
+            catch (FormatException)
+            {
+                // Error si el DNI o ID de Rol no son números válidos (aunque los Validators deberían prevenir esto)
+                MostrarModalErrorEdit("Error de formato: El DNI o el Rol no son números válidos.");
+                ScriptManager.RegisterStartupScript(this, GetType(), "ReabrirEdicion", "reabrirModalEdicion();", true);
             }
             catch (Exception ex)
             {
-                // 4. Mostrar Modal de Error y reabrir el modal de edición
-                MostrarModalError("Error al guardar los cambios: " + ex.Message);
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "ReabrirEdicion", "reabrirModalEdicion();", true);
+                // 6. Mostrar Modal de Error para cualquier otra excepción
+                MostrarModalErrorEdit("Error al guardar los cambios: " + ex.Message);
+                // Reabrimos el modal de edición para que el usuario vea el formulario
+                ScriptManager.RegisterStartupScript(this, GetType(), "ReabrirEdicion", "reabrirModalEdicion();", true);
             }
             finally
             {
-                // Actualizar el UpdatePanel para mostrar el modal de éxito/error o reabrir el de edición
+                // Actualizar el UpdatePanel en todos los casos
                 updForm.Update();
             }
         }
 
+        // -----------------------------------------------------------------------
 
+        /// <summary>
+        /// Muestra el modal de error de Edición, actualizando el cuerpo del mensaje.
+        /// </summary>
+        private void MostrarModalErrorEdit(string mensaje)
+        {
+            // Asume que modalErrorEditBody es el control que contiene el mensaje dentro del modal de error
+            modalErrorEditBody.InnerText = mensaje;
+            ScriptManager.RegisterStartupScript(this, GetType(), "MostrarError", "abrirModalErrorEdit();", true);
+        }
 
         /// ------------------------------------------------------
         // BOTON ELIMINAR
@@ -335,15 +349,11 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             {
                 try
                 {
-                    // 1. Instancia la capa de Negocio (asumiendo que tienes una clase llamada UsuarioNegocio)
-                    // Reemplaza 'UsuarioNegocio' con el nombre real de tu clase de negocio.
-                    negocio.UsuarioNegocio negocio = new negocio.UsuarioNegocio();
-
-                    // 2. Llama al método de eliminación.
-                    negocio.Eliminar(idUsuarioAEliminar);
+                    // 🔄 CORRECCIÓN: Se usa la instancia de la clase (this.negocio) y se elimina la redeclaración
+                    this.negocio.Eliminar(idUsuarioAEliminar);
 
                     // 3. Si la eliminación es exitosa:
-                    //    - Registra un script para mostrar el modal de éxito (definido en JavaScript)
+                    CargarUsuarios();
                     ScriptManager.RegisterStartupScript(this, GetType(), "ExitoEliminar", "mostrarModalExitoEliminar();", true);
                 }
                 catch (Exception ex)
@@ -370,19 +380,15 @@ namespace Clinic.Pantasllas_Perfil_Administrador
             }
             else
             {
-                // Esto debería ser un caso raro (ID no se guardó correctamente)
-                // Puedes registrar un script de error genérico aquí si lo deseas.
                 ScriptManager.RegisterStartupScript(this, GetType(), "ErrorID", "alert('Error: No se pudo obtener el ID del usuario a eliminar.');", true);
                 updForm.Update();
             }
         }
 
-
-
         // Asumiendo que tienes un método general para mostrar errores
         private void MostrarModalError(string mensaje)
         {
-            // Opcional: Asigna el mensaje de error al div dentro del modal de error
+            // Asigna el mensaje de error al div dentro del modal de error
             modalErrorBody.InnerHtml = "<p>" + Server.HtmlEncode(mensaje) + "</p>";
 
             // Llama a la función JS para mostrar el modal de error
@@ -392,21 +398,13 @@ namespace Clinic.Pantasllas_Perfil_Administrador
 
         protected void btnAceptarExito_Click(object sender, EventArgs e)
         {
-
             Response.Redirect("GestionarUsuarios.aspx");
-
         }
-
-
 
 
         protected void btnAceptarError_Click(object sender, EventArgs e)
         {
-            
             Response.Redirect("GestionarUsuarios.aspx");
         }
-
-
-        
     }
 }
