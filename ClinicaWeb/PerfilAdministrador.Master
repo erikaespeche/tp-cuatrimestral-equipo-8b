@@ -22,10 +22,13 @@
     <!-- Estilo CSS Personalizado -->
     <link href="~/Content/PerfilMedicosCSS.css" rel="stylesheet" />
     <link href="~/content/menuestilos.css" rel="stylesheet" />
-    <link href="~/Content/PerfilAdministradorCSS.css" rel="stylesheet" />
+    <link href="~/Content/PerfilAdministradorCSS.css" rel="stylesheet" /> 
+    <link href="~/Content/PerfilRecepcionistaCSS.css" rel="stylesheet" />
 
-      <!-- Bootstrap JS (bundle: incluye Popper) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS (bundle: incluye Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
 
     <!-- ⭐ AGREGAR ESTO ⭐ -->
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
@@ -40,7 +43,7 @@
     <form id="form1" runat="server">
 
         <!-- ScriptManager -->
-      <%--  <asp:ScriptManager ID="ScriptManager1" runat="server" />--%>
+        <%--  <asp:ScriptManager ID="ScriptManager1" runat="server" />--%>
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" />
 
         <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
@@ -60,9 +63,9 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Pacientes</a>
                             <ul class="dropdown-menu dropdown-dark">
-                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/ListarPaciente.aspx" class="dropdown-item">Listar Paciente</a></li>
-                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/AgregarNuevoPaciente.aspx" class="dropdown-item">Nuevo Paciente</a></li>
-                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/CitasDiarias.aspx" class="dropdown-item">Citas Diarias</a></li>
+                                <li><a runat="server" href="~/Pantasllas-Perfil_Administrador/ListarPacienteAdm.aspx" class="dropdown-item">Listar Paciente</a></li>
+                                <li><a runat="server" href="~/Pantasllas-Perfil_Administrador/AgregarNuevoPacienteAdm.aspx" class="dropdown-item">Nuevo Paciente</a></li>
+                                <li><a runat="server" href="~/Pantasllas-Perfil_Administrador/CitasDiariasAdm.aspx" class="dropdown-item">Citas Diarias</a></li>
                             </ul>
                         </li>
 
@@ -70,8 +73,8 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Agendas</a>
                             <ul class="dropdown-menu dropdown-dark">
-                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/ConfigurarAgendaProfesional.aspx" class="dropdown-item">Configurar Agenda Profesional</a></li>
-                                <li><a runat="server" href="~/Pantallas-Perfil_Medico/ListadoCitas.aspx" class="dropdown-item">Listar Citas Pacientes</a></li>
+                                <li><a runat="server" href="~/Pantasllas-Perfil_Administrador/ConfigurarAgendaProfesionalAdm.aspx" class="dropdown-item">Configurar Agenda Profesional</a></li>
+                                <li><a runat="server" href="~/Pantasllas-Perfil_Administrador/ListadoCitasAdm.aspx" class="dropdown-item">Listar Citas </a></li>
                             </ul>
                         </li>
 
@@ -79,7 +82,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Especialidades</a>
                             <ul class="dropdown-menu dropdown-dark">
-                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/GestionarEspecialidades.aspx" class="dropdown-item">Gestionar Especialidades</a></li>
+                                <li><a runat="server" href="~/Pantasllas-Perfil_Administrador/GestionarEspecialidadesAdm.aspx" class="dropdown-item">Gestionar Especialidades</a></li>
                             </ul>
                         </li>
 
@@ -87,7 +90,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Profesionales</a>
                             <ul class="dropdown-menu dropdown-dark">
-                                <li><a runat="server" href="~/Pantallas-Perfil_Recepcionista/GestionarProfesionales.aspx" class="dropdown-item">Gestionar Profesionales</a></li>
+                                <li><a runat="server" href="~/Pantasllas-Perfil_Administrador/GestionarProfesionalesAdm.aspx" class="dropdown-item">Gestionar Profesionales</a></li>
                             </ul>
                         </li>
 
@@ -130,7 +133,7 @@
         </footer>--%>
     </form>
 
-    
+
 
 
 

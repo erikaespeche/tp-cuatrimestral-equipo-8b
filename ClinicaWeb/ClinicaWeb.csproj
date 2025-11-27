@@ -143,7 +143,18 @@
     <Content Include="Pantallas-Perfil_Recepcionista\GestionarEspecialidades.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\GestionarProfesionales.aspx" />
     <Content Include="Pantallas-Perfil_Recepcionista\ListarPaciente.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\AgregarNuevaEspecialidadAdm.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\AgregarNuevoPacienteAdm.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\AgregarNuevoProfesionalAdm.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\CitasDiariasAdm.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\ConfigurarAgendaProfesionalAdm.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\DetallePacienteAdm.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\EditarEspecialidadAdm.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\GestionarEspecialidadesAdm.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\GestionarProfesionalesAdm.aspx" />
     <Content Include="Pantasllas-Perfil_Administrador\GestionarUsuarios.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\ListadoCitasAdm.aspx" />
+    <Content Include="Pantasllas-Perfil_Administrador\ListarPacienteAdm.aspx" />
     <Content Include="PerfilAdmin.aspx" />
     <Content Include="Content\PerfilRecepcionistaCSS.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -370,12 +381,89 @@
     <Compile Include="Pantallas-Perfil_Recepcionista\ListarPaciente.aspx.designer.cs">
       <DependentUpon>ListarPaciente.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\AgregarNuevaEspecialidadAdm.aspx.cs">
+      <DependentUpon>AgregarNuevaEspecialidadAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\AgregarNuevaEspecialidadAdm.aspx.designer.cs">
+      <DependentUpon>AgregarNuevaEspecialidadAdm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\AgregarNuevoPacienteAdm.aspx.cs">
+      <DependentUpon>AgregarNuevoPacienteAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\AgregarNuevoPacienteAdm.aspx.designer.cs">
+      <DependentUpon>AgregarNuevoPacienteAdm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\AgregarNuevoProfesionalAdm.aspx.cs">
+      <DependentUpon>AgregarNuevoProfesionalAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\AgregarNuevoProfesionalAdm.aspx.designer.cs">
+      <DependentUpon>AgregarNuevoProfesionalAdm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\CitasDiariasAdm.aspx.cs">
+      <DependentUpon>CitasDiariasAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\CitasDiariasAdm.aspx.designer.cs">
+      <DependentUpon>CitasDiariasAdm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\ConfigurarAgendaProfesionalAdm.aspx.cs">
+      <DependentUpon>ConfigurarAgendaProfesionalAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\ConfigurarAgendaProfesionalAdm.aspx.designer.cs">
+      <DependentUpon>ConfigurarAgendaProfesionalAdm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\DetallePacienteAdm.aspx.cs">
+      <DependentUpon>DetallePacienteAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\DetallePacienteAdm.aspx.designer.cs">
+      <DependentUpon>DetallePacienteAdm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\EditarEspecialidadAdm.aspx.cs">
+      <DependentUpon>EditarEspecialidadAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\EditarEspecialidadAdm.aspx.designer.cs">
+      <DependentUpon>EditarEspecialidadAdm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\GestionarEspecialidadesAdm.aspx.cs">
+      <DependentUpon>GestionarEspecialidadesAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\GestionarEspecialidadesAdm.aspx.designer.cs">
+      <DependentUpon>GestionarEspecialidadesAdm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\GestionarProfesionalesAdm.aspx.cs">
+      <DependentUpon>GestionarProfesionalesAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\GestionarProfesionalesAdm.aspx.designer.cs">
+      <DependentUpon>GestionarProfesionalesAdm.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pantasllas-Perfil_Administrador\GestionarUsuarios.aspx.cs">
       <DependentUpon>GestionarUsuarios.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pantasllas-Perfil_Administrador\GestionarUsuarios.aspx.designer.cs">
       <DependentUpon>GestionarUsuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\ListadoCitasAdm.aspx.cs">
+      <DependentUpon>ListadoCitasAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\ListadoCitasAdm.aspx.designer.cs">
+      <DependentUpon>ListadoCitasAdm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\ListarPacienteAdm.aspx.cs">
+      <DependentUpon>ListarPacienteAdm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantasllas-Perfil_Administrador\ListarPacienteAdm.aspx.designer.cs">
+      <DependentUpon>ListarPacienteAdm.aspx</DependentUpon>
     </Compile>
     <Compile Include="PerfilAdmin.aspx.cs">
       <DependentUpon>PerfilAdmin.aspx</DependentUpon>

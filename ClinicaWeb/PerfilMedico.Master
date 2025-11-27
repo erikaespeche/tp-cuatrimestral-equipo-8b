@@ -61,7 +61,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Agendas</a>
                             <ul class="dropdown-menu dropdown-dark">
-                                <li><a runat="server" href="~/Pantallas-Perfil_Medico/ListadoCitas.aspx" class="dropdown-item">Listar Citas Pacientes</a></li>
+                                <li><a runat="server" href="~/Pantallas-Perfil_Medico/ListadoCitas.aspx" class="dropdown-item">Listar Citas</a></li>
                             </ul>
                         </li>
 
