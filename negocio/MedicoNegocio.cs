@@ -17,8 +17,8 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta(@"SELECT IdMedico, Nombre, Apellido, Dni, Telefono, Email, IdTurnoTrabajo 
-                                                FROM MEDICO");
+                datos.setearConsulta(@"SELECT IdMedico, Nombre, Apellido, Dni, Telefono, Email, IdTurnoTrabajo, Estado 
+                                                FROM MEDICO WHERE Estado = 'Activo'");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -31,6 +31,7 @@ namespace negocio
                     aux.Telefono = datos.Lector["Telefono"] != DBNull.Value ? datos.Lector["Telefono"].ToString() : "";
                     aux.Email = datos.Lector["Email"] != DBNull.Value ? datos.Lector["Email"].ToString() : "";
                     aux.IdTurnoTrabajo = datos.Lector["IdTurnoTrabajo"] != DBNull.Value ? (int)datos.Lector["IdTurnoTrabajo"] : 0;
+                    aux.Estado = datos.Lector["Estado"].ToString();
 
                     aux.Especialidades = ObtenerEspecialidades(aux.IdMedico);
 
@@ -102,18 +103,18 @@ namespace negocio
             }
         }
 
-        public void Eliminar(int id)
+        public void DarDeBaja(int id)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("DELETE FROM MEDICO WHERE IdMedico = @id");
+                datos.setearConsulta("UPDATE MEDICO SET Estado = 'Baja' WHERE IdMedico = @id");
                 datos.setearParametro("@id", id);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al eliminar medico: " + ex.Message);
+                throw new Exception("Error al dar de baja al médico: " + ex.Message);
             }
             finally
             {
@@ -177,7 +178,7 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta(@"SELECT IdMedico, Nombre, Apellido, Dni, Telefono, Email, IdTurnoTrabajo 
+                datos.setearConsulta(@"SELECT IdMedico, Nombre, Apellido, Dni, Telefono, Email, IdTurnoTrabajo, Estado 
                                FROM MEDICO 
                                WHERE IdMedico = @id");
                 datos.setearParametro("@id", id);
@@ -194,7 +195,8 @@ namespace negocio
                         Telefono = datos.Lector["Telefono"] != DBNull.Value ? datos.Lector["Telefono"].ToString() : "",
                         Email = datos.Lector["Email"] != DBNull.Value ? datos.Lector["Email"].ToString() : "",
                         IdTurnoTrabajo = datos.Lector["IdTurnoTrabajo"] != DBNull.Value ? (int)datos.Lector["IdTurnoTrabajo"] : 0,
-                        Especialidades = ObtenerEspecialidades((int)datos.Lector["IdMedico"])
+                        Especialidades = ObtenerEspecialidades((int)datos.Lector["IdMedico"]),
+                        Estado = datos.Lector["Estado"].ToString()
                     };
                 }
             }

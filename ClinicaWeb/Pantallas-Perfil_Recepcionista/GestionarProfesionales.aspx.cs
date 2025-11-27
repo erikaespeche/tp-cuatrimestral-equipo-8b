@@ -105,6 +105,19 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             }
 
         }
+
+        protected void btnConfirmarEliminar_Click(object sender, EventArgs e)
+        {
+            int idMedico = int.Parse(eliminarIdMedico.Value);
+
+            MedicoNegocio negocio = new MedicoNegocio();
+            negocio.DarDeBaja(idMedico);
+
+            // Recargar repeater
+            CargarProfesionales();
+        }
+
+
     }
 
- }
+}
