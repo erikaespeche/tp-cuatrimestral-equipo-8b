@@ -133,7 +133,7 @@
 
 
 
- 
+
 
 
 
@@ -144,11 +144,11 @@
 
     <%-- JS --%>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        function activarTogglePass() {
             const toggles = document.querySelectorAll(".toggle-pass");
 
             toggles.forEach((toggle) => {
-                toggle.addEventListener("click", function () {
+                toggle.onclick = function () {
                     let input = this.parentElement.querySelector("input");
 
                     if (input.type === "password") {
@@ -158,10 +158,17 @@
                         input.type = "password";
                         this.innerHTML = '<i class="bi bi-eye-fill"></i>';
                     }
-                });
+                };
             });
-        });
+        }
+
+        // Cuando carga la página
+        document.addEventListener("DOMContentLoaded", activarTogglePass);
+
+        // Cuando el UpdatePanel se recarga (postback parcial)
+        Sys.Application.add_load(activarTogglePass);
     </script>
+
 
 
 
