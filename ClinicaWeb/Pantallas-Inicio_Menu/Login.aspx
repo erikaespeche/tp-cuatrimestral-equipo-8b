@@ -12,6 +12,8 @@
 
 <body class="login-page">
     <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true" />
+
         <div class="login-card">
             <i class="bi bi-hospital icon-hospital"></i>
             <h3>Gestion de turnos</h3>
@@ -43,11 +45,14 @@
                 CssClass="btn btn-primary btn-login" OnClick="btnLogin_Click" />
 
 
-            <a href="#" class="footer-text forgot-link" data-bs-toggle="modal" data-bs-target="#modalRecuperar">¿Olvidaste tu contraseña?
-            </a>
+            <%--<a href="#" class="footer-text forgot-link" data-bs-toggle="modal" data-bs-target="#modalRecuperar">¿Olvidaste tu contraseña?</a>--%>
+            <asp:LinkButton ID="lnkOlvido" runat="server" CssClass="footer-text forgot-link"
+                OnClick="lnkOlvido_Click">¿Olvidaste tu contraseña?</asp:LinkButton>
+
 
         </div>
 
+        <%-- MODAL RECUPERAR CONTRASEÑA --%>
         <div class="modal fade" id="modalRecuperar" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="ventana-editar-paciente modal-content bg-dark text-light p-4"
@@ -62,13 +67,19 @@
                    
                     <div class="modal-body">
 
-                        <label class="form-label">Ingresá tu email</label>
+                        <label class="form-label">Email de recuperación de contraseña</label>
 
-                        <asp:TextBox ID="txtRecuperarEmail" runat="server"
+                        <%--<asp:TextBox ID="txtRecuperarEmail" runat="server"
                             CssClass="form-control mb-3"
                             Style="background-color: #21364B; border: 1px solid gray; color: white;"
                             placeholder="ejemplo@correo.com">
+                        </asp:TextBox>--%>
+                        <asp:TextBox ID="txtRecuperarEmail" runat="server"
+                            CssClass="form-control mb-3"
+                            ReadOnly="true"
+                            Style="background-color: #21364B; border: 1px solid gray; color: white;">
                         </asp:TextBox>
+
 
                         <asp:Label ID="lblRecuperarError" runat="server"
                             CssClass="text-danger d-block mb-3">
@@ -85,6 +96,37 @@
                 </div>
             </div>
         </div>
+
+
+
+        <!-- MODAL ÉXITO RECUPERO -->
+        <div class="modal fade" id="modalRecuperoExito" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-light p-4"
+                    style="background-color: #1f3a52; border: 1px solid gray;">
+
+                    <div class="modal-header border-0">
+                        <h4 class="modal-title">Correo enviado</h4>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body text-center">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+                        <p class="mt-3 mb-0 fs-5">
+                            Te enviamos un correo con las instrucciones para recuperar tu contraseña.
+                        </p>
+                    </div>
+
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal">
+                            Aceptar
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
 
     </form>
 

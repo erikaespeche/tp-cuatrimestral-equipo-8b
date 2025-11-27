@@ -52,6 +52,45 @@ namespace Clinic
             }
         }
 
+
+        //TRAE EL MAIL ASOCIADO AL USUARIO (PARA RECUPERAR CONTRASEÑA)
+        protected void lnkOlvido_Click(object sender, EventArgs e)
+        {
+            lblRecuperarError.Text = "";
+
+            string usuarioIngresado = txtUsuario.Text.Trim();
+
+            if (string.IsNullOrEmpty(usuarioIngresado))
+            {
+                lblError.Text = "Primero ingresá tu usuario para recuperar la contraseña.";
+                return;
+            }
+
+            UsuarioNegocio negocio = new UsuarioNegocio();
+            Usuario encontrado = negocio.ValidarLoginSoloUsuario(usuarioIngresado);
+
+            if (encontrado == null)
+            {
+                lblError.Text = "No existe un usuario con ese nombre.";
+                return;
+            }
+
+            txtRecuperarEmail.Text = encontrado.Email;
+
+            ScriptManager.RegisterStartupScript(
+                this,
+                this.GetType(),
+                "ShowModalRecupero",
+                "setTimeout(function(){ var modal = new bootstrap.Modal(document.getElementById('modalRecuperar')); modal.show(); }, 200);",
+                true
+            );
+        }
+
+
+
+
+
+
         protected void btnEnviarRecupero_Click(object sender, EventArgs e)
         {
             string mail = txtRecuperarEmail.Text.Trim();
@@ -76,31 +115,45 @@ namespace Clinic
 
             try
             {
-                
                 EmailService emailService = new EmailService();
 
                 string asunto = "Recuperación de contraseña - Clínica";
                 string cuerpo = $@"
-            <h3>Recuperación de contraseña</h3>
-            <p>Hola <b>{encontrado.Nombres}</b>,</p>
-            <p>Recibimos una solicitud para recuperar tu contraseña.</p>
-            <p><b>Tu contraseña actual es:</b> {encontrado.Contrasena}</p>
-            <br>
-            <p>Si vos no solicitaste esto, ignorá este mensaje.</p>
-            <p>Clínica - Sistema de Gestión de Turnos</p>
-        ";
+                                <h3>Recuperación de contraseña</h3>
+                                <p>Hola <b>{encontrado.Nombres}</b>,</p>
+                                <p>Recibimos una solicitud para recuperar tu contraseña.</p>
+                                <p><b>Tu contraseña actual es:</b> {encontrado.Contrasena}</p>
+                                <br>
+                                <p>Si vos no solicitaste esto, ignorá este mensaje.</p>
+                                <p>Clínica - Sistema de Gestión de Turnos</p>
+                                 ";
 
                 emailService.armarCorreo(mail, asunto, cuerpo);
                 emailService.enviarEmail();
 
-                lblRecuperarError.Text = "Te enviamos un correo con tu contraseña.";
-                lblRecuperarError.CssClass = "text-success d-block mb-3";
+                // Mostrar modal de éxito
+                ScriptManager.RegisterStartupScript(
+                    this,
+                    this.GetType(),
+                    "MostrarExitoRecupero",
+                    @"
+                       setTimeout(function() {
+                         var m1 = bootstrap.Modal.getInstance(document.getElementById('modalRecuperar'));
+                         if(m1){ m1.hide(); }
+
+                         var m2 = new bootstrap.Modal(document.getElementById('modalRecuperoExito'));
+                         m2.show();
+                      }, 300);
+                    ",
+                    true
+                );
             }
             catch (Exception ex)
             {
                 lblRecuperarError.Text = "Error al enviar correo: " + ex.Message;
                 lblRecuperarError.CssClass = "text-danger d-block mb-3";
             }
+
         }
 
     }

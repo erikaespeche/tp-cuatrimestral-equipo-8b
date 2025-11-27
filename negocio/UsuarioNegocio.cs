@@ -376,13 +376,76 @@ namespace negocio
             }
             catch (Exception ex)
             {
-                throw ex;
+                //throw ex;
+                throw new Exception("Error al actualizar contraseña: " + ex.Message);
             }
             finally
             {
                 datos.cerrarConexion();
             }
         }
+
+
+
+
+        public Usuario ValidarLoginSoloUsuario(string user)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT 
+                U.IdUsuario,
+                U.DniUsuario,
+                U.Nombres,
+                U.Apellidos,
+                U.NombreUsuario,
+                U.Contrasena,
+                U.Email,
+                U.IdRol,
+                R.NombreRol
+            FROM USUARIOS U
+            INNER JOIN ROL R ON R.IdRol = U.IdRol
+            WHERE U.NombreUsuario = @user
+        ");
+
+                datos.setearParametro("@user", user);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    Usuario aux = new Usuario();
+                    aux.IdUsuario = (int)datos.Lector["IdUsuario"];
+                    aux.DniUsuario = (int)datos.Lector["DniUsuario"];
+                    aux.Nombres = datos.Lector["Nombres"].ToString();
+                    aux.Apellidos = datos.Lector["Apellidos"].ToString();
+                    aux.NombreUsuario = datos.Lector["NombreUsuario"].ToString();
+                    aux.Contrasena = datos.Lector["Contrasena"].ToString();
+                    aux.Email = datos.Lector["Email"].ToString();
+                    aux.IdRol = (int)datos.Lector["IdRol"];
+
+                    aux.Rol = new Rol()
+                    {
+                        IdRol = aux.IdRol,
+                        NombreRol = datos.Lector["NombreRol"].ToString()
+                    };
+
+                    return aux;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al validar usuario: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
 
     }
 }
