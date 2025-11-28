@@ -78,12 +78,17 @@ namespace negocio
         public void Modificar(Medico medico)
         {
             AccesoDatos datos = new AccesoDatos();
+            MedicoEspecialidadNegocio negME = new MedicoEspecialidadNegocio();
+
             try
             {
+                // -------------------------
+                // 1) ACTUALIZAR DATOS DEL MÉDICO
+                // -------------------------
                 datos.setearConsulta(@"UPDATE MEDICO 
-                                       SET Nombre=@nombre, Apellido=@apellido,
-                                           Dni=@dni, Telefono=@tel, Email=@mail
-                                       WHERE IdMedico=@id");
+                               SET Nombre=@nombre, Apellido=@apellido,
+                                   Dni=@dni, Telefono=@tel, Email=@mail
+                               WHERE IdMedico=@id");
 
                 datos.setearParametro("@id", medico.IdMedico);
                 datos.setearParametro("@nombre", medico.Nombre);
@@ -93,6 +98,22 @@ namespace negocio
                 datos.setearParametro("@mail", medico.Email);
 
                 datos.ejecutarAccion();
+                datos.cerrarConexion(); // cierro antes de operar con la tabla puente
+
+
+                // -------------------------
+                // 2) ELIMINAR ESPECIALIDADES ANTERIORES
+                // -------------------------
+                negME.EliminarEspecialidadesDeMedico(medico.IdMedico);
+
+
+                // -------------------------
+                // 3) AGREGAR NUEVAS ESPECIALIDADES
+                // -------------------------
+                if (medico.Especialidades != null && medico.Especialidades.Count > 0)
+                {
+                    negME.AgregarEspecialidades(medico.IdMedico, medico.Especialidades);
+                }
             }
             catch (Exception ex)
             {
@@ -103,6 +124,7 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
 
         public void DarDeBaja(int id)
         {
