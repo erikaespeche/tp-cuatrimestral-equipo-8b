@@ -51,12 +51,12 @@
                                    class="form-control" placeholder="Opcional" />
                         </div>
 
-                        <div class="col-md-6">
+                        <%--<div class="col-md-6">
                             <label class="label-text">Turno de Trabajo</label>
                             <asp:DropDownList ID="ddlTurnoTrabajo" runat="server"
                                 CssClass="form-select">
                             </asp:DropDownList>
-                        </div>
+                        </div>--%>
                     </div>
 
                     <!-- FILA 4 -->

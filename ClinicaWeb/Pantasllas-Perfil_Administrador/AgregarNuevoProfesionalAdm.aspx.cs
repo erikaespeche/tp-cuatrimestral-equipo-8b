@@ -13,13 +13,13 @@ namespace ClinicaWeb.Pantasllas_Perfil_Administrador
     {
         MedicoNegocio negocio = new MedicoNegocio();
         EspecialidadNegocio espNegocio = new EspecialidadNegocio();
-        TurnoTrabajoNegocio turnotrabajoNegocio = new TurnoTrabajoNegocio();
+        //TurnoTrabajoNegocio turnotrabajoNegocio = new TurnoTrabajoNegocio();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                CargarTurnos();
+                //CargarTurnos();
                 CargarEspecialidades();
 
                 if (Request.QueryString["nuevaEspecialidad"] == "1")
@@ -33,15 +33,15 @@ namespace ClinicaWeb.Pantasllas_Perfil_Administrador
             }
         }
 
-        private void CargarTurnos()
-        {
-            ddlTurnoTrabajo.DataSource = turnotrabajoNegocio.Listar();
-            ddlTurnoTrabajo.DataTextField = "Nombre";
-            ddlTurnoTrabajo.DataValueField = "IdTurnoTrabajo";
-            ddlTurnoTrabajo.DataBind();
+        //private void CargarTurnos()
+        //{
+        //    ddlTurnoTrabajo.DataSource = turnotrabajoNegocio.Listar();
+        //    ddlTurnoTrabajo.DataTextField = "Nombre";
+        //    ddlTurnoTrabajo.DataValueField = "IdTurnoTrabajo";
+        //    ddlTurnoTrabajo.DataBind();
 
-            ddlTurnoTrabajo.Items.Insert(0, new ListItem("Seleccione un turno", "0"));
-        }
+        //    ddlTurnoTrabajo.Items.Insert(0, new ListItem("Seleccione un turno", "0"));
+        //}
 
         private void CargarEspecialidades()
         {

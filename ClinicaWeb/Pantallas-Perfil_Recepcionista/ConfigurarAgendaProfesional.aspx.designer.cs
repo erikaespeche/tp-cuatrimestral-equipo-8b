@@ -69,6 +69,15 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtHasta;
 
         /// <summary>
+        /// Control agpTabla.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTable agpTabla;
+
+        /// <summary>
         /// Control btnEliminar.
         /// </summary>
         /// <remarks>

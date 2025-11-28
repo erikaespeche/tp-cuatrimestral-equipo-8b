@@ -44,6 +44,7 @@
     <Compile Include="Especialidad.cs" />
     <Compile Include="HistoriaClinica.cs" />
     <Compile Include="Medico.cs" />
+    <Compile Include="MedicoEspecialidad.cs" />
     <Compile Include="Notificacion.cs" />
     <Compile Include="Paciente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

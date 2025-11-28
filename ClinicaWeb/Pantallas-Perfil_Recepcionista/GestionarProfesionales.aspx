@@ -76,8 +76,7 @@
                                     <td><%# Eval("Dni") %></td>
                                     <td><%# Eval("Telefono") %></td>
                                     <td><%# Eval("Email") %></td>
-
-
+                                     <!-- ESPECIALIDADES (Arreglado) -->
                                     <td>
                                         <%# string.Join(", ",
                                          ((dominio.Medico)Container.DataItem)
@@ -236,8 +235,11 @@
                 <input type="text" id="editEmail" runat="server" class="form-control bg-dark text-light border-secondary">
               </div>
               <div class="col-6">
-                <label>Especialidades</label>
-                <input type="text" id="editEspecialidades" runat="server" class="form-control bg-dark text-light border-secondary">
+                  <label>Especialidades</label>
+                  <asp:CheckBoxList ID="editEspecialidades" runat="server"
+                      CssClass="text-light"
+                      RepeatDirection="Vertical">
+                  </asp:CheckBoxList>
               </div>
             </div>
             <input type="hidden" id="editIdMedico" runat="server">
@@ -405,15 +407,29 @@
             modal.hide();
         }
 
-        function cargarDatosEditar(id, nombre, apellido, dni, telefono, email, especialidades) {
+        function cargarDatosEditar(id, nombre, apellido, dni, telefono, email, especialidadesCSV) {
             document.getElementById('<%= editIdMedico.ClientID %>').value = id;
             document.getElementById('<%= editNombre.ClientID %>').value = nombre;
             document.getElementById('<%= editApellido.ClientID %>').value = apellido;
             document.getElementById('<%= editDni.ClientID %>').value = dni;
             document.getElementById('<%= editTelefono.ClientID %>').value = telefono;
             document.getElementById('<%= editEmail.ClientID %>').value = email;
-            document.getElementById('<%= editEspecialidades.ClientID %>').value = especialidades;
+
+            // Especialidades viene como "1,3,4"
+            let ids = especialidadesCSV.split(',');
+
+            // Obtener referencia del CheckBoxList generado por ASP.NET
+            const chkList = document.querySelectorAll('#<%= editEspecialidades.ClientID %> input[type=checkbox]');
+
+            chkList.forEach(chk => {
+                if (ids.includes(chk.value)) {
+                    chk.checked = true;
+                } else {
+                    chk.checked = false;
+                }
+            });
         }
+
 
 
         function cargarDatosEliminar(id, nombre, apellido) {

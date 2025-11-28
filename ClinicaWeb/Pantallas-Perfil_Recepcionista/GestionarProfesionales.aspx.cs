@@ -20,6 +20,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             {
                 CargarEspecialidades();
                 CargarProfesionales();
+                CargarEspecialidadesEditar();
             }
         }
 
@@ -32,6 +33,14 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             ddlEspecialidad.DataBind();
 
             ddlEspecialidad.Items.Insert(0, new ListItem("Filtrar por Especialidad", "0"));
+        }
+        private void CargarEspecialidadesEditar()
+        {
+            EspecialidadNegocio espNeg = new EspecialidadNegocio();
+            editEspecialidades.DataSource = espNeg.Listar();
+            editEspecialidades.DataTextField = "Nombre";
+            editEspecialidades.DataValueField = "IdEspecialidad";
+            editEspecialidades.DataBind();
         }
 
 
@@ -79,32 +88,38 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
         protected void btnGuardarCambios_Click(object sender, EventArgs e)
         {
-            int id = int.Parse(editIdMedico.Value); 
-            string nombre = editNombre.Value;
-            string apellido = editApellido.Value;
-            string dni = editDni.Value;
-            string telefono = editTelefono.Value;
-            string email = editEmail.Value;
-            string especialidades = editEspecialidades.Value;
-
-            // Buscar el médico
-            Medico medico = negocio.BuscarPorId(id); 
+            int id = int.Parse(editIdMedico.Value);
+            Medico medico = negocio.BuscarPorId(id);
 
             if (medico != null)
             {
-                medico.Nombre = nombre;
-                medico.Apellido = apellido;
-                medico.Dni = dni;
-                medico.Telefono = telefono;
-                medico.Email = email;
+                medico.Nombre = editNombre.Value;
+                medico.Apellido = editApellido.Value;
+                medico.Dni = editDni.Value;
+                medico.Telefono = editTelefono.Value;
+                medico.Email = editEmail.Value;
+
+                // Limpiar especialidades previas
+                medico.Especialidades = new List<Especialidad>();
+
+                // Agregar las seleccionadas
+                foreach (ListItem item in editEspecialidades.Items)
+                {
+                    if (item.Selected)
+                    {
+                        medico.Especialidades.Add(new Especialidad
+                        {
+                            IdEspecialidad = int.Parse(item.Value),
+                            Nombre = item.Text
+                        });
+                    }
+                }
 
                 negocio.Modificar(medico);
-
-                // Recargar repeater
                 CargarProfesionales();
             }
-
         }
+
 
         protected void btnConfirmarEliminar_Click(object sender, EventArgs e)
         {

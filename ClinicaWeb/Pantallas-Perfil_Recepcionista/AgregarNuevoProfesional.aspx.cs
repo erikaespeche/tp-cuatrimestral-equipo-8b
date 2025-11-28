@@ -11,13 +11,13 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
     {
         MedicoNegocio negocio = new MedicoNegocio();
         EspecialidadNegocio espNegocio = new EspecialidadNegocio();
-        TurnoTrabajoNegocio turnotrabajoNegocio = new TurnoTrabajoNegocio();
+        //TurnoTrabajoNegocio turnotrabajoNegocio = new TurnoTrabajoNegocio();
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                CargarTurnos();
+                //CargarTurnos();
                 CargarEspecialidades();
 
                 if (Request.QueryString["nuevaEspecialidad"] == "1")
@@ -31,15 +31,15 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             }
         }
 
-        private void CargarTurnos()
-        {
-            ddlTurnoTrabajo.DataSource = turnotrabajoNegocio.Listar();
-            ddlTurnoTrabajo.DataTextField = "Nombre";
-            ddlTurnoTrabajo.DataValueField = "IdTurnoTrabajo";
-            ddlTurnoTrabajo.DataBind();
+        //private void CargarTurnos()
+        //{
+        //    ddlTurnoTrabajo.DataSource = turnotrabajoNegocio.Listar();
+        //    ddlTurnoTrabajo.DataTextField = "Nombre";
+        //    ddlTurnoTrabajo.DataValueField = "IdTurnoTrabajo";
+        //    ddlTurnoTrabajo.DataBind();
 
-            ddlTurnoTrabajo.Items.Insert(0, new ListItem("Seleccione un turno", "0"));
-        }
+        //    ddlTurnoTrabajo.Items.Insert(0, new ListItem("Seleccione un turno", "0"));
+        //}
 
         private void CargarEspecialidades()
         {
@@ -64,54 +64,38 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             string dni = txtDniProfesional.Value.Trim();
             string email = txtEmailProfesional.Value.Trim();
             string telefono = txtTelefonoProfesional.Value.Trim();
-            int idTurno = int.Parse(ddlTurnoTrabajo.SelectedValue);
 
-            // uso la clase validador 
             bool valido = true;
             string mensajeError = "";
 
-            // nombre
+            // validaciones
             var valNombre = Validador.ValidarNombre(nombre);
             if (!valNombre.esValido) { mensajeError += valNombre.mensaje + "<br>"; valido = false; }
 
-            // apellido
             var valApellido = Validador.ValidarApellido(apellido);
             if (!valApellido.esValido) { mensajeError += valApellido.mensaje + "<br>"; valido = false; }
 
-            //  DNI
             var valDni = Validador.ValidarDNI(dni);
             if (!valDni.esValido) { mensajeError += valDni.mensaje + "<br>"; valido = false; }
 
-            //  email
             if (!string.IsNullOrWhiteSpace(email))
             {
                 var valEmail = Validador.ValidarEmail(email);
                 if (!valEmail.esValido) { mensajeError += valEmail.mensaje + "<br>"; valido = false; }
             }
 
-            //  telefono
             if (!string.IsNullOrWhiteSpace(telefono))
             {
                 var valTel = Validador.ValidarTelefono(telefono);
                 if (!valTel.esValido) { mensajeError += valTel.mensaje + "<br>"; valido = false; }
             }
 
-            // turno
-            if (idTurno == 0)
-            {
-                mensajeError += "Debe seleccionar un turno.<br>";
-                valido = false;
-            }
-
-            // especialidades
             int idEspecialidad = int.Parse(ddlEspecialidad.SelectedValue);
-
             if (idEspecialidad == 0)
             {
                 mensajeError += "Debe seleccionar una especialidad.<br>";
                 valido = false;
             }
-
 
             if (!valido)
             {
@@ -127,7 +111,6 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 return;
             }
 
-
             try
             {
                 Medico nuevoProfesional = new Medico
@@ -137,22 +120,22 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                     Dni = dni,
                     Email = email,
                     Telefono = telefono,
-                    IdTurnoTrabajo = idTurno,
                     Especialidades = new List<Especialidad>()
                 };
 
-                string nombreEspecialidad = ddlEspecialidad.SelectedItem.Text;
+                // 1️⃣ REGISTRA EL MÉDICO Y OBTIENE EL ID
+                MedicoNegocio negocioMedico = new MedicoNegocio();
+                int idMedico = negocioMedico.Agregar(nuevoProfesional);
 
-                nuevoProfesional.Especialidades.Add(new Especialidad
+                // 2️⃣ GUARDA LA ESPECIALIDAD EN LA TABLA PUENTE
+                MedicoEspecialidadNegocio meNeg = new MedicoEspecialidadNegocio();
+                meNeg.Agregar(new MedicoEspecialidad
                 {
-                    IdEspecialidad = idEspecialidad,
-                    Nombre = nombreEspecialidad
+                    IdMedico = idMedico,
+                    IdEspecialidad = idEspecialidad
                 });
 
-
-                negocio.Agregar(nuevoProfesional);
-
-                // Mostrar modal de éxito
+                // modal éxito
                 ScriptManager.RegisterStartupScript(this, GetType(), "modalExito",
                     "var m = new bootstrap.Modal(document.getElementById('modalExito')); m.show();", true);
             }
@@ -160,10 +143,14 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             {
                 mensajeError = "Error al registrar el profesional: " + ex.Message;
                 mensajeError = mensajeError.Replace("'", "\\'").Replace("\r", "").Replace("\n", "<br>");
+
                 ScriptManager.RegisterStartupScript(this, GetType(), "modalError",
-                    $"var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = '{mensajeError}';", true);
+                    $"var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = '{mensajeError}';",
+                    true);
             }
         }
+
+
 
         protected void btnAceptarExito_Click(object sender, EventArgs e)
         {

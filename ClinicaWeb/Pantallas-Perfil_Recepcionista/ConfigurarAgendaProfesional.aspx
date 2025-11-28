@@ -65,7 +65,7 @@
             <div class="agp-card-body">
                 <h5 class="fw-bold mb-3">Disponibilidad Semanal</h5>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-dark text-center align-middle agp-disponibilidad">
+                    <table id="agpTabla" runat="server" class="table table-bordered table-dark text-center align-middle agp-disponibilidad">
                         <thead>
                             <tr>
                                 <th>Hora</th>
@@ -79,7 +79,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% for (int hora = 6; hora <= 23; hora++) { %>
+                            <%--<% for (int hora = 6; hora <= 23; hora++) { %>--%>
                                 <tr>
                                     <td><%= hora.ToString("00") %>:00</td>
                                     <% for (int dia = 1; dia <= 7; dia++) { %>

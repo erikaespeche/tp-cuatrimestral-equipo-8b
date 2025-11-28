@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace negocio
 {
     public class MedicoNegocio
@@ -17,8 +18,9 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta(@"SELECT IdMedico, Nombre, Apellido, Dni, Telefono, Email, IdTurnoTrabajo, Estado 
-                                                FROM MEDICO WHERE Estado = 'Activo'");
+                datos.setearConsulta(@"SELECT IdMedico, Nombre, Apellido, Dni, Telefono, Email, Estado 
+                                       FROM MEDICO 
+                                       WHERE Estado = 'Activo'");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -30,14 +32,12 @@ namespace negocio
                     aux.Dni = datos.Lector["Dni"].ToString();
                     aux.Telefono = datos.Lector["Telefono"] != DBNull.Value ? datos.Lector["Telefono"].ToString() : "";
                     aux.Email = datos.Lector["Email"] != DBNull.Value ? datos.Lector["Email"].ToString() : "";
-                    aux.IdTurnoTrabajo = datos.Lector["IdTurnoTrabajo"] != DBNull.Value ? (int)datos.Lector["IdTurnoTrabajo"] : 0;
                     aux.Estado = datos.Lector["Estado"].ToString();
 
                     aux.Especialidades = ObtenerEspecialidades(aux.IdMedico);
 
                     listaMedico.Add(aux);
                 }
-
             }
             catch (Exception ex)
             {
@@ -46,14 +46,15 @@ namespace negocio
 
             return listaMedico;
         }
+
         public int Agregar(Medico nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.setearConsulta(@"INSERT INTO MEDICO 
-                                       (Nombre, Apellido, Dni, Telefono, Email, IdTurnoTrabajo)
-                                       VALUES (@nombre, @apellido, @dni, @tel, @mail, @turno);
+                                       (Nombre, Apellido, Dni, Telefono, Email)
+                                       VALUES (@nombre, @apellido, @dni, @tel, @mail);
                                        SELECT SCOPE_IDENTITY();");
 
                 datos.setearParametro("@nombre", nuevo.Nombre);
@@ -61,7 +62,6 @@ namespace negocio
                 datos.setearParametro("@dni", nuevo.Dni);
                 datos.setearParametro("@tel", nuevo.Telefono);
                 datos.setearParametro("@mail", nuevo.Email);
-                datos.setearParametro("@turno", nuevo.IdTurnoTrabajo);
 
                 return datos.obtenerId();
             }
@@ -80,8 +80,9 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta(@"UPDATE MEDICO SET Nombre=@nombre, Apellido=@apellido,
-                                       Dni=@dni, Telefono=@tel, Email=@mail, IdTurnoTrabajo=@turno
+                datos.setearConsulta(@"UPDATE MEDICO 
+                                       SET Nombre=@nombre, Apellido=@apellido,
+                                           Dni=@dni, Telefono=@tel, Email=@mail
                                        WHERE IdMedico=@id");
 
                 datos.setearParametro("@id", medico.IdMedico);
@@ -90,7 +91,7 @@ namespace negocio
                 datos.setearParametro("@dni", medico.Dni);
                 datos.setearParametro("@tel", medico.Telefono);
                 datos.setearParametro("@mail", medico.Email);
-                datos.setearParametro("@turno", medico.IdTurnoTrabajo);
+
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -129,23 +130,24 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta(
-                    @"SELECT E.IdEspecialidad, E.Nombre, E.Descripcion
-              FROM MEDICO_ESPECIALIDAD ME
-              INNER JOIN ESPECIALIDAD E ON ME.IdEspecialidad = E.IdEspecialidad
-              WHERE ME.IdMedico = @id");
+                datos.setearConsulta(@"
+            SELECT E.IdEspecialidad, E.Nombre, E.Descripcion
+            FROM MEDICO_ESPECIALIDAD ME
+            INNER JOIN ESPECIALIDAD E ON E.IdEspecialidad = ME.IdEspecialidad
+            WHERE ME.IdMedico = @IdMedico
+        ");
 
-                datos.setearParametro("@id", idMedico);
+                datos.setearParametro("@IdMedico", idMedico);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    lista.Add(new Especialidad
-                    {
-                        IdEspecialidad = (int)datos.Lector["IdEspecialidad"],
-                        Nombre = datos.Lector["Nombre"].ToString(),
-                        Descripcion = datos.Lector["Descripcion"].ToString()
-                    });
+                    Especialidad esp = new Especialidad();
+                    esp.IdEspecialidad = (int)datos.Lector["IdEspecialidad"];
+                    esp.Nombre = datos.Lector["Nombre"].ToString();
+                    esp.Descripcion = datos.Lector["Descripcion"].ToString();
+
+                    lista.Add(esp);
                 }
             }
             finally
@@ -155,11 +157,12 @@ namespace negocio
 
             return lista;
         }
+
         public List<Medico> ListarPorEspecialidad(int idEspecialidad)
         {
             List<Medico> listaFiltrada = new List<Medico>();
 
-            foreach (var medico in Listar()) 
+            foreach (var medico in Listar())
             {
                 if (medico.Especialidades.Any(e => e.IdEspecialidad == idEspecialidad))
                 {
@@ -170,7 +173,6 @@ namespace negocio
             return listaFiltrada;
         }
 
-
         public Medico BuscarPorId(int id)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -178,9 +180,10 @@ namespace negocio
 
             try
             {
-                datos.setearConsulta(@"SELECT IdMedico, Nombre, Apellido, Dni, Telefono, Email, IdTurnoTrabajo, Estado 
-                               FROM MEDICO 
-                               WHERE IdMedico = @id");
+                datos.setearConsulta(@"SELECT IdMedico, Nombre, Apellido, Dni, Telefono, Email, Estado 
+                                       FROM MEDICO 
+                                       WHERE IdMedico = @id");
+
                 datos.setearParametro("@id", id);
                 datos.ejecutarLectura();
 
@@ -194,7 +197,6 @@ namespace negocio
                         Dni = datos.Lector["Dni"].ToString(),
                         Telefono = datos.Lector["Telefono"] != DBNull.Value ? datos.Lector["Telefono"].ToString() : "",
                         Email = datos.Lector["Email"] != DBNull.Value ? datos.Lector["Email"].ToString() : "",
-                        IdTurnoTrabajo = datos.Lector["IdTurnoTrabajo"] != DBNull.Value ? (int)datos.Lector["IdTurnoTrabajo"] : 0,
                         Especialidades = ObtenerEspecialidades((int)datos.Lector["IdMedico"]),
                         Estado = datos.Lector["Estado"].ToString()
                     };
