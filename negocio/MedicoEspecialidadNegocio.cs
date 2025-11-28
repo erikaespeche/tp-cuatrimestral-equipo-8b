@@ -68,6 +68,94 @@ namespace negocio
 
             return lista;
         }
-    }
-}
 
+
+        public void EliminarEspecialidadesDeMedico(int idMedico)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("DELETE FROM MEDICO_ESPECIALIDAD WHERE IdMedico = @id");
+                datos.setearParametro("@id", idMedico);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al eliminar especialidades del médico: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+        // -------------------------
+        // 2) AGREGAR NUEVAS ESPECIALIDADES
+        // -------------------------
+        public void AgregarEspecialidades(int idMedico, List<Especialidad> especialidades)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                foreach (var esp in especialidades)
+                {
+                    datos.setearConsulta(
+                        "INSERT INTO MEDICO_ESPECIALIDAD (IdMedico, IdEspecialidad) VALUES (@idMedico, @idEsp)"
+                    );
+
+                    datos.setearParametro("@idMedico", idMedico);
+                    datos.setearParametro("@idEsp", esp.IdEspecialidad);
+
+                    datos.ejecutarAccion();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar especialidades del médico: " + ex.Message);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+}
