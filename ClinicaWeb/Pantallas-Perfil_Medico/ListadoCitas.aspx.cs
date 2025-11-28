@@ -89,7 +89,7 @@ namespace Clinic.Pantallas_Perfil_Medico
             CitasRepeater.DataBind();
 
             TotalCountLabel.Text = citasBD.Count.ToString();
-            AvailableCountLabel.Text = citasBD.Count(c => c.Estado.ToLower() != "reservado").ToString();
+            AvailableCountLabel.Text = citasBD.Count(c => c.EstadoAdmin.ToLower() != "reservado").ToString();
            
             SelectedDateLabel.Text = fecha.ToString("dd/MM/yyyy");
         }
