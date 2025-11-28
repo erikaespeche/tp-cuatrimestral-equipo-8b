@@ -188,18 +188,42 @@ CREATE TABLE HistoriaClinica (
 );
 GO
 
-CREATE TABLE AgendaMedico (
+CREATE TABLE AGENDA_PROFESIONAL (
     IdAgenda INT IDENTITY(1,1) PRIMARY KEY,
     IdMedico INT NOT NULL,
-	IdEspecialidad INT NOT NULL,
-    DiaSemana INT NOT NULL,   
-    Hora TIME NOT NULL,
-    Estado VARCHAR(20) NOT NULL DEFAULT 'Disponible',  -- Disponible / Bloqueado / Ocupado
-    IdTurno INT NULL,      
+    IdEspecialidad INT NOT NULL,
+    DuracionTurno INT NOT NULL,            -- minutos (30, 60, 90, etc.)
+    PacientesPorTurno INT NOT NULL,
+    FechaDesde DATE NOT NULL,
+    FechaHasta DATE NOT NULL,
 
-    CONSTRAINT FK_AgendaMedico_Medico FOREIGN KEY (IdMedico) REFERENCES MEDICO(IdMedico),
-    CONSTRAINT FK_AgendaMedico_Turno FOREIGN KEY (IdTurno) REFERENCES TURNO(IdTurno)
+    CONSTRAINT FK_AP_MEDICO FOREIGN KEY (IdMedico) REFERENCES MEDICO(IdMedico),
+    CONSTRAINT FK_AP_ESPECIALIDAD FOREIGN KEY (IdEspecialidad) REFERENCES ESPECIALIDAD(IdEspecialidad)
 );
+GO
+
+
+CREATE TABLE AGENDA_DISPONIBILIDAD (
+    IdDisponibilidad INT IDENTITY(1,1) PRIMARY KEY,
+    IdAgenda INT NOT NULL,
+    DiaSemana INT NOT NULL,     -- 1 = Lunes ... 7 = Domingo
+    Hora TIME NOT NULL,         -- 06:00, 06:30, 07:00, etc.
+
+    CONSTRAINT FK_AD_AGENDA FOREIGN KEY (IdAgenda) REFERENCES AGENDA_PROFESIONAL(IdAgenda)
+);
+GO
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
