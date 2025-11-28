@@ -14,13 +14,6 @@
         <input type="text" placeholder="Ingrese nombre" />
         <input type="text" placeholder="Ingrese apellido" />
             <!-- Médico -->
-    <div class="col-md-6">
-        <label class="form-label text-light">Profesional o Médico</label>
-        <asp:DropDownList ID="ddlProfesional" runat="server" CssClass="form-select dropdown-dark" 
-            AutoPostBack="true" OnSelectedIndexChanged="ddlProfesional_SelectedIndexChanged">
-            <asp:ListItem Text="Seleccionar profesional" Value="" />
-        </asp:DropDownList>
-    </div>
         <button class="btn-buscar">🔍 Buscar</button>
     </div>
 

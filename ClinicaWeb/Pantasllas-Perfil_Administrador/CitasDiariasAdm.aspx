@@ -52,9 +52,10 @@
                                 AutoPostBack="true"
                                 OnSelectedIndexChanged="ddlEstado_SelectedIndexChanged">
                                 <asp:ListItem Value="">Estado</asp:ListItem>
-                                <asp:ListItem Value="Confirmada">Confirmada</asp:ListItem>
+                                <asp:ListItem Value="Presente">Presente</asp:ListItem>
                                 <asp:ListItem Value="Pendiente">Pendiente</asp:ListItem>
                                 <asp:ListItem Value="Cancelado">Cancelada</asp:ListItem>
+                                <asp:ListItem Value="Reprogramado">Reprogramado</asp:ListItem>
                             </asp:DropDownList>
                         </div>
 
@@ -78,7 +79,7 @@
                         </div>
                     </div>
 
-
+                   
                     <div class="table-responsive tabla-scroll">
                         <table class="custom-table align-middle w-100">
                             <thead>
@@ -108,29 +109,37 @@
                                             <td><%# Eval("Especialidad") %></td>
 
                                             <td>
-                                                <span class="estado <%# Eval("Estado").ToString().ToLower() %>">
-                                                    <%# Eval("Estado") %>
+                                                <span class="estado 
+                                                    <%# Eval("EstadoAdmin").ToString().ToLower() == "presente" ? "presente" :
+                                                         Eval("EstadoAdmin").ToString().ToLower() == "ausente" ? "ausente" :
+                                                         Eval("EstadoAdmin").ToString().ToLower() == "cancelado" ? "cancelado" :
+                                                         Eval("EstadoAdmin").ToString().ToLower() == "reprogramado" ? "reprogramado" : "pendiente" %>">
+                                                    <%# Eval("EstadoAdmin") %>
                                                 </span>
+
                                             </td>
 
                                             <td>
                                                 <asp:LinkButton runat="server"
-                                                    CssClass="btn-accion cobrar"
-                                                    Text="Cobrar"
+                                                    CssClass="btn-accion presente"
+                                                    Text="Presente"
                                                     CommandName="CambiarEstado"
-                                                    CommandArgument='<%# Eval("IdTurno") + "|Cobrado" %>' />
+                                                    CommandArgument='<%# Eval("IdTurno") + "|Presente" %>' 
+                                                    OnClientClick='<%# "abrirModalPresente(" + Eval("IdTurno") + "); return false;" %>' />
 
                                                 <asp:LinkButton runat="server"
                                                     CssClass="btn-accion ausente"
                                                     Text="Ausente"
                                                     CommandName="CambiarEstado"
-                                                    CommandArgument='<%# Eval("IdTurno") + "|Ausente" %>' />
+                                                    CommandArgument='<%# Eval("IdTurno") + "|Ausente" %>' 
+                                                    OnClientClick='<%# "abrirModalAusente(" + Eval("IdTurno") + "); return false;" %>' />
 
                                                 <asp:LinkButton runat="server"
                                                     CssClass="btn-accion cancelar"
                                                     Text="Cancelar"
                                                     CommandName="CambiarEstado"
-                                                    CommandArgument='<%# Eval("IdTurno") + "|Cancelado" %>' />
+                                                    CommandArgument='<%# Eval("IdTurno") + "|Cancelado" %>'
+                                                    OnClientClick='<%# "abrirModalCancelar(" + Eval("IdTurno") + "); return false;" %>' />
                                             </td>
                                         </tr>
                                     </ItemTemplate>
@@ -146,6 +155,7 @@
         </div>
 
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>

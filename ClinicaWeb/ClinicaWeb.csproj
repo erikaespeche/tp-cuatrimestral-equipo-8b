@@ -127,7 +127,7 @@
     <Content Include="Pantallas-Inicio_Menu\CambiarContrasenaAdministrador.aspx" />
     <Content Include="Pantallas-Inicio_Menu\CambiarContrasenaMedico.aspx" />
     <Content Include="Pantallas-Inicio_Menu\CambiarContrasenaRecepcionista.aspx" />
-    <Content Include="Pantallas-Inicio_Menu\Login.aspx" />
+    <None Include="Pantallas-Inicio_Menu\Login.aspx" />
     <Content Include="Pantallas-Perfil_Medico\Calendario.aspx" />
     <Content Include="Pantallas-Perfil_Medico\CargarHistoriaClinica.aspx" />
     <Content Include="Pantallas-Perfil_Medico\DetallePaciente.aspx" />

@@ -42,7 +42,7 @@ namespace Clinic
                         break;
 
                     default:
-                        Response.Redirect("~/Login.aspx");
+                        Response.Redirect("~/Pantallas-Inicio_Menu/Login.aspx");
                         break;
                 }
             }
