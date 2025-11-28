@@ -34,7 +34,7 @@
         <!-- TAB EN ESPERA -->
         <div class="tab-pane fade show active" id="espera">
             <div class="tabla-sala">
-                <asp:Repeater ID="rptTurnosEspera" runat="server">
+                <asp:Repeater ID="rptTurnosEspera" runat="server" OnItemCommand="rptTurnosEspera_ItemCommand">
                     <HeaderTemplate>
                         <table>
                             <thead>

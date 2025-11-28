@@ -26,16 +26,39 @@ namespace ClinicaWeb.Medico
             TurnoNegocio negocio = new TurnoNegocio();
             var todos = negocio.ListarAgendaPorFecha(DateTime.Today);
 
-            //  En Espera
-            rptTurnosEspera.DataSource = todos;
+            // Filtro solo los turnos que se marcaron como presentes en el campo de estado admin y el campo de estado medico esta vacio
+            var enEspera = todos.Where(t => t.EstadoAdmin == "Presente" && string.IsNullOrEmpty(t.EstadoMedico)).ToList();
+
+            // En Espera
+            rptTurnosEspera.DataSource = enEspera;
             rptTurnosEspera.DataBind();
 
-            rptTurnosAtendiendose.DataSource = new List<TurnoAgendaDTO>();
+            // Atendiéndose
+            rptTurnosAtendiendose.DataSource = todos.Where(t => t.EstadoMedico == "Atendiéndose").ToList();
             rptTurnosAtendiendose.DataBind();
 
-            rptTurnosAtendido.DataSource = new List<TurnoAgendaDTO>();
+            // Atendido
+            rptTurnosAtendido.DataSource = todos.Where(t => t.EstadoMedico == "Atendido").ToList();
             rptTurnosAtendido.DataBind();
         }
+
+        protected void rptTurnosEspera_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            // ejemplo dentro del ItemCommand de "Atender"
+            if (e.CommandName == "Atender")
+            {
+                int idTurno = Convert.ToInt32(e.CommandArgument);
+                TurnoNegocio negocio = new TurnoNegocio();
+
+                // Cambiamos el estado médico a "En Sala"
+                negocio.CambiarEstadoPorNombre(idTurno, "Atendiéndose", esAdmin: false);
+
+                // Recargamos la lista para que se vea reflejado en el repeater
+                CargarTurnosHoy();
+            }
+
+        }
+
 
         protected void rptTurnosAtendiendose_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
