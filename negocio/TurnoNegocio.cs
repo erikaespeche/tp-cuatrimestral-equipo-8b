@@ -439,7 +439,97 @@ namespace negocio
             }
         }
 
+        public bool TurnoDisponible(int idMedico, int idPaciente, DateTime fecha)
+        {
+            AccesoDatos datos = new AccesoDatos();
 
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT COUNT(*) 
+            FROM TURNO
+            WHERE Fecha = @fecha
+              AND Estado <> 'Cancelado'
+              AND (IdMedico = @idMedico OR IdPaciente = @idPaciente)
+        ");
+
+                datos.setearParametro("@fecha", fecha);
+                datos.setearParametro("@idMedico", idMedico);
+                datos.setearParametro("@idPaciente", idPaciente);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int cantidad = (int)datos.Lector[0];
+                    return cantidad == 0;
+                }
+
+                return false;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public bool MedicoEstaLibre(int idMedico, DateTime fechaCompleta)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT COUNT(*) 
+            FROM TURNO
+            WHERE IdMedico = @id
+              AND CONVERT(datetime, Fecha) = @fecha
+              AND Estado <> 'Cancelado'
+        ");
+
+                datos.setearParametro("@id", idMedico);
+                datos.setearParametro("@fecha", fechaCompleta);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                    return (int)datos.Lector[0] == 0;
+
+                return false;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public bool PacienteEstaLibre(int idPaciente, DateTime fechaCompleta)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT COUNT(*) 
+            FROM TURNO
+            WHERE IdPaciente = @id
+              AND CONVERT(datetime, Fecha) = @fecha
+              AND Estado <> 'Cancelado'
+        ");
+
+                datos.setearParametro("@id", idPaciente);
+                datos.setearParametro("@fecha", fechaCompleta);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                    return (int)datos.Lector[0] == 0;
+
+                return false;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

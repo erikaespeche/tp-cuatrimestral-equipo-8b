@@ -593,7 +593,20 @@
             </div>
         </div>
     </div>--%>
+    <div class="modal fade" id="modalExitoCancelar" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-success text-white p-4 rounded">
+            <h4 class="mb-3">Turno cancelado correctamente</h4>
 
+            <div class="text-end">
+                <asp:Button ID="btnAceptarExitoCancelar" runat="server"
+                    CssClass="btn btn-light"
+                    Text="Aceptar"
+                    OnClientClick="location.reload(); return false;" />
+            </div>
+        </div>
+    </div>
+</div>
 
 
     <!-- ===================== -->

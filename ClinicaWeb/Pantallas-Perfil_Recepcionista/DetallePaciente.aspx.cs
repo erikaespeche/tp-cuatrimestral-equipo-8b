@@ -260,31 +260,50 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
                 TurnoNegocio turnoNeg = new TurnoNegocio();
 
-                // Convertir fecha 
                 DateTime fecha = DateTime.Parse(txtFechaTurno.Text);
                 TimeSpan hora = TimeSpan.Parse(ddlHora.SelectedValue);
-
-                // Combinar fecha + hora
                 DateTime fechaCompleta = fecha.Date + hora;
 
-                // Crear objeto Turno
+                int idPaciente = (int)ViewState["IdPaciente"];
+                int idMedico = int.Parse(ddlProfesional.SelectedValue);
+
+                // ================================
+                // VALIDACIÓN 1: Médico libre
+                // ================================
+                if (!turnoNeg.MedicoEstaLibre(idMedico, fechaCompleta))
+                {
+                    ScriptManager.RegisterStartupScript(
+                        this, GetType(),
+                        "alert", "alert('El médico ya tiene un turno asignado en ese horario.');", true);
+                    return;
+                }
+
+                // ================================
+                // VALIDACIÓN 2: Paciente libre
+                // ================================
+                if (!turnoNeg.PacienteEstaLibre(idPaciente, fechaCompleta))
+                {
+                    ScriptManager.RegisterStartupScript(
+                        this, GetType(),
+                        "alert", "alert('El paciente ya tiene un turno asignado en ese horario.');", true);
+                    return;
+                }
+
+                // Crear Turno
                 Turno nuevoTurno = new Turno
                 {
-                    IdPaciente = (int)ViewState["IdPaciente"],
+                    IdPaciente = idPaciente,
                     IdEspecialidad = int.Parse(ddlEspecialidad.SelectedValue),
-                    IdMedico = int.Parse(ddlProfesional.SelectedValue),
+                    IdMedico = idMedico,
                     Fecha = fechaCompleta,
                     Observaciones = txtObservaciones.Text
                 };
 
-
-                // Guardar en DB
                 turnoNeg.Agregar(nuevoTurno);
 
-                //actualizar citas
+                // Actualizar
                 CargarCitasPaciente();
 
-                // Cerrar modal y mostrar mensaje de éxito
                 ScriptManager.RegisterStartupScript(
                     this, GetType(),
                     "ShowSuccessModal",
@@ -292,7 +311,6 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                     true
                 );
 
-                // Limpiar campos
                 ddlEspecialidad.SelectedIndex = 0;
                 ddlProfesional.SelectedIndex = 0;
                 txtFechaTurno.Text = "";
@@ -483,12 +501,18 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         {
             int idTurno = (int)ViewState["IdTurnoAccion"];
             turnoNegocio.CancelarTurno(idTurno);
+
             CargarCitasPaciente();
 
-
-            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModal",
+          
+            ScriptManager.RegisterStartupScript(this, GetType(), "cerrarModalCancelar",
                 "$('#modalCancelar').modal('hide');", true);
+
+          
+            ScriptManager.RegisterStartupScript(this, GetType(), "mostrarExitoCancelar",
+                "$('#modalExitoCancelar').modal('show');", true);
         }
+
 
 
         protected void btnConfirmarReprogramacion_Click(object sender, EventArgs e)
