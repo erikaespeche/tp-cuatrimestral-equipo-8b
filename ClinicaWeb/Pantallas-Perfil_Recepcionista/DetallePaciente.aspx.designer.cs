@@ -672,6 +672,15 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.DropDownList ddlProfesional;
 
         /// <summary>
+        /// Control calTurno.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar calTurno;
+
+        /// <summary>
         /// Control txtFechaTurno.
         /// </summary>
         /// <remarks>
@@ -681,13 +690,13 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.TextBox txtFechaTurno;
 
         /// <summary>
-        /// Control ddlHora.
+        /// Control ddlHoraTurno.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlHora;
+        protected global::System.Web.UI.WebControls.DropDownList ddlHoraTurno;
 
         /// <summary>
         /// Control txtObservaciones.

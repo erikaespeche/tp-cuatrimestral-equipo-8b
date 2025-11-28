@@ -123,6 +123,43 @@ namespace negocio
         }
 
 
+        public List<Medico> ListarMedicosPorEspecialidad(int idEspecialidad)
+        {
+            List<Medico> lista = new List<Medico>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT M.IdMedico, M.Nombre, M.Apellido, M.Email, M.Telefono
+            FROM MEDICO_ESPECIALIDAD ME
+            INNER JOIN MEDICO M ON M.IdMedico = ME.IdMedico
+            WHERE ME.IdEspecialidad = @idEsp AND M.Estado = 'Activo'
+        ");
+
+                datos.setearParametro("@idEsp", idEspecialidad);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Medico med = new Medico();
+                    med.IdMedico = (int)datos.Lector["IdMedico"];
+                    med.Nombre = datos.Lector["Nombre"].ToString();
+                    med.Apellido = datos.Lector["Apellido"].ToString();
+                    med.Email = datos.Lector["Email"].ToString();
+                    med.Telefono = datos.Lector["Telefono"].ToString();
+                    lista.Add(med);
+                }
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+            return lista;
+        }
+
+
 
 
 

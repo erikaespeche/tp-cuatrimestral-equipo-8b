@@ -567,5 +567,131 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+
+
+       
+
+        // Obtiene la agenda activa para un médico+especialidad en una fecha concreta (o null)
+        public int? ObtenerIdAgendaActivo(int idMedico, int idEspecialidad, DateTime fecha)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT IdAgenda, FechaDesde, FechaHasta
+            FROM AGENDA_PROFESIONAL
+            WHERE IdMedico = @med
+              AND IdEspecialidad = @esp
+              AND @fecha BETWEEN FechaDesde AND FechaHasta
+        ");
+                datos.setearParametro("@med", idMedico);
+                datos.setearParametro("@esp", idEspecialidad);
+                datos.setearParametro("@fecha", fecha.Date);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    return (int)datos.Lector["IdAgenda"];
+                }
+                return null;
+            }
+            finally { datos.cerrarConexion(); }
+        }
+
+        // Devuelve horas disponibles de un médico/ especialidad para una fecha concreta,
+        // respetando PacientesPorTurno (si hay N turnos permitidos por slot) y turnos ya tomados.
+        public List<Hora> HorasDisponiblesPorFecha(int idMedico, int idEspecialidad, DateTime fecha)
+        {
+            List<Hora> lista = new List<Hora>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                // 1) Encontrar la agenda activa
+                datos.setearConsulta(@"
+            SELECT A.IdAgenda, A.PacientesPorTurno
+            FROM AGENDA_PROFESIONAL A
+            WHERE A.IdMedico = @idMed
+              AND A.IdEspecialidad = @idEsp
+              AND @fecha BETWEEN A.FechaDesde AND A.FechaHasta
+        ");
+                datos.setearParametro("@idMed", idMedico);
+                datos.setearParametro("@idEsp", idEspecialidad);
+                datos.setearParametro("@fecha", fecha.Date);
+                datos.ejecutarLectura();
+
+                if (!datos.Lector.Read())
+                {
+                    // No hay agenda definida para ese día
+                    return lista;
+                }
+
+                int idAgenda = (int)datos.Lector["IdAgenda"];
+                int pacientesPorTurno = (int)datos.Lector["PacientesPorTurno"];
+                datos.cerrarConexion();
+
+                // 2) Obtener las horas definidas para ese día de la semana (1..7)
+                int diaSemana = ((int)fecha.DayOfWeek == 0) ? 7 : (int)fecha.DayOfWeek; // DayOfWeek: 0=Dom
+                AccesoDatos datos2 = new AccesoDatos();
+                datos2.setearConsulta(@"
+            SELECT Hora
+            FROM AGENDA_DISPONIBILIDAD
+            WHERE IdAgenda = @idAgenda
+              AND DiaSemana = @dia
+            ORDER BY Hora
+        ");
+                datos2.setearParametro("@idAgenda", idAgenda);
+                datos2.setearParametro("@dia", diaSemana);
+                datos2.ejecutarLectura();
+
+                var horasAgenda = new List<TimeSpan>();
+                while (datos2.Lector.Read())
+                {
+                    TimeSpan hora = TimeSpan.Parse(datos2.Lector["Hora"].ToString());
+                    horasAgenda.Add(hora);
+                }
+                datos2.cerrarConexion();
+
+                if (!horasAgenda.Any())
+                    return lista;
+
+                // 3) Para cada hora, contar cuántos turnos ya existen (no cancelados) para ese médico y fecha+hora
+                AccesoDatos datos3 = new AccesoDatos();
+                foreach (var hora in horasAgenda)
+                {
+                    DateTime fechaHora = fecha.Date + hora;
+                    datos3.setearConsulta(@"
+                SELECT COUNT(*) AS Cant
+                FROM TURNO T
+                WHERE CONVERT(datetime, T.Fecha) = @fechaHora
+                  AND T.IdMedico = @idMed
+                  AND (T.IdEstadoTurnoAdmin IS NULL OR T.IdEstadoTurnoAdmin <> 3) -- 3 = cancelado
+            ");
+                    datos3.setearParametro("@fechaHora", fechaHora);
+                    datos3.setearParametro("@idMed", idMedico);
+                    datos3.ejecutarLectura();
+
+                    int cant = 0;
+                    if (datos3.Lector.Read())
+                        cant = Convert.ToInt32(datos3.Lector["Cant"]);
+                    datos3.cerrarConexion();
+
+                    if (cant < pacientesPorTurno)
+                        lista.Add(new Hora { HoraStr = hora.ToString(@"hh\:mm") });
+                }
+
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+
+
+
+
+
     }
 }

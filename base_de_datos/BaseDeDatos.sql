@@ -92,7 +92,6 @@ CREATE TABLE [dbo].[TURNO](
     IdMedico INT NOT NULL,
     IdEspecialidad INT NOT NULL,
     Fecha DATETIME NOT NULL,
-
     -- Manejo de estados
     IdEstadoTurnoAdmin INT NULL,
     IdEstadoTurnoMedico INT NULL,

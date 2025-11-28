@@ -135,6 +135,27 @@ namespace negocio
         }
 
 
+        public List<TimeSpan> ObtenerHorasDisponibilidadPorAgenda(int idAgenda, int diaSemana)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            List<TimeSpan> lista = new List<TimeSpan>();
+            try
+            {
+                datos.setearConsulta(@"SELECT Hora FROM AGENDA_DISPONIBILIDAD WHERE IdAgenda = @id AND DiaSemana = @dia ORDER BY Hora");
+                datos.setearParametro("@id", idAgenda);
+                datos.setearParametro("@dia", diaSemana);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    lista.Add(TimeSpan.Parse(datos.Lector["Hora"].ToString()));
+                }
+                return lista;
+            }
+            finally { datos.cerrarConexion(); }
+        }
+
+
+
 
 
 

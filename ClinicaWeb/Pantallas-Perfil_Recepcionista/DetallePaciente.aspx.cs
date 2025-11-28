@@ -108,13 +108,13 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
         private void CargarHorasDisponibles()
         {
-            ddlHora.Items.Clear(); // Limpiamos por si hay algo
-            ddlHora.Items.Add(new ListItem("Seleccionar hora", "")); // Item inicial
+            ddlHoraTurno.Items.Clear(); // Limpiamos por si hay algo
+            ddlHoraTurno.Items.Add(new ListItem("Seleccionar hora", "")); // Item inicial
 
             var horas = new List<string> { "08:00", "09:00", "10:00", "11:00" };
             foreach (var h in horas)
             {
-                ddlHora.Items.Add(new ListItem(h, h));
+                ddlHoraTurno.Items.Add(new ListItem(h, h));
             }
         }
 
@@ -250,7 +250,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             {
                 // Validaciones básicas
                 if (ddlEspecialidad.SelectedValue == "0" || ddlProfesional.SelectedValue == "0"
-                    || string.IsNullOrEmpty(txtFechaTurno.Text) || ddlHora.SelectedValue == "")
+                    || string.IsNullOrEmpty(txtFechaTurno.Text) || ddlHoraTurno.SelectedValue == "")
                 {
                     ScriptManager.RegisterStartupScript(
                         this, GetType(),
@@ -261,7 +261,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 TurnoNegocio turnoNeg = new TurnoNegocio();
 
                 DateTime fecha = DateTime.Parse(txtFechaTurno.Text);
-                TimeSpan hora = TimeSpan.Parse(ddlHora.SelectedValue);
+                TimeSpan hora = TimeSpan.Parse(ddlHoraTurno.SelectedValue);
                 DateTime fechaCompleta = fecha.Date + hora;
 
                 int idPaciente = (int)ViewState["IdPaciente"];
@@ -314,7 +314,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 ddlEspecialidad.SelectedIndex = 0;
                 ddlProfesional.SelectedIndex = 0;
                 txtFechaTurno.Text = "";
-                ddlHora.SelectedIndex = 0;
+                ddlHoraTurno.SelectedIndex = 0;
                 txtObservaciones.Text = "";
             }
             catch (Exception ex)
@@ -347,11 +347,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
             );
         }
 
-        protected void calTurno_SelectionChanged(object sender, EventArgs e)
-        {
-            // Guardamos la fecha seleccionada en el HiddenField
-        }
-
+       
         protected void ddlEspecialidad_SelectedIndexChanged(object sender, EventArgs e)
         {
             int idEsp = int.Parse(ddlEspecialidad.SelectedValue);
@@ -580,6 +576,136 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                     $"var m = new bootstrap.Modal(document.getElementById('modalError')); m.show(); document.getElementById('modalErrorBody').innerHTML = '{msg}';", true);
             }
         }
+
+
+        private void CargarHorasDesdeAgendaSeleccionada()
+        {
+            // Validaciones rápidas
+            if (ddlProfesional.SelectedValue == "0" || ddlEspecialidad.SelectedValue == "0" || string.IsNullOrEmpty(txtFechaTurno.Text))
+            {
+                ddlHoraTurno.Items.Clear();
+                ddlHoraTurno.Items.Add(new ListItem("Seleccionar hora", ""));
+                return;
+            }
+
+            int idMedico = int.Parse(ddlProfesional.SelectedValue);
+            int idEspecialidad = int.Parse(ddlEspecialidad.SelectedValue);
+
+            if (!DateTime.TryParse(txtFechaTurno.Text, out DateTime fechaSel))
+            {
+                ddlHoraTurno.Items.Clear();
+                ddlHoraTurno.Items.Add(new ListItem("Fecha inválida", ""));
+                return;
+            }
+
+            TurnoNegocio turnoNeg = new TurnoNegocio();
+            var horas = turnoNeg.HorasDisponiblesPorFecha(idMedico, idEspecialidad, fechaSel);
+
+            ddlHoraTurno.Items.Clear();
+            ddlHoraTurno.Items.Add(new ListItem("Seleccionar hora", ""));
+
+            if (horas.Count == 0)
+            {
+                ddlHoraTurno.Items.Add(new ListItem("No hay horas disponibles", ""));
+                return;
+            }
+
+            foreach (var h in horas)
+            {
+                ddlHoraTurno.Items.Add(new ListItem(h.HoraStr, h.HoraStr));
+            }
+        }
+
+        protected void calTurno_SelectionChanged(object sender, EventArgs e)
+        {
+            // ejemplo si tienes un calendario: guardar la fecha en el textbox y recargar horas
+            txtFechaTurno.Text = calTurno.SelectedDate.ToString("yyyy-MM-dd");
+            CargarHorasDesdeAgendaSeleccionada();
+        }
+
+
+
+        // ---------------------- Pintar días del calendario ----------------------
+        protected void calTurno_DayRender(object sender, DayRenderEventArgs e)
+        {
+            // Días del pasado: no seleccionables
+            if (e.Day.Date < DateTime.Today)
+            {
+                e.Cell.CssClass = "dia-no-disponible";
+                e.Day.IsSelectable = false;
+                e.Cell.ToolTip = "Día pasado";
+                return;
+            }
+
+            // Si no se seleccionó profesional o especialidad, mostrar neutro y no permitir selección
+            if (ddlProfesional.SelectedValue == "0" || ddlEspecialidad.SelectedValue == "0")
+            {
+                e.Cell.CssClass = "dia-no-seleccionado";
+                e.Day.IsSelectable = false;
+                e.Cell.ToolTip = "Seleccione profesional y especialidad";
+                return;
+            }
+
+            // Validar parsing de ids
+            if (!int.TryParse(ddlProfesional.SelectedValue, out int idMedico) ||
+                !int.TryParse(ddlEspecialidad.SelectedValue, out int idEspecialidad))
+            {
+                e.Cell.CssClass = "dia-no-seleccionado";
+                e.Day.IsSelectable = false;
+                return;
+            }
+
+            DateTime fecha = e.Day.Date;
+
+            try
+            {
+                // 1) Buscar si existe una agenda activa para ese médico+especialidad en la fecha
+                int? idAgenda = turnoNegocio.ObtenerIdAgendaActivo(idMedico, idEspecialidad, fecha);
+
+                if (!idAgenda.HasValue)
+                {
+                    // No hay agenda -> marcar como no disponible (rojo)
+                    e.Cell.CssClass = "dia-no-disponible";
+                    e.Day.IsSelectable = false;
+                    e.Cell.ToolTip = "Sin agenda para este profesional en esta fecha";
+                    return;
+                }
+
+                // 2) Obtener horas disponibles (este método ya considera PacientesPorTurno y turnos ya tomados)
+                var horasDisponibles = turnoNegocio.HorasDisponiblesPorFecha(idMedico, idEspecialidad, fecha);
+
+                if (horasDisponibles != null && horasDisponibles.Any())
+                {
+                    // Día con al menos 1 hora libre -> disponible (verde)
+                    e.Cell.CssClass = "dia-disponible";
+                    e.Day.IsSelectable = true;
+                    e.Cell.ToolTip = $"{horasDisponibles.Count} horario(s) disponibles";
+                }
+                else
+                {
+                    // Agenda existe pero sin horas libres -> no disponible (rojo)
+                    e.Cell.CssClass = "dia-no-disponible";
+                    e.Day.IsSelectable = false;
+                    e.Cell.ToolTip = "No hay horarios disponibles (agenda completa)";
+                }
+            }
+            catch (Exception ex)
+            {
+                // En caso de error, dejar neutro y mostrar tooltip con el error (útil para debugging)
+                e.Cell.CssClass = "dia-no-seleccionado";
+                e.Day.IsSelectable = false;
+                e.Cell.ToolTip = "Error al calcular disponibilidad: " + ex.Message;
+            }
+        }
+
+
+        protected void txtFechaTurno_TextChanged(object sender, EventArgs e)
+        {
+            CargarHorasDesdeAgendaSeleccionada();
+        }
+
+
+
 
 
 

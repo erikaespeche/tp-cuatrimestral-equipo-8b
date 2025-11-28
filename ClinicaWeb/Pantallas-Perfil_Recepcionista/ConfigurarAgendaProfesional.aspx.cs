@@ -159,13 +159,30 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
             // 🔥 VALIDACIÓN DE AGENDA DUPLICADA
 
+            DateTime fechaDesde, fechaHasta;
+
+            if (!DateTime.TryParse(txtDesde.Text, out fechaDesde) ||
+                !DateTime.TryParse(txtHasta.Text, out fechaHasta))
+            {
+                ScriptManager.RegisterStartupScript(
+                    this,
+                    GetType(),
+                    "modalErrorFechas",
+                    "document.getElementById('modalSeleccionMensaje').innerText = 'Debe completar las fechas Desde y Hasta.';" +
+                    "var myModal = new bootstrap.Modal(document.getElementById('modalSeleccionIncompleta')); myModal.show();",
+                    true
+                );
+                return;
+            }
+
             bool existe = negocio.ExisteAgendaIgual(
-              int.Parse(ddlProfesional.SelectedValue),
-              int.Parse(ddlEspecialidad.SelectedValue),
-              DateTime.Parse(txtDesde.Text),
-              DateTime.Parse(txtHasta.Text),
-              disponibilidades
+                int.Parse(ddlProfesional.SelectedValue),
+                int.Parse(ddlEspecialidad.SelectedValue),
+                fechaDesde,
+                fechaHasta,
+                disponibilidades
             );
+
 
             if (existe)
             {
@@ -196,10 +213,11 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 IdEspecialidad = int.Parse(ddlEspecialidad.SelectedValue),
                 DuracionTurno = int.Parse(ddlDuracion.SelectedValue),
                 PacientesPorTurno = int.Parse(txtPacientes.Text),
-                FechaDesde = DateTime.Parse(txtDesde.Text),
-                FechaHasta = DateTime.Parse(txtHasta.Text),
+                FechaDesde = fechaDesde,   // ← ya validada
+                FechaHasta = fechaHasta,   // ← ya validada
                 Disponibilidades = disponibilidades
             };
+
 
             int id = negocio.CrearAgenda(agenda);
             negocio.GuardarDisponibilidad(id, agenda.Disponibilidades);
@@ -246,30 +264,116 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         private void ActivarClickEnCeldas()
         {
             string script = @"
-document.addEventListener('click', function(e){
-    if(e.target.classList.contains('agp-celda')){
-        e.target.classList.toggle('active');
-        
-        let dia = e.target.getAttribute('data-dia');
-        let hora = e.target.getAttribute('data-hora');
-        let key = dia + '-' + hora;
+        document.querySelectorAll('.agp-celda').forEach(function(celda){
+            celda.onclick = function(){
+                this.classList.toggle('active');
 
-        let hidden = document.getElementById('" + hfSeleccion.ClientID + @"');
-        let lista = hidden.value ? hidden.value.split(';') : [];
+                let dia = this.getAttribute('data-dia');
+                let hora = this.getAttribute('data-hora');
+                let key = dia + '-' + hora;
 
-        if(e.target.classList.contains('active')){
-            if(!lista.includes(key)) lista.push(key);
-        } else {
-            lista = lista.filter(x => x !== key);
+                let hidden = document.getElementById('" + hfSeleccion.ClientID + @"');
+                let lista = hidden.value ? hidden.value.split(';') : [];
+
+                if(this.classList.contains('active')){
+                    if(!lista.includes(key)) lista.push(key);
+                } else {
+                    lista = lista.filter(x => x !== key);
+                }
+
+                hidden.value = lista.join(';');
+            };
+        });
+    ";
+
+            ScriptManager.RegisterStartupScript(
+                updForm,
+                updForm.GetType(),
+                "clickAgendas",
+                script,
+                true
+            );
         }
 
-        hidden.value = lista.join(';');
-    }
-});
-";
 
-            ScriptManager.RegisterStartupScript(this, GetType(), "clickAgendas", script, true);
+
+
+        protected void ddlEspecialidad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(ddlEspecialidad.SelectedValue))
+            {
+                // Si no seleccionó especialidad, cargamos todos los médicos
+                CargarProfesionales();
+                return;
+            }
+
+            int idEspecialidad = int.Parse(ddlEspecialidad.SelectedValue);
+
+            MedicoEspecialidadNegocio negocio = new MedicoEspecialidadNegocio();
+            List<Medico> profesionales = negocio.ListarMedicosPorEspecialidad(idEspecialidad);
+
+            ddlProfesional.DataSource = profesionales;
+            ddlProfesional.DataTextField = "NombreCompleto";
+            ddlProfesional.DataValueField = "IdMedico";
+            ddlProfesional.DataBind();
+
+            ddlProfesional.Items.Insert(0, new ListItem("Seleccione un profesional", ""));
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
+
 }
 

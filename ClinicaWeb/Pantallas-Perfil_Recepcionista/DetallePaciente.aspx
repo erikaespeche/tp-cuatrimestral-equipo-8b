@@ -3,6 +3,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
+    <style>
+    .dia-disponible { background-color: #c8e6c9 !important; cursor: pointer; }
+    .dia-no-disponible { background-color: #ffcdd2 !important; color: #666 !important; cursor: default; }
+    .dia-no-seleccionado { background-color: #f0f0f0 !important; color: #999 !important; cursor: default; }
+</style>
 
 
 
@@ -686,31 +691,35 @@
                                     </asp:DropDownList>
                                 </div>
 
-                                <!-- Fecha -->
+                                <!-- Calendario -->
                                 <div class="col-md-6">
-                                    <label class="form-label text-light">Fecha</label>
-                                    <asp:TextBox ID="txtFechaTurno" runat="server"
-                                        CssClass="form-control"
-                                        TextMode="Date"></asp:TextBox>
+                                    <label class="form-label">Fecha</label>
+                                    <asp:Calendar ID="calTurno" runat="server"
+                                        CssClass="table table-bordered"
+                                        OnSelectionChanged="calTurno_SelectionChanged"
+                                        OnDayRender="calTurno_DayRender" />
+
+                                    <!-- Fecha seleccionada (oculta pero necesaria) -->
+                                    <asp:TextBox ID="txtFechaTurno" runat="server" CssClass="d-none"></asp:TextBox>
                                 </div>
 
-                                <!-- Horario -->
+                                <!-- Horarios -->
                                 <div class="col-md-6">
-                                    <label class="form-label text-light">Hora</label>
-                                    <asp:DropDownList ID="ddlHora" runat="server" CssClass="form-select dropdown-dark">
-                                        <asp:ListItem Text="Seleccionar hora" Value="" />
-                                    </asp:DropDownList>
+                                    <label class="form-label">Horario Disponible</label>
+                                    <asp:DropDownList ID="ddlHoraTurno" runat="server" CssClass="form-select"></asp:DropDownList>
                                 </div>
-
-                                <!-- Observaciones -->
-                                <div class="col-12">
-                                    <label class="form-label text-light">Observaciones</label>
-                                    <asp:TextBox ID="txtObservaciones" TextMode="MultiLine" Rows="3" runat="server"
-                                        CssClass="form-control comments-dark"
-                                        placeholder="Añada notas adicionales aquí..."></asp:TextBox>
-                                </div>
-
                             </div>
+
+                            <!-- Observaciones -->
+                            <div class="col-12">
+                                <label class="form-label text-light">Observaciones</label>
+                                <asp:TextBox ID="txtObservaciones" TextMode="MultiLine" Rows="3" runat="server"
+                                    CssClass="form-control comments-dark"
+                                    placeholder="Añada notas adicionales aquí..."></asp:TextBox>
+                            </div>
+
+                            
+                       
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
@@ -719,6 +728,7 @@
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Cancelar
+                   
                     </button>
 
                     <asp:Button ID="btnAgendarTurno" runat="server" Text="Agendar Turno"
@@ -1128,7 +1138,7 @@
     <%--JS para seleccionar horario--%>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const ddl = document.getElementById('<%= ddlHora.ClientID %>');
+            const ddl = document.getElementById('<%= ddlHoraTurno.ClientID %>');
             ddl.addEventListener("change", function () {
                 console.log("Hora seleccionada:", ddl.value);
             });
