@@ -3,7 +3,7 @@ INSERT INTO ESTADO_TURNO (NombreEstadoTurno, Uso) VALUES
 ('Reprogramado', 'Admin'),
 ('Cancelado', 'Admin'),
 ('Ausente', 'Admin'),
-('Cobrado', 'Admin'),
+('Presente', 'Admin'),
 
 ('En Sala', 'Medico'),
 ('Atendiéndose', 'Medico'),

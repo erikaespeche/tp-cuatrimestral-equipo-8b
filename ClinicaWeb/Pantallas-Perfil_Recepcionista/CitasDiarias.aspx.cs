@@ -145,9 +145,39 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         }
 
 
-      
 
+        protected void btnConfirmarCancelar_Click(object sender, EventArgs e)
+        {
+            int idTurno = int.Parse(hfIdCancelar.Value);
 
+            TurnoNegocio neg = new TurnoNegocio();
+            neg.CambiarEstadoPorNombre(idTurno, "Cancelado", true); // true = admin
+
+            DateTime fechaActual = ObtenerFechaSeleccionada();
+            cargarAgenda(fechaActual); 
+        }
+
+        protected void btnConfirmarAusente_Click(object sender, EventArgs e)
+        {
+            int idTurno = int.Parse(hfIdAusente.Value);
+
+            TurnoNegocio neg = new TurnoNegocio();
+            neg.CambiarEstadoPorNombre(idTurno, "Ausente", true); // true = admin
+
+            DateTime fechaActual = ObtenerFechaSeleccionada();
+            cargarAgenda(fechaActual);
+        }
+
+        protected void btnConfirmarPresente_Click(object sender, EventArgs e)
+        {
+            int idTurno = int.Parse(hfIdPresente.Value);
+
+            TurnoNegocio neg = new TurnoNegocio();
+            neg.CambiarEstadoPorNombre(idTurno, "Presente", true); // true = admin
+
+            DateTime fechaActual = ObtenerFechaSeleccionada();
+            cargarAgenda(fechaActual);
+        }
 
 
     }

@@ -118,7 +118,7 @@
                                                     <%# Eval("EstadoAdmin").ToString().ToLower() == "presente" ? "presente" :
                                                          Eval("EstadoAdmin").ToString().ToLower() == "ausente" ? "ausente" :
                                                          Eval("EstadoAdmin").ToString().ToLower() == "cancelado" ? "cancelado" :
-                                                         Eval("EstadoAdmin").ToString().ToLower() == "reprogramado" ? "reprogramado" : "pendiente" %>">
+                                                         Eval("EstadoAdmin").ToString().ToLower() == "reprogramado" ? "reprogramado" : "reprogramado" %>">
                                                     <%# Eval("EstadoAdmin") %>
                                                 </span>
 
@@ -129,19 +129,22 @@
                                                     CssClass="btn-accion presente"
                                                     Text="Presente"
                                                     CommandName="CambiarEstado"
-                                                    CommandArgument='<%# Eval("IdTurno") + "|Presente" %>' />
+                                                    CommandArgument='<%# Eval("IdTurno") + "|Presente" %>' 
+                                                    OnClientClick='<%# "abrirModalPresente(" + Eval("IdTurno") + "); return false;" %>' />
 
                                                 <asp:LinkButton runat="server"
                                                     CssClass="btn-accion ausente"
                                                     Text="Ausente"
                                                     CommandName="CambiarEstado"
-                                                    CommandArgument='<%# Eval("IdTurno") + "|Ausente" %>' />
+                                                    CommandArgument='<%# Eval("IdTurno") + "|Ausente" %>' 
+                                                    OnClientClick='<%# "abrirModalAusente(" + Eval("IdTurno") + "); return false;" %>' />
 
                                                 <asp:LinkButton runat="server"
                                                     CssClass="btn-accion cancelar"
                                                     Text="Cancelar"
                                                     CommandName="CambiarEstado"
-                                                    CommandArgument='<%# Eval("IdTurno") + "|Cancelado" %>' />
+                                                    CommandArgument='<%# Eval("IdTurno") + "|Cancelado" %>'
+                                                    OnClientClick='<%# "abrirModalCancelar(" + Eval("IdTurno") + "); return false;" %>' />
                                             </td>
                                         </tr>
                                     </ItemTemplate>
@@ -157,6 +160,87 @@
         </div>
 
     </div>
+
+
+    <asp:HiddenField ID="hfIdCancelar" runat="server" />
+
+    <div class="modal fade" id="modalConfirmarCancelar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Cancelación</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                ¿Seguro que deseas cancelar esta cita?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                <asp:Button ID="btnConfirmarCancelar" runat="server"
+                    CssClass="btn btn-danger"
+                    Text="Cancelar Cita"
+                    OnClick="btnConfirmarCancelar_Click" />
+            </div>
+        </div>
+    </div>
+</div>
+
+    <asp:HiddenField ID="hfIdPresente" runat="server" />
+
+    <div class="modal fade" id="modalConfirmarPresente" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Presencia</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                ¿Deseas marcar a este paciente como presente?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                <asp:Button ID="Button1" runat="server"
+                    CssClass="btn btn-primary"
+                    Text="Confirmar"
+                    OnClick="btnConfirmarPresente_Click" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <asp:HiddenField ID="hfIdAusente" runat="server" />
+
+    <div class="modal fade" id="modalConfirmarAusente" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Ausencia</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                ¿Deseas confirmar la ausencia de este paciente a su cita?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                <asp:Button ID="Button2" runat="server"
+                    CssClass="btn btn-primary"
+                    Text="Confirmar"
+                    OnClick="btnConfirmarAusente_Click" />
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
@@ -188,5 +272,28 @@
         });
     </script>
 
+<script>
+    function abrirModalCancelar(idTurno) {
+        document.getElementById('<%= hfIdCancelar.ClientID %>').value = idTurno;
+        var modal = new bootstrap.Modal(document.getElementById('modalConfirmarCancelar'));
+        modal.show();
+    }
+</script>
+
+<script>
+    function abrirModalAusente(idTurno) {
+        document.getElementById('<%= hfIdAusente.ClientID %>').value = idTurno;
+        var modal = new bootstrap.Modal(document.getElementById('modalConfirmarAusente'));
+        modal.show();
+    }
+</script>
+
+<script>
+    function abrirModalPresente(idTurno) {
+        document.getElementById('<%= hfIdPresente.ClientID %>').value = idTurno;
+        var modal = new bootstrap.Modal(document.getElementById('modalConfirmarPresente'));
+        modal.show();
+    }
+</script>
 
 </asp:Content>
