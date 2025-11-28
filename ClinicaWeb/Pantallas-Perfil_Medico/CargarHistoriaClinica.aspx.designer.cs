@@ -51,58 +51,58 @@ namespace ClinicaWeb.Pantallas_Perfil_Medico
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblFechaNac;
 
         /// <summary>
-        /// Control lblGrupo.
+        /// Control txtGrupo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblGrupo;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtGrupo;
 
         /// <summary>
-        /// Control lblPeso.
+        /// Control txtPeso.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblPeso;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtPeso;
 
         /// <summary>
-        /// Control lblAltura.
+        /// Control txtAltura.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblAltura;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtAltura;
 
         /// <summary>
-        /// Control lblCronicas.
+        /// Control txtCronicas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblCronicas;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtCronicas;
 
         /// <summary>
-        /// Control lblAlergias.
+        /// Control txtAlergias.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblAlergias;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtAlergias;
 
         /// <summary>
-        /// Control lblPatologias.
+        /// Control txtPatologias.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblPatologias;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtPatologias;
 
         /// <summary>
         /// Control txtObservaciones.

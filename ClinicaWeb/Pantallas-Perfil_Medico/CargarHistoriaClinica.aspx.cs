@@ -33,16 +33,17 @@ namespace ClinicaWeb.Pantallas_Perfil_Medico
                 // 2) Traigo la última historia clínica
                 HistoriaClinicaNegocio hcNeg = new HistoriaClinicaNegocio();
                 var listaHC = hcNeg.ListarPorPaciente(paciente.IdPaciente);
+                
 
                 if (listaHC.Count > 0)
                 {
-                    var hc = listaHC[0]; // la más reciente
-                    lblGrupo.InnerText = hc.GrupoFactorSanguineo;
-                    lblPeso.InnerText = hc.Peso + " kg";
-                    lblAltura.InnerText = hc.Altura + " m";
-                    lblCronicas.InnerText = hc.EnfermedadesCronicas;
-                    lblAlergias.InnerText = hc.Alergias;
-                    lblPatologias.InnerText = hc.Patologias;
+                    var hc = listaHC[0]; // el registro más reciente
+                    txtGrupo.Value = hc.GrupoFactorSanguineo.ToString();
+                    txtPeso.Value = hc.Peso.ToString();
+                    txtAltura.Value = hc.Altura.ToString("0.##");
+                    txtCronicas.Value = hc.EnfermedadesCronicas;
+                    txtAlergias.Value = hc.Alergias;
+                    txtPatologias.Value = hc.Patologias;
                 }
             }
         }
@@ -102,18 +103,27 @@ namespace ClinicaWeb.Pantallas_Perfil_Medico
                     Diagnostico = diagnostico,
                     Tratamientos = tratamientos,
                     ProximosPasos = proximosPasos,
-                    ArchivosAdjuntos = GuardarArchivos()
+                    ArchivosAdjuntos = GuardarArchivos(),
+
+                    GrupoFactorSanguineo = txtGrupo.Value, 
+                    Peso = decimal.Parse(txtPeso.Value),
+                    Altura = decimal.Parse(txtAltura.Value, System.Globalization.CultureInfo.InvariantCulture),
+                    Alergias = txtAlergias.Value,
+                    EnfermedadesCronicas = txtCronicas.Value,
+                    Patologias = txtPatologias.Value,
                 };
 
                 AccesoDatos datos = new AccesoDatos();
                 try
                 {
                     datos.setearConsulta(@"
-                INSERT INTO HistoriaClinica
-                (IdPaciente, IdMedico, FechaConsulta, Observaciones, Diagnostico, Tratamientos, ProximosPasos, ArchivosAdjuntos)
-                VALUES
-                (@IdPaciente, @IdMedico, @FechaConsulta, @Observaciones, @Diagnostico, @Tratamientos, @ProximosPasos, @ArchivosAdjuntos)
-            ");
+                                            INSERT INTO HistoriaClinica
+                                            (IdPaciente, IdMedico, FechaConsulta, Observaciones, Diagnostico, Tratamientos, ProximosPasos, ArchivosAdjuntos,
+                                             GrupoFactorSanguineo, Peso, Altura, Alergias, EnfermedadesCronicas, Patologias)
+                                            VALUES
+                                            (@IdPaciente, @IdMedico, @FechaConsulta, @Observaciones, @Diagnostico, @Tratamientos, @ProximosPasos, @ArchivosAdjuntos,
+                                             @GrupoFactorSanguineo, @Peso, @Altura, @Alergias, @EnfermedadesCronicas, @Patologias)
+                                        ");
 
                     datos.setearParametro("@IdPaciente", hc.IdPaciente);
                     datos.setearParametro("@IdMedico", hc.IdMedico);
@@ -123,6 +133,13 @@ namespace ClinicaWeb.Pantallas_Perfil_Medico
                     datos.setearParametro("@Tratamientos", hc.Tratamientos);
                     datos.setearParametro("@ProximosPasos", hc.ProximosPasos);
                     datos.setearParametro("@ArchivosAdjuntos", hc.ArchivosAdjuntos);
+
+                    datos.setearParametro("@GrupoFactorSanguineo", hc.GrupoFactorSanguineo);
+                    datos.setearParametro("@Peso", hc.Peso);
+                    datos.setearParametro("@Alergias", hc.Alergias);
+                    datos.setearParametro("@EnfermedadesCronicas", hc.EnfermedadesCronicas);
+                    datos.setearParametro("@Patologias", hc.Patologias);
+                    datos.setearParametro("@Altura", hc.Altura);
 
                     datos.ejecutarAccion();
                 }

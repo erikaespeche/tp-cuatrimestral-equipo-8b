@@ -32,33 +32,33 @@
             </div>
             <div>
                 <label>Grupo Sanguíneo</label>
-                <span id="lblGrupo" runat="server" class="dato-valor"></span>
+                <input type="text" id="txtGrupo" runat="server" class="input-dato-simple"/> 
             </div>
         </div>
 
         <div class="fila-f2">
             <div>
                 <label>Peso (kg)</label>
-                <span id="lblPeso" runat="server" class="dato-valor"></span>
+                <input type="text" id="txtPeso" runat="server" class="input-dato-simple"/> 
             </div>
             <div>
                 <label>Altura (cm)</label>
-                <span id="lblAltura" runat="server" class="dato-valor"></span>
+                <input type="text" id="txtAltura" runat="server" class="input-dato-simple"/> 
             </div>
             <div>
                 <label>Enfermedades Crónicas</label>
-                <span id="lblCronicas" runat="server" class="dato-valor"></span>
+                <input type="text" id="txtCronicas" runat="server" class="input-dato-simple"/> 
             </div>
         </div>
 
         <div class="fila-f3">
             <label>Alergias</label>
-            <span id="lblAlergias" runat="server" class="dato-valor"></span>
+            <input type="text" id="txtAlergias" runat="server" class="input-dato-simple"/> 
         </div>
 
         <div class="fila-f4">
             <label>Patologías</label>
-            <span id="lblPatologias" runat="server" class="dato-valor"></span>
+            <input type="text" id="txtPatologias" runat="server" class="input-dato-simple"/> 
         </div>
     </div>
 
