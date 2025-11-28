@@ -94,11 +94,12 @@
                             <td><%# Eval("DNI") %></td>
                             <td><%# Eval("ObraSocial") %></td>
                             <td>
-                                <button class="btn-accion btn-cargarhistoriaclinica"
-                                        onclick='window.open("CargarHistoriaClinica.aspx?IdPaciente=<%# Eval("IdPaciente") %>", "_blank", "width=900,height=700"); return false;'>
-                                    Cargar Historia Clínica
-                                </button>
-                                <asp:Button runat="server" Text="Finalizar" CssClass="btn-accion btn-finalizar" CommandName="Finalizar" CommandArgument='<%# Eval("IdTurno") %>' />
+                                <asp:Button runat="server" Text="Cargar Historia Clínica" 
+                                    CssClass="btn-accion btn-cargarhistoriaclinica" 
+                                    OnClientClick='<%# "window.location.href=\"CargarHistoriaClinica.aspx?dni=" + Eval("DNI") + "\"; return false;" %>' />
+                                <asp:Button runat="server" Text="Finalizar" 
+                                    CssClass="btn-accion btn-finalizar" 
+                                    CommandName="Finalizar" CommandArgument='<%# Eval("IdTurno") %>' />
                             </td>
                         </tr>
                     </ItemTemplate>

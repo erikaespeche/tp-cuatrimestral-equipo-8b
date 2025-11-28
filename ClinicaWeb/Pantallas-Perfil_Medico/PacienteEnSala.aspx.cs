@@ -29,31 +29,28 @@ namespace ClinicaWeb.Medico
             // Filtro solo los turnos que se marcaron como presentes en el campo de estado admin y el campo de estado medico esta vacio
             var enEspera = todos.Where(t => t.EstadoAdmin == "Presente" && string.IsNullOrEmpty(t.EstadoMedico)).ToList();
 
-            // En Espera
+            // ventana en Espera
             rptTurnosEspera.DataSource = enEspera;
             rptTurnosEspera.DataBind();
 
-            // Atendiéndose
+            // ventana atendiendose
             rptTurnosAtendiendose.DataSource = todos.Where(t => t.EstadoMedico == "Atendiéndose").ToList();
             rptTurnosAtendiendose.DataBind();
 
-            // Atendido
+            // ventana atendido
             rptTurnosAtendido.DataSource = todos.Where(t => t.EstadoMedico == "Atendido").ToList();
             rptTurnosAtendido.DataBind();
         }
 
         protected void rptTurnosEspera_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            // ejemplo dentro del ItemCommand de "Atender"
             if (e.CommandName == "Atender")
             {
                 int idTurno = Convert.ToInt32(e.CommandArgument);
                 TurnoNegocio negocio = new TurnoNegocio();
 
-                // Cambiamos el estado médico a "En Sala"
                 negocio.CambiarEstadoPorNombre(idTurno, "Atendiéndose", esAdmin: false);
 
-                // Recargamos la lista para que se vea reflejado en el repeater
                 CargarTurnosHoy();
             }
 
@@ -65,31 +62,16 @@ namespace ClinicaWeb.Medico
             int idTurno = Convert.ToInt32(e.CommandArgument);
             TurnoNegocio negocio = new TurnoNegocio();
 
-            if (e.CommandName == "Atender")
-            {
-                var turno = negocio.ListarAgendaPorFecha(DateTime.Today).FirstOrDefault(t => t.IdTurno == idTurno);
-                if (turno != null)
-                {
-                    // mover a Atendiéndose
-                    var lista = new List<TurnoAgendaDTO> { turno };
-                    rptTurnosAtendiendose.DataSource = lista;
-                    rptTurnosAtendiendose.DataBind();
-
-                    // remover de En Espera
-                    var espera = (List<TurnoAgendaDTO>)rptTurnosEspera.DataSource;
-                    CargarTurnosHoy(); 
-                }
-            }
 
             if (e.CommandName == "Finalizar")
             {
-                var turno = negocio.ListarAgendaPorFecha(DateTime.Today).FirstOrDefault(t => t.IdTurno == idTurno);
+                var turno = negocio.ListarAgendaPorFecha(DateTime.Today)
+                                    .FirstOrDefault(t => t.IdTurno == idTurno);
                 if (turno != null)
                 {
-                    // mover a Atendido
-                    var lista = new List<TurnoAgendaDTO> { turno };
-                    rptTurnosAtendido.DataSource = lista;
-                    rptTurnosAtendido.DataBind();
+                    // actualizar estado a Atendido
+                    negocio.CambiarEstadoPorNombre(turno.IdTurno, "Atendido", esAdmin: false);
+                    CargarTurnosHoy();
                 }
             }
         }
