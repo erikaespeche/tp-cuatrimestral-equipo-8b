@@ -23,7 +23,8 @@ namespace negocio
             SELECT  
                 T.IdTurno,
                 T.Fecha,
-                T.Estado,
+                EA.NombreEstadoTurno AS EstadoAdmin,
+                EM.NombreEstadoTurno AS EstadoMedico,
                 T.Observaciones,
                 P.IdPaciente,
                 P.Nombres + ' ' + P.Apellidos AS Paciente,
@@ -35,6 +36,8 @@ namespace negocio
             INNER JOIN PACIENTES P ON P.IdPaciente = T.IdPaciente
             INNER JOIN MEDICO M ON M.IdMedico = T.IdMedico
             INNER JOIN ESPECIALIDAD E ON E.IdEspecialidad = T.IdEspecialidad
+            LEFT JOIN ESTADO_TURNO EA ON T.IdEstadoTurnoAdmin = EA.IdEstadoTurno
+            LEFT JOIN ESTADO_TURNO EM ON T.IdEstadoTurnoMedico = EM.IdEstadoTurno
             WHERE P.IdPaciente = @idPaciente
             ORDER BY T.Fecha DESC
         ");
@@ -47,7 +50,8 @@ namespace negocio
                     {
                         IdTurno = (int)datos.Lector["IdTurno"],
                         Fecha = (DateTime)datos.Lector["Fecha"],
-                        Estado = datos.Lector["Estado"].ToString(),
+                        EstadoAdmin = datos.Lector["EstadoAdmin"].ToString(),
+                        EstadoMedico = datos.Lector["EstadoMedico"].ToString(),
                         Observaciones = datos.Lector["Observaciones"].ToString(),
                         Paciente = datos.Lector["Paciente"].ToString(),
                         DNI = datos.Lector["DNI"].ToString(),
@@ -78,7 +82,8 @@ namespace negocio
             SELECT  
                 T.IdTurno,
                 T.Fecha,
-                T.Estado,
+                EA.NombreEstadoTurno AS EstadoAdmin,
+                EM.NombreEstadoTurno AS EstadoMedico,
                 T.Observaciones,
                 -- PACIENTE
                 P.IdPaciente,
@@ -96,6 +101,8 @@ namespace negocio
             INNER JOIN PACIENTES P ON P.IdPaciente = T.IdPaciente
             INNER JOIN MEDICO M ON M.IdMedico = T.IdMedico
             INNER JOIN ESPECIALIDAD E ON E.IdEspecialidad = T.IdEspecialidad
+            LEFT JOIN ESTADO_TURNO EA ON T.IdEstadoTurnoAdmin = EA.IdEstadoTurno
+            LEFT JOIN ESTADO_TURNO EM ON T.IdEstadoTurnoMedico = EM.IdEstadoTurno
 
             WHERE CONVERT(date, T.Fecha) = @fecha
             ORDER BY T.Fecha
@@ -110,7 +117,8 @@ namespace negocio
 
                     aux.IdTurno = (int)datos.Lector["IdTurno"];
                     aux.Fecha = (DateTime)datos.Lector["Fecha"];
-                    aux.Estado = datos.Lector["Estado"].ToString();
+                    aux.EstadoAdmin = datos.Lector["EstadoAdmin"].ToString();
+                    aux.EstadoMedico = datos.Lector["EstadoMedico"].ToString();
                     aux.Observaciones = datos.Lector["Observaciones"].ToString();
 
                     aux.IdPaciente = (int)datos.Lector["IdPaciente"];
@@ -138,14 +146,28 @@ namespace negocio
 
 
 
-        public void CambiarEstado(int idTurno, string nuevoEstado)
+        public void CambiarEstadoPorNombre(int idTurno, string nombreEstado, bool esAdmin)
         {
             AccesoDatos datos = new AccesoDatos();
-
             try
             {
-                datos.setearConsulta("UPDATE TURNO SET Estado = @estado WHERE IdTurno = @id");
-                datos.setearParametro("@estado", nuevoEstado);
+                // Buscamos el Id del estado
+                datos.setearConsulta("SELECT IdEstadoTurno FROM ESTADO_TURNO WHERE NombreEstadoTurno = @nombre");
+                datos.setearParametro("@nombre", nombreEstado);
+                datos.ejecutarLectura();
+
+                int idEstado = 0;
+                if (datos.Lector.Read())
+                    idEstado = (int)datos.Lector["IdEstadoTurno"];
+                else
+                    throw new Exception("Estado no encontrado");
+
+                datos.cerrarConexion();
+
+                // Actualizamos el turno
+                string columna = esAdmin ? "IdEstadoTurnoAdmin" : "IdEstadoTurnoMedico";
+                datos.setearConsulta($"UPDATE TURNO SET {columna} = @estado WHERE IdTurno = @id");
+                datos.setearParametro("@estado", idEstado);
                 datos.setearParametro("@id", idTurno);
                 datos.ejecutarAccion();
             }
@@ -158,6 +180,7 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
 
         public List<Medico> ListarMedicos()
         {
@@ -227,7 +250,8 @@ namespace negocio
             SELECT  
                 T.IdTurno,
                 T.Fecha,
-                T.Estado,
+                EA.NombreEstadoTurno AS EstadoAdmin,
+                EM.NombreEstadoTurno AS EstadoMedico,
                 T.Observaciones,
                 P.IdPaciente,
                 P.Nombres + ' ' + P.Apellidos AS Paciente,
@@ -241,6 +265,8 @@ namespace negocio
             INNER JOIN PACIENTES P ON P.IdPaciente = T.IdPaciente
             INNER JOIN MEDICO M ON M.IdMedico = T.IdMedico
             INNER JOIN ESPECIALIDAD E ON E.IdEspecialidad = T.IdEspecialidad
+            LEFT JOIN ESTADO_TURNO EA ON T.IdEstadoTurnoAdmin = EA.IdEstadoTurno
+            LEFT JOIN ESTADO_TURNO EM ON T.IdEstadoTurnoMedico = EM.IdEstadoTurno
             ORDER BY T.Fecha DESC
         ");
 
@@ -252,7 +278,8 @@ namespace negocio
 
                     aux.IdTurno = (int)datos.Lector["IdTurno"];
                     aux.Fecha = (DateTime)datos.Lector["Fecha"];
-                    aux.Estado = datos.Lector["Estado"].ToString();
+                    aux.EstadoAdmin = datos.Lector["EstadoAdmin"].ToString();
+                    aux.EstadoMedico = datos.Lector["EstadoMedico"].ToString();
                     aux.Observaciones = datos.Lector["Observaciones"].ToString();
                     aux.Paciente = datos.Lector["Paciente"].ToString();
                     aux.DNI = datos.Lector["DNI"].ToString();
@@ -280,16 +307,18 @@ namespace negocio
             {
                 datos.setearConsulta(@"
             INSERT INTO TURNO 
-                (IdPaciente, IdEspecialidad, IdMedico, Fecha, Estado, Observaciones)
+                (IdPaciente, IdEspecialidad, IdMedico, Fecha, IdEstadoTurnoAdmin, IdEstadoTurnoMedico, Observaciones)
             VALUES 
-                (@IdPaciente, @IdEspecialidad, @IdMedico, @Fecha, @Estado, @Observaciones)
+                (@IdPaciente, @IdEspecialidad, @IdMedico, @Fecha, @EstadoAdmin, @EstadoMedico, @Observaciones)
         ");
 
                 datos.setearParametro("@IdPaciente", turno.IdPaciente);
                 datos.setearParametro("@IdEspecialidad", turno.IdEspecialidad);
                 datos.setearParametro("@IdMedico", turno.IdMedico);
                 datos.setearParametro("@Fecha", turno.Fecha); // DateTime completo
-                datos.setearParametro("@Estado", "Pendiente"); // Estado inicial
+                int idEstadoPendiente = 1; 
+                datos.setearParametro("@EstadoAdmin", idEstadoPendiente);
+                datos.setearParametro("@EstadoMedico", DBNull.Value);
                 datos.setearParametro("@Observaciones", turno.Observaciones ?? "");
 
                 datos.ejecutarAccion();
@@ -369,8 +398,9 @@ namespace negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("UPDATE TURNO SET Estado = @estado WHERE IdTurno = @id");
-                datos.setearParametro("@estado", "Cancelado");
+                int idEstadoCancelado = 3;
+                datos.setearConsulta("UPDATE TURNO SET IdEstadoTurnoAdmin = @estadoCancelado, IdEstadoTurnoMedico = @estadoCancelado WHERE IdTurno = @id");
+                datos.setearParametro("@estadoCancelado", idEstadoCancelado);
                 datos.setearParametro("@id", idTurno);
                 datos.ejecutarAccion();
             }
@@ -419,12 +449,13 @@ namespace negocio
 
             try
             {
+                int idReprogramado = 2;
                 datos.setearConsulta(
-                    "UPDATE TURNO SET Fecha = @fecha, Estado = @estado WHERE IdTurno = @id"
+                    "UPDATE TURNO SET Fecha = @fecha, IdEstadoTurnoAdmin = @estado WHERE IdTurno = @id"
                 );
 
                 datos.setearParametro("@fecha", nuevaFecha);
-                datos.setearParametro("@estado", "Reprogramado");
+                datos.setearParametro("@estado", idReprogramado);
                 datos.setearParametro("@id", idTurno);
 
                 datos.ejecutarAccion();
@@ -445,17 +476,19 @@ namespace negocio
 
             try
             {
+                int idCancelado = 3;
                 datos.setearConsulta(@"
             SELECT COUNT(*) 
             FROM TURNO
             WHERE Fecha = @fecha
-              AND Estado <> 'Cancelado'
+              AND IdEstadoTurnoAdmin <> @idCancelado
               AND (IdMedico = @idMedico OR IdPaciente = @idPaciente)
         ");
 
                 datos.setearParametro("@fecha", fecha);
                 datos.setearParametro("@idMedico", idMedico);
                 datos.setearParametro("@idPaciente", idPaciente);
+                datos.setearParametro("@idCancelado", idCancelado);
 
                 datos.ejecutarLectura();
 
@@ -478,16 +511,18 @@ namespace negocio
 
             try
             {
+                int idCancelado = 3;
                 datos.setearConsulta(@"
             SELECT COUNT(*) 
             FROM TURNO
             WHERE IdMedico = @id
               AND CONVERT(datetime, Fecha) = @fecha
-              AND Estado <> 'Cancelado'
+              AND IdEstadoTurnoAdmin <> @idCancelado
         ");
 
                 datos.setearParametro("@id", idMedico);
                 datos.setearParametro("@fecha", fechaCompleta);
+                datos.setearParametro("@idCancelado", idCancelado);
 
                 datos.ejecutarLectura();
 
@@ -507,16 +542,18 @@ namespace negocio
 
             try
             {
+                int idCancelado = 3;
                 datos.setearConsulta(@"
             SELECT COUNT(*) 
             FROM TURNO
             WHERE IdPaciente = @id
               AND CONVERT(datetime, Fecha) = @fecha
-              AND Estado <> 'Cancelado'
+              AND IdEstadoTurnoAdmin <> @idCancelado
         ");
 
                 datos.setearParametro("@id", idPaciente);
                 datos.setearParametro("@fecha", fechaCompleta);
+                datos.setearParametro("@idCancelado", idCancelado);
 
                 datos.ejecutarLectura();
 
@@ -530,6 +567,5 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
-        //ssssssssssssssssss
     }
 }

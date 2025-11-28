@@ -130,7 +130,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
             // Filtrar: solo turnos activos o reprogramados y futuros
             var turnosVisibles = listaTurnos
-                .Where(t => t.Estado != "Cancelado" && t.Fecha >= DateTime.Now)
+                .Where(t => t.EstadoAdmin != "Cancelado" && t.Fecha >= DateTime.Now)
                 .OrderBy(t => t.Fecha)
                 .ToList();
 

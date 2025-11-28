@@ -11,8 +11,6 @@ namespace Clinic.Pantallas_Perfil_Medico
 {
     public partial class DetallePaciente : System.Web.UI.Page
     {
-        private Paciente paciente;
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)

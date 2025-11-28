@@ -46,10 +46,10 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
                 string[] datos = e.CommandArgument.ToString().Split('|');
 
                 int idTurno = int.Parse(datos[0]);
-                string nuevoEstado = datos[1];
+                string nombreNuevoEstado = datos[1];
 
                 TurnoNegocio neg = new TurnoNegocio();
-                neg.CambiarEstado(idTurno, nuevoEstado);
+                neg.CambiarEstadoPorNombre(idTurno, nombreNuevoEstado, true); // true = admin
 
                 DateTime fechaActual = ObtenerFechaSeleccionada();
                 cargarAgenda(fechaActual);
@@ -112,7 +112,7 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
 
             
             if (!string.IsNullOrWhiteSpace(ddlEstado.SelectedValue))
-                lista = lista.Where(x => x.Estado == ddlEstado.SelectedValue).ToList();
+                lista = lista.Where(x => x.EstadoAdmin == ddlEstado.SelectedValue).ToList();
 
             
             if (!string.IsNullOrWhiteSpace(ddlMedico.SelectedValue))

@@ -156,10 +156,10 @@
                                             <td><%# Eval("Medico") %></td>
                                             <td>
                                                 <span class='badge 
-                                        <%# Eval("Estado").ToString() == "Confirmado" ? "badge-confirmado" : 
-                                            Eval("Estado").ToString() == "Cancelado" ? "badge-cancelado" : 
+                                        <%# Eval("EstadoAdmin").ToString() == "Confirmado" ? "badge-confirmado" : 
+                                            Eval("EstadoAdmin").ToString() == "Cancelado" ? "badge-cancelado" : 
                                             "badge-pendiente" %>'>
-                                                    <%# Eval("Estado") %>
+                                                    <%# Eval("EstadoAdmin") ?? "Pendiente" %>
                                                 </span>
                                             </td>
                                             <td><%# Eval("Observaciones") %></td>

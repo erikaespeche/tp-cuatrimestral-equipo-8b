@@ -11,8 +11,6 @@ namespace ClinicaWeb.Pantasllas_Perfil_Administrador
 {
     public partial class DetallePacienteAdm : System.Web.UI.Page
     {
-            private Paciente paciente;
-
             protected void Page_Load(object sender, EventArgs e)
             {
                 if (!IsPostBack)

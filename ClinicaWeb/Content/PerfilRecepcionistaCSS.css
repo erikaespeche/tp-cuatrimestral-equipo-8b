@@ -148,9 +148,10 @@ body {
 /* ============================
    BADGES DE ESTADO
 ============================= */
-.badge-confirmado,
+.badge-presente,
 .badge-pendiente,
-.badge-cancelado {
+.badge-cancelado,
+.badge-reprogramado {
     display: inline-block;
     color: #fff;
     font-size: 0.9rem;
@@ -159,7 +160,7 @@ body {
     text-align: center;
 }
 
-.badge-confirmado {
+.badge-presente {
     background-color: #28a74585 !important; /* Verde */
     font-weight: 600;
     padding: 6px 12px;
@@ -168,8 +169,8 @@ body {
 }
 
 .badge-pendiente {
-    background-color: #ffc1078f !important; /* Amarillo */
-    color: #000;
+    background-color: #f0ad4e !important; /* Amarillo */
+    color: #fff;
     font-weight: 600;
     padding: 6px 12px;
     border-radius: 6px;
@@ -178,6 +179,14 @@ body {
 
 .badge-cancelado {
     background-color: #dc35459e !important; /* Rojo */
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    width: 120px;
+}
+
+.badge-reprogramado {
+    background-color: #17a2b8 !important; /* Rojo */
     font-weight: 600;
     padding: 6px 12px;
     border-radius: 6px;
@@ -669,7 +678,7 @@ body {
     display: inline-block;
 }
 
-#pantalla-citasDiarias .confirmado {
+#pantalla-citasDiarias .presente {
     background: #1c7c456b;
     color: #fff;
 }
@@ -681,6 +690,10 @@ body {
 
 #pantalla-citasDiarias .cancelado {
     background: #8f2b2b;
+    color: #fff;
+}
+#pantalla-citasDiarias .reprogramado {
+    background-color: #17a2b8;
     color: #fff;
 }
 
@@ -701,12 +714,12 @@ body {
     font-weight: 600;
 }
 
-#pantalla-citasDiarias .cobrar {
+#pantalla-citasDiarias .presente {
     background: #1c7c45;
     color: #fff;
 }
 
-    #pantalla-citasDiarias .cobrar:hover {
+    #pantalla-citasDiarias .presente:hover {
         background: #1c7c45ab;
     }
 
@@ -726,6 +739,14 @@ body {
         background: #b43131cf;
     }
 
+#pantalla-citasDiarias .reprogramado {
+    background: #17a2b8;
+    color: #fff;
+}
+
+    #pantalla-citasDiarias .reprogramado:hover {
+        background: #b43131cf;
+    }
 /* ===========================
    RESPONSIVE
 =========================== */
@@ -1232,9 +1253,10 @@ body {
 }
 
 
-.custom-table td .badge-confirmado,
+.custom-table td .badge-presente,
 .custom-table td .badge-pendiente,
-.custom-table td .badge-cancelado {
+.custom-table td .badge-cancelado,
+.custom.table td .badge-reprogramado{
     display: inline-flex !important;
     justify-content: center;
     align-items: center;
