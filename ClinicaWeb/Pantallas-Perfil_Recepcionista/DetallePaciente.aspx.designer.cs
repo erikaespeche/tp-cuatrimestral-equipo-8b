@@ -618,6 +618,15 @@ namespace Clinic.Pantallas_Perfil_Recepcionista
         protected global::System.Web.UI.WebControls.Button btnConfirmarCancelar;
 
         /// <summary>
+        /// Control btnAceptarExitoCancelar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarExitoCancelar;
+
+        /// <summary>
         /// Control btnAceptarExito.
         /// </summary>
         /// <remarks>
