@@ -174,11 +174,34 @@ namespace Clinic.Pantallas_Perfil_Medico
         {
             if (e.CommandName == "VerConsulta")
             {
-                int idHistoriaClinica = Convert.ToInt32(e.CommandArgument);
-                // REDIRIGIR A PAG DETALLE -> HACERLA
-                Response.Redirect("DetalleConsulta.aspx?id=" + idHistoriaClinica);
+                int idHC = Convert.ToInt32(e.CommandArgument);
+
+                HistoriaClinicaNegocio negocio = new HistoriaClinicaNegocio();
+                var consulta = negocio.BuscarPorId(idHC);
+
+                if (consulta != null)
+                {
+                    lblVerFecha.Text = consulta.FechaConsulta.ToString("dd/MM/yyyy");
+                    lblVerMedico.Text = consulta.NombreMedico;
+                    lblVerEspecialidad.Text = consulta.NombreEspecialidad;
+
+                    lblVerObservaciones.Text = consulta.Observaciones;
+                    lblVerDiagnostico.Text = consulta.Diagnostico;
+                    lblVerTratamientos.Text = consulta.Tratamientos;
+                    lblVerRecomendaciones.Text = consulta.ProximosPasos;
+
+                    // ABRIR MODAL
+                    ScriptManager.RegisterStartupScript(
+                        this,
+                        GetType(),
+                        "abrirModalConsulta",
+                        "$('#modalVerConsulta').modal('show');",
+                        true
+                    );
+                }
             }
         }
+
 
 
         protected void btnAceptarExito_Click(object sender, EventArgs e)
@@ -197,6 +220,56 @@ namespace Clinic.Pantallas_Perfil_Medico
         {
             // Cierra el modal. Bootstrap ya lo maneja.
         }
+
+        public HistoriaClinica BuscarPorId(int id)
+        {
+            HistoriaClinica hc = null;
+
+            try
+            {
+                AccesoDatos datos = new AccesoDatos();
+                datos.setearConsulta(@"
+            SELECT HC.IdHistoriaClinica,
+                   HC.FechaConsulta,
+                   M.Nombre + ' ' + M.Apellido AS NombreMedico,
+                   E.NombreEspecialidad,
+                   HC.Observaciones,
+                   HC.Diagnostico,
+                   HC.Tratamientos,
+                   HC.ProximosPasos
+            FROM HISTORIA_CLINICA HC
+            INNER JOIN MEDICOS M ON M.IdMedico = HC.IdMedico
+            INNER JOIN ESPECIALIDADES E ON E.IdEspecialidad = HC.IdEspecialidad
+            WHERE HC.IdHistoriaClinica = @id
+        ");
+
+                datos.setearParametro("@id", id);
+
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    hc = new HistoriaClinica
+                    {
+                        IdHistoriaClinica = id,
+                        FechaConsulta = (DateTime)datos.Lector["FechaConsulta"],
+                        NombreMedico = datos.Lector["NombreMedico"].ToString(),
+                        NombreEspecialidad = datos.Lector["NombreEspecialidad"].ToString(),
+                        Observaciones = datos.Lector["Observaciones"].ToString(),
+                        Diagnostico = datos.Lector["Diagnostico"].ToString(),
+                        Tratamientos = datos.Lector["Tratamientos"].ToString(),
+                        ProximosPasos = datos.Lector["ProximosPasos"].ToString()
+                    };
+                }
+
+                return hc;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
 
     }

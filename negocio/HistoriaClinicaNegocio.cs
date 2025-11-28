@@ -112,4 +112,64 @@ public class HistoriaClinicaNegocio
         }
     }
 
+    public HistoriaClinica BuscarPorId(int id)
+    {
+        HistoriaClinica hc = null;
+        AccesoDatos datos = new AccesoDatos();
+
+        try
+        {
+            datos.setearConsulta(@"
+            SELECT HC.IdHistoriaClinica,
+                   HC.FechaConsulta,
+                   M.Nombre + ' ' + M.Apellido AS NombreMedico,
+                   E.Nombre AS NombreEspecialidad,
+                   HC.Observaciones,
+                   HC.Diagnostico,
+                   HC.Tratamientos,
+                   HC.ProximosPasos
+            FROM HistoriaClinica HC
+            INNER JOIN Medico M ON M.IdMedico = HC.IdMedico
+            INNER JOIN Especialidad E ON E.IdEspecialidad = HC.IdEspecialidad
+            WHERE HC.IdHistoriaClinica = @id
+        ");
+
+            datos.setearParametro("@id", id);
+            datos.ejecutarLectura();
+
+            if (datos.Lector.Read())
+            {
+                hc = new HistoriaClinica
+                {
+                    IdHistoriaClinica = id,
+                    FechaConsulta = (DateTime)datos.Lector["FechaConsulta"],
+                    NombreMedico = datos.Lector["NombreMedico"].ToString(),
+                    NombreEspecialidad = datos.Lector["NombreEspecialidad"].ToString(),
+                    Observaciones = datos.Lector["Observaciones"].ToString(),
+                    Diagnostico = datos.Lector["Diagnostico"].ToString(),
+                    Tratamientos = datos.Lector["Tratamientos"].ToString(),
+                    ProximosPasos = datos.Lector["ProximosPasos"].ToString()
+                };
+            }
+        }
+        finally
+        {
+            datos.cerrarConexion();
+        }
+
+        return hc;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

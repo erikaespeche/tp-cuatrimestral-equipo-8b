@@ -9,6 +9,10 @@ public class HistoriaClinica
     public int IdHistoriaClinica { get; set; }
     public int IdPaciente { get; set; }
     public int IdMedico { get; set; }
+    public int IdEspecialidad { get; set; }
+    public string NombreEspecialidad { get; set; }
+
+
     public string NombreMedico { get; set; }
     public DateTime FechaConsulta { get; set; }
 

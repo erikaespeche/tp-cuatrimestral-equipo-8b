@@ -75,5 +75,32 @@ namespace ClinicaWeb.Medico
                 }
             }
         }
+
+
+
+        protected void ddlProfesional_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Código opcional
+            CargarTurnosHoy();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

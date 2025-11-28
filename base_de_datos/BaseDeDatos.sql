@@ -168,6 +168,7 @@ CREATE TABLE HistoriaClinica (
     IdHistoriaClinica INT IDENTITY PRIMARY KEY,
     IdPaciente INT NOT NULL,
     IdMedico INT NOT NULL,
+	IdEspecialidad INT NULL,
     FechaConsulta DATETIME NOT NULL,
     Observaciones NVARCHAR(MAX),
     Diagnostico NVARCHAR(MAX),
@@ -184,8 +185,13 @@ CREATE TABLE HistoriaClinica (
 
     FOREIGN KEY (IdPaciente) REFERENCES Pacientes(IdPaciente),
     FOREIGN KEY (IdMedico) REFERENCES Medico(IdMedico)
+	FOREIGN KEY (IdEspecialidad) REFERENCES Especialidad(IdEspecialidad);
 );
 GO
+--ALTER TABLE HistoriaClinica
+--ADD IdEspecialidad INT NULL,
+--    FOREIGN KEY (IdEspecialidad) REFERENCES Especialidad(IdEspecialidad);
+
 
 CREATE TABLE AGENDA_PROFESIONAL (
     IdAgenda INT IDENTITY(1,1) PRIMARY KEY,
