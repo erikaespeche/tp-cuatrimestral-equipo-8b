@@ -118,7 +118,7 @@
                                                     <%# Eval("EstadoAdmin").ToString().ToLower() == "presente" ? "presente" :
                                                          Eval("EstadoAdmin").ToString().ToLower() == "ausente" ? "ausente" :
                                                          Eval("EstadoAdmin").ToString().ToLower() == "cancelado" ? "cancelado" :
-                                                         Eval("EstadoAdmin").ToString().ToLower() == "reprogramado" ? "reprogramado" : "reprogramado" %>">
+                                                         Eval("EstadoAdmin").ToString().ToLower() == "reprogramado" ? "reprogramado" : "pendiente" %>">
                                                     <%# Eval("EstadoAdmin") %>
                                                 </span>
 

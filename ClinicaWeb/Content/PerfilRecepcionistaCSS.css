@@ -151,17 +151,18 @@ body {
 .badge-presente,
 .badge-pendiente,
 .badge-cancelado,
-.badge-reprogramado {
+.badge-reprogramado,
+.badge-ausente {
     display: inline-block;
     color: #fff;
     font-size: 0.9rem;
     text-transform: uppercase;
-    width: 120px; 
+    width: 120px;
     text-align: center;
 }
 
 .badge-presente {
-    background-color: #28a74585 !important; /* Verde */
+    background-color: #1c7c45 !important; /* Verde */
     font-weight: 600;
     padding: 6px 12px;
     border-radius: 6px;
@@ -169,7 +170,16 @@ body {
 }
 
 .badge-pendiente {
-    background-color: #f0ad4e !important; /* Amarillo */
+    background-color: #6f42c1 !important; 
+    color: #fff;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    width: 120px;
+}
+
+.badge-ausente {
+    background-color: #6c757d !important; /* Gris */
     color: #fff;
     font-weight: 600;
     padding: 6px 12px;
@@ -178,7 +188,7 @@ body {
 }
 
 .badge-cancelado {
-    background-color: #dc35459e !important; /* Rojo */
+    background-color: #b43131 !important; /* Rojo */
     font-weight: 600;
     padding: 6px 12px;
     border-radius: 6px;
@@ -186,11 +196,12 @@ body {
 }
 
 .badge-reprogramado {
-    background-color: #17a2b8 !important; /* Rojo */
+    background-color: #e0a800 !important; /* Naranja */
+    color: #000;
     font-weight: 600;
     padding: 6px 12px;
     border-radius: 6px;
-    width: 120px;
+    width: 140px;
 }
 
 /* ============================
@@ -604,10 +615,14 @@ body {
         color: #000 !important;
     }
 
+#pantalla-citasDiarias .flatpickr-weekday {
+    color: #fff !important; 
+    font-weight: 600; 
+}
 
-    /*#pantalla-citasDiarias .flatpickr-current-month {
-    color: red;
-}*/
+#pantalla-citasDiarias .flatpickr-current-month {
+    color: #fff !important; 
+}
 
     #pantalla-citasDiarias .flatpickr-day.selected {
         background: #0d6efd !important;
@@ -689,7 +704,7 @@ body {
 }
 
 #pantalla-citasDiarias .cancelado {
-    background: #8f2b2b;
+    background: #b43131;
     color: #fff;
 }
 #pantalla-citasDiarias .reprogramado {
@@ -714,6 +729,15 @@ body {
     font-weight: 600;
 }
 
+#pantalla-citasDiarias .pendiente {
+    background: #6f42c1;
+    color: #fff;
+}
+
+    #pantalla-citasDiarias .pendiente:hover {
+        background: #6f42c1ab;
+    }
+
 #pantalla-citasDiarias .presente {
     background: #1c7c45;
     color: #fff;
@@ -724,11 +748,11 @@ body {
     }
 
 #pantalla-citasDiarias .ausente {
-    background: #d1a21c;
-    color: #000;
+    background: #6c757d;
+    color: #fff;
 }
     #pantalla-citasDiarias .ausente:hover {
-        background: #d1a21cbf;
+        background: #6c757dbf;
     }
 
 #pantalla-citasDiarias .cancelar {
@@ -740,12 +764,12 @@ body {
     }
 
 #pantalla-citasDiarias .reprogramado {
-    background: #17a2b8;
-    color: #fff;
+    background: #e0a800;
+    color: #000;
 }
 
     #pantalla-citasDiarias .reprogramado:hover {
-        background: #b43131cf;
+        background: #e0a800cf;
     }
 /* ===========================
    RESPONSIVE
@@ -1256,7 +1280,8 @@ body {
 .custom-table td .badge-presente,
 .custom-table td .badge-pendiente,
 .custom-table td .badge-cancelado,
-.custom.table td .badge-reprogramado{
+.custom-table td .badge-reprogramado,
+.custom-table td .badge-ausente{
     display: inline-flex !important;
     justify-content: center;
     align-items: center;
