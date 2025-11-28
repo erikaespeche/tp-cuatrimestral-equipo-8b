@@ -228,11 +228,87 @@ GO
 
 
 
-------------
+--------------------------------------------------------------------------------------------------------------------------
 -- INSERT --
 
 INSERT INTO ROL (NombreRol)
 VALUES ('Administrador'), ('Medico'), ('Recepcionista');
 
 
-DROP TABLE ROL
+INSERT INTO TURNO (
+    IdPaciente,       -- Usar el IdPaciente generado (ej. 1)
+    IdMedico,
+    IdEspecialidad,
+    Fecha,
+    IdEstadoTurnoAdmin,
+    IdEstadoTurnoMedico,
+    Observaciones
+)
+VALUES (
+    1, -- Usar el IdPaciente REAL (asumiendo que el DNI 39832220 tiene IdPaciente = 1)
+    1,
+    1,
+    '2025-12-05 10:00:00',
+    1,
+    9, -- NOTA: El IdEstadoTurno 9 no existe con las inserciones que proporcionaste, podría ser otro error. Usaré 1 y 6.
+    'Consulta de control general'
+);
+GO
+
+
+INSERT INTO ESTADO_TURNO (NombreEstadoTurno, Uso) VALUES
+('Pendiente', 'Admin'),     -- Turno reservado, a la espera
+('Reprogramado', 'Admin'),  -- Turno movido a otra fecha/hora
+('Cancelado', 'Admin'),     -- Turno anulado antes de la atención
+('Ausente', 'Admin'),       -- Paciente no se presentó a la cita
+('Presente', 'Admin');
+
+-- Estados para uso de Médico (Medico) / Flujo de atención
+INSERT INTO ESTADO_TURNO (NombreEstadoTurno, Uso) VALUES
+('En Sala', 'Medico'),      -- Paciente fue llamado a la sala de espera del consultorio
+('Atendiéndose', 'Medico'), -- Paciente está siendo atendido por el médico
+('Atendido', 'Medico');     -- Cita finalizada.
+GO
+
+select * from ESTADO_TURNO
+
+INSERT INTO HistoriaClinica (
+    IdPaciente, 
+    IdMedico, 
+    FechaConsulta, 
+    
+    Observaciones, 
+    Diagnostico, 
+    Tratamientos, 
+    ProximosPasos, 
+    ArchivosAdjuntos, 
+    
+    GrupoFactorSanguineo, 
+    Peso, 
+    Altura, 
+    Alergias, 
+    EnfermedadesCronicas, 
+    Patologias
+)
+VALUES (
+    -- Claves Foráneas Requeridas
+    1,                                   -- IdPaciente (Asegúrate de que este ID exista en la tabla Pacientes)
+    1,                                   -- IdMedico (Asegúrate de que este ID exista en la tabla Medico)
+    GETDATE(),                           -- FechaConsulta (Usamos la fecha y hora actual)
+    
+    -- Datos de la Consulta
+    'Paciente se presenta por control de rutina. Refiere fatiga leve por las mañanas. Presión arterial 120/80.',
+    'Control de rutina. Se solicita hemograma completo para descartar anemia.',
+    'Indico suplemento vitamínico (Complejo B) por 30 días.',
+    'Revisar resultados de laboratorio en la próxima consulta dentro de 15 días.',
+    NULL,                                -- ArchivosAdjuntos (Si no hay archivos, puedes usar NULL)
+    
+    -- Datos Biométricos y Antecedentes
+    'O-', 
+    85.20,                               -- Peso (en kg)
+    1.75,                                -- Altura (en metros)
+    'Ibuprofeno',                        -- Alergias
+    'Asma (controlado con inhalador)',   -- EnfermedadesCronicas
+    'Apéndice extirpado en la infancia' -- Patologias
+);
+GO

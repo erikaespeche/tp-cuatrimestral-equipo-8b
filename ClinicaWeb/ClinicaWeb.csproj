@@ -124,6 +124,8 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Pantallas-Inicio_Menu\CambiarContrasenaAdministrador.aspx" />
+    <Content Include="Pantallas-Inicio_Menu\CambiarContrasenaMedico.aspx" />
     <Content Include="Pantallas-Inicio_Menu\CambiarContrasenaRecepcionista.aspx" />
     <Content Include="Pantallas-Inicio_Menu\Login.aspx" />
     <Content Include="Pantallas-Perfil_Medico\Calendario.aspx" />
@@ -247,6 +249,20 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Inicio_Menu\CambiarContrasenaAdministrador.aspx.cs">
+      <DependentUpon>CambiarContrasenaAdministrador.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Inicio_Menu\CambiarContrasenaAdministrador.aspx.designer.cs">
+      <DependentUpon>CambiarContrasenaAdministrador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pantallas-Inicio_Menu\CambiarContrasenaMedico.aspx.cs">
+      <DependentUpon>CambiarContrasenaMedico.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pantallas-Inicio_Menu\CambiarContrasenaMedico.aspx.designer.cs">
+      <DependentUpon>CambiarContrasenaMedico.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pantallas-Inicio_Menu\CambiarContrasenaRecepcionista.aspx.cs">
       <DependentUpon>CambiarContrasenaRecepcionista.aspx</DependentUpon>
